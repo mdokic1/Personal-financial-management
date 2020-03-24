@@ -27,10 +27,11 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
         resource = _resource;
     }
 
-    public void setTransactions(ArrayList<Transaction> movies) {
+    public void setTransactions(ArrayList<Transaction> transactions) {
         this.addAll(transactions);
     }
 
+   @NonNull
    @Override
    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
        LinearLayout newView;
@@ -52,27 +53,27 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
        iznos = (TextView) newView.findViewById(R.id.iznos);
 
        title.setText(transaction.getTitle());
-       iznos.setText(transaction.getAmount());
+       iznos.setText(Integer.toString(transaction.getAmount()));
 
        transactionType tip = transaction.getType();
 
-       if (tip.equals("INDIVIDUALPAYMENT")) {
+       if (tip.equals(transactionType.INDIVIDUALPAYMENT)) {
            ikonica.setImageResource(R.drawable.individual);
        }
 
-       if (tip.equals("REGULARPAYMENT")) {
+       if (tip.equals(transactionType.REGULARPAYMENT)) {
            ikonica.setImageResource(R.drawable.regular);
        }
 
-       if (tip.equals("PURCHASE")) {
+       if (tip.equals(transactionType.PURCHASE)) {
            ikonica.setImageResource(R.drawable.purchase);
        }
 
-       if (tip.equals("INDIVIDUALINCOME")) {
+       if (tip.equals(transactionType.INDIVIDUALINCOME)) {
            ikonica.setImageResource(R.drawable.iincome);
        }
 
-       if (tip.equals("REGULARINCOME")) {
+       if (tip.equals(transactionType.REGULARINCOME)) {
            ikonica.setImageResource(R.drawable.regincome);
        }
 
