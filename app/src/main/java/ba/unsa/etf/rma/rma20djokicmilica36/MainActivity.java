@@ -23,9 +23,19 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     private Button add;
 
     private TransactionListAdapter transactionListAdapter;
-    private ArrayList<Transaction> transakcije;
+    private ArrayList<Transaction> transakcije = new ArrayList<>();
 
     private TransactionsModel model = new TransactionsModel();
+
+    private ITransactionListPresenter transactionListPresenter;
+
+
+    public ITransactionListPresenter getPresenter() {
+        if (transactionListPresenter == null) {
+            transactionListPresenter = new TransactionListPresenter(this, this);
+        }
+        return transactionListPresenter;
+    }
 
 
     @Override
@@ -34,14 +44,20 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         setContentView(R.layout.activity_main);
 
 
-        transakcije = new ArrayList<>();
-        model.load();
-        transakcije.addAll(model.getData());
-
         transactionListAdapter = new TransactionListAdapter(this, R.layout.list_element,transakcije);
-        transactionListAdapter.notifyDataSetChanged();
         listView= (ListView) findViewById(R.id.listView);
         listView.setAdapter(transactionListAdapter);
+        getPresenter().refreshTransactions();
 
+    }
+
+    @Override
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        transactionListAdapter.setTransactions(transactions);
+    }
+
+    @Override
+    public void notifyTransactionListDataSetChanged() {
+        transactionListAdapter.notifyDataSetChanged();
     }
 }

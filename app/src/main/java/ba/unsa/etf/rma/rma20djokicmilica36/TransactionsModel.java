@@ -20,5 +20,5 @@ public class TransactionsModel {
 
     }
 
-    public ArrayList<Transaction> getData() { return transactions; }
+
 }
