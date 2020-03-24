@@ -69,11 +69,11 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
        }
 
        if (tip.equals("INDIVIDUALINCOME")) {
-           ikonica.setImageResource(R.drawable.iIncome);
+           ikonica.setImageResource(R.drawable.iincome);
        }
 
        if (tip.equals("REGULARINCOME")) {
-           ikonica.setImageResource(R.drawable.regIncome);
+           ikonica.setImageResource(R.drawable.regincome);
        }
 
        return newView;

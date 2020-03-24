@@ -66,7 +66,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="493dp"
-        android:text="<-"
+        android:background="@drawable/left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/month"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="493dp"
-        android:text="->"
+        android:background="@drawable/right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/month"
@@ -102,9 +102,10 @@
         android:layout_width="372dp"
         android:layout_height="312dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sort" />
 
@@ -113,10 +114,11 @@
         android:layout_width="237dp"
         android:layout_height="45dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="154dp"
         android:text="Add transaction"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
 
