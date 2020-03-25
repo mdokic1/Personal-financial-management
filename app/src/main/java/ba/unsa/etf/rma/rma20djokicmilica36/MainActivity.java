@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         int godina = trenutniDatum.getYear();
 
         month = (TextView) findViewById(R.id.month);
-        month.setText(Integer.toString(mjesec) + "," + Integer.toString(godina));
+        month.setText(Months.values()[mjesec - 1] + "," + Integer.toString(godina));
 
     }
 
