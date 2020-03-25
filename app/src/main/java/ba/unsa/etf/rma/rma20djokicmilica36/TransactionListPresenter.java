@@ -17,4 +17,18 @@ public class TransactionListPresenter implements ITransactionListPresenter {
         view.setTransactions(interactor.get());
         view.notifyTransactionListDataSetChanged();
     }
+
+    @Override
+    public void increaseTransactionsMonth(){
+        view.setDate(interactor.increaseMonth().toString());
+        //view.notifyDateChanged();
+    }
+
+    @Override
+    public void decreaseTransactionsMonth(){
+        view.setDate(interactor.decreaseMonth().toString());
+        //view.notifyDateChanged();
+    }
+
+
 }

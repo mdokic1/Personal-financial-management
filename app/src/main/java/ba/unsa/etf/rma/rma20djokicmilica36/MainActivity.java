@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     private ListView listView;
     private Button add;
 
-    private LocalDate trDatum;
+
 
     private TransactionListAdapter transactionListAdapter;
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
 
         LocalDate trenutniDatum = LocalDate.now();
-        trDatum = trenutniDatum;
+
         int mjesec = trenutniDatum.getMonthValue();
         int godina = trenutniDatum.getYear();
 
@@ -73,21 +73,9 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
             @Override
             public void onClick(View v) {
-                int mj = trDatum.getMonthValue();
-                int god = trDatum.getYear();
-                if(mj >= 2){
-                    mj--;
-                    trDatum = trDatum.withMonth(mj);
-                    trDatum = trDatum.withYear(god);
-                }
-                else{
-                    mj = 12;
-                    god--;
-                    trDatum = trDatum.withMonth(mj);
-                    trDatum = trDatum.withYear(god);
-                }
-                month.setText(Months.values()[mj - 1] + "," + Integer.toString(god));
-                transactionListAdapter.notifyDataSetChanged();
+                getPresenter().decreaseTransactionsMonth();
+
+
             }
         });
 
@@ -95,21 +83,9 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
             @Override
             public void onClick(View v) {
-                int mj = trDatum.getMonthValue();
-                int god = trDatum.getYear();
-                if(mj <= 11){
-                    mj++;
-                    trDatum = trDatum.withMonth(mj);
-                    trDatum = trDatum.withYear(god);
-                }
-                else{
-                    mj = 1;
-                    god++;
-                    trDatum = trDatum.withMonth(mj);
-                    trDatum = trDatum.withYear(god);
-                }
-                month.setText(Months.values()[mj - 1] + "," + Integer.toString(god));
-                transactionListAdapter.notifyDataSetChanged();
+               getPresenter().increaseTransactionsMonth();
+
+
             }
         });
 
@@ -123,5 +99,15 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     @Override
     public void notifyTransactionListDataSetChanged() {
         transactionListAdapter.notifyDataSetChanged();
+    }
+
+    /*@Override
+    public void notifyDateChanged(){
+        transactionListAdapter.notifyDataSetChanged();
+    }*/
+
+    @Override
+    public void setDate(String dat){
+        month.setText(dat);
     }
 }
