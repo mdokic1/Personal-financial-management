@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ITransactionListView{
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         listView= (ListView) findViewById(R.id.listView);
         listView.setAdapter(transactionListAdapter);
         getPresenter().refreshTransactions();
+
+
+        LocalDate trenutniDatum = LocalDate.now();
+        int mjesec = trenutniDatum.getMonthValue();
+        int godina = trenutniDatum.getYear();
+
+        month = (TextView) findViewById(R.id.month);
+        month.setText(Integer.toString(mjesec) + "," + Integer.toString(godina));
 
     }
 
