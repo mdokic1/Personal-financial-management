@@ -59,11 +59,11 @@ public class SpinnerAdapter extends ArrayAdapter<transactionType> {
         }
 
         if(tip.equals(transactionType.REGULARINCOME)){
-            simbol.setImageResource(R.drawable.regIncome);
+            simbol.setImageResource(R.drawable.regincome);
         }
 
         if(tip.equals(transactionType.INDIVIDUALINCOME)){
-            simbol.setImageResource(R.drawable.iIncome);
+            simbol.setImageResource(R.drawable.iincome);
         }
 
         if(tip.equals("Filter by: ")){
