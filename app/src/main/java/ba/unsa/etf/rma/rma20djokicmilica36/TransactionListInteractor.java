@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TransactionListInteractor implements ITransactionListInteractor {
-    private LocalDate trDatum;
+    LocalDate trDatum = TransactionsModel.trDatum;
     @Override
     public ArrayList<Transaction> get() {
         return TransactionsModel.transactions;
     }
 
     @Override
-    public LocalDate increaseMonth(){
+    public String increaseMonth(){
         int mj = trDatum.getMonthValue();
         int god = trDatum.getYear();
         if(mj <= 11){
@@ -25,11 +25,11 @@ public class TransactionListInteractor implements ITransactionListInteractor {
             trDatum = trDatum.withMonth(mj);
             trDatum = trDatum.withYear(god);
         }
-        return trDatum;
+        return (Months.values()[trDatum.getMonthValue() - 1] + "," + Integer.toString(trDatum.getYear()));
     }
 
     @Override
-    public LocalDate decreaseMonth(){
+    public String decreaseMonth(){
         int mj = trDatum.getMonthValue();
         int god = trDatum.getYear();
         if(mj >= 2){
@@ -43,7 +43,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
             trDatum = trDatum.withMonth(mj);
             trDatum = trDatum.withYear(god);
         }
-        return trDatum;
+        return (Months.values()[trDatum.getMonthValue() - 1] + "," + Integer.toString(trDatum.getYear()));
     }
 
 }

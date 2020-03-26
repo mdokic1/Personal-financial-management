@@ -20,13 +20,13 @@ public class TransactionListPresenter implements ITransactionListPresenter {
 
     @Override
     public void increaseTransactionsMonth(){
-        view.setDate(interactor.increaseMonth().toString());
+        view.setDate(interactor.increaseMonth());
         //view.notifyDateChanged();
     }
 
     @Override
     public void decreaseTransactionsMonth(){
-        view.setDate(interactor.decreaseMonth().toString());
+        view.setDate(interactor.decreaseMonth());
         //view.notifyDateChanged();
     }
 

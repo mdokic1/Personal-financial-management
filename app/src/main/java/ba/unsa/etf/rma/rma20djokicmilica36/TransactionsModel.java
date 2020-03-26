@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class TransactionsModel {
+
+    public static LocalDate trDatum = LocalDate.now();
+
+    public LocalDate getTrDatum() {
+        return trDatum;
+    }
+
+
     public static ArrayList<Transaction> transactions = new ArrayList<Transaction>() {
 
         {
