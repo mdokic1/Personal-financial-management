@@ -7,9 +7,5 @@ interface ITransactionListView {
     void setTransactions(ArrayList<Transaction> transactions);
     void notifyTransactionListDataSetChanged();
 
-
-
-    //void notifyDateChanged();
-
     void setDate(String date);
 }

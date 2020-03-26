@@ -28,10 +28,6 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
         resource = _resource;
     }
 
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.addAll(transactions);
-    }
-
    @NonNull
    @Override
    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -83,5 +79,8 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
    }
 
 
-
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.clear();
+        this.addAll(transactions);
+    }
 }

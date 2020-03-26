@@ -5,9 +5,32 @@ import java.util.ArrayList;
 
 public class TransactionListInteractor implements ITransactionListInteractor {
     LocalDate trDatum = TransactionsModel.trDatum;
+
+
     @Override
     public ArrayList<Transaction> get() {
         return TransactionsModel.transactions;
+    }
+
+    @Override
+    public ArrayList<Transaction> getByDate(){
+        ArrayList<Transaction> odgovarajuce = new ArrayList<>();
+        ArrayList<Transaction> sve = get();
+        for(Transaction t : sve){
+            if(t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                if(t.getDate().getMonthValue() == trDatum.getMonthValue() && t.getDate().getYear() == trDatum.getYear()){
+                    odgovarajuce.add(t);
+                }
+            }
+
+            if (t.getType() == transactionType.REGULARPAYMENT || t.getType() == transactionType.REGULARINCOME) {
+                if(t.getDate().getMonthValue() <= trDatum.getMonthValue() && t.getEndDate().getMonthValue() >= trDatum.getMonthValue()
+                  && t.getDate().getYear() <= trDatum.getYear() && t.getEndDate().getYear() >= trDatum.getYear()){
+                    odgovarajuce.add(t);
+                }
+            }
+        }
+        return odgovarajuce;
     }
 
     @Override

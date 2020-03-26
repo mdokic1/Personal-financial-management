@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +49,6 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
 
         transactionListAdapter = new TransactionListAdapter(this, R.layout.list_element,new ArrayList<Transaction>());
-        listView= (ListView) findViewById(R.id.listView);
-        listView.setAdapter(transactionListAdapter);
-        getPresenter().refreshTransactions();
-
 
         LocalDate trenutniDatum = LocalDate.now();
 
@@ -67,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         leftArrow = (Button) findViewById(R.id.leftArrow);
         rightArrow = (Button) findViewById(R.id.rightArrow);
 
+        listView= (ListView) findViewById(R.id.listView);
+        listView.setAdapter(transactionListAdapter);
+        getPresenter().refreshTransactionsByDate();
+
 
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             @Override
             public void onClick(View v) {
                 getPresenter().decreaseTransactionsMonth();
-
+                getPresenter().refreshTransactionsByDate();
 
             }
         });
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             @Override
             public void onClick(View v) {
                getPresenter().increaseTransactionsMonth();
-
+               getPresenter().refreshTransactionsByDate();
 
             }
         });
@@ -100,11 +98,6 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     public void notifyTransactionListDataSetChanged() {
         transactionListAdapter.notifyDataSetChanged();
     }
-
-    /*@Override
-    public void notifyDateChanged(){
-        transactionListAdapter.notifyDataSetChanged();
-    }*/
 
     @Override
     public void setDate(String dat){
