@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
     private FilterAdapter filterAdapter;
 
+    private SortAdapter sortAdapter;
+
 
     private TransactionsModel model = new TransactionsModel();
 
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         filterAdapter = new FilterAdapter(this, R.layout.filter_element, getPresenter().getFiltriranje());
 
+        sortAdapter = new SortAdapter(this, R.layout.sort_element, getPresenter().getSortiranje());
+
         LocalDate trenutniDatum = LocalDate.now();
 
         int mjesec = trenutniDatum.getMonthValue();
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         filter.setAdapter(filterAdapter);
 
         sort = (Spinner) findViewById(R.id.sort);
+        sort.setAdapter(sortAdapter);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
