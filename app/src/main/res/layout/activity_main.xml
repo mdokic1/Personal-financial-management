@@ -8,26 +8,25 @@
 
     <TextView
         android:id="@+id/glAmount"
-        android:layout_width="140dp"
-        android:layout_height="28dp"
+        android:layout_width="154dp"
+        android:layout_height="15dp"
         android:layout_marginStart="59dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="293dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/lim"
-        android:layout_width="133dp"
-        android:layout_height="27dp"
+        android:layout_width="154dp"
+        android:layout_height="15dp"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="249dp"
-        android:layout_marginBottom="641dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.619"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/glAmount" />
 
@@ -48,61 +47,62 @@
         android:layout_width="116dp"
         android:layout_height="31dp"
         android:layout_marginStart="174dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="178dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.649"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
     <Button
         android:id="@+id/leftArrow"
-        android:layout_width="85dp"
+        android:layout_width="55dp"
         android:layout_height="32dp"
         android:layout_marginStart="33dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="488dp"
         android:background="@drawable/left"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/month"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter" />
 
     <Button
         android:id="@+id/rightArrow"
-        android:layout_width="79dp"
-        android:layout_height="29dp"
+        android:layout_width="55dp"
+        android:layout_height="32dp"
         android:layout_marginStart="33dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="488dp"
         android:background="@drawable/right"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toEndOf="@+id/month" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/month"
+        app:layout_constraintTop_toBottomOf="@+id/filter" />
 
     <Spinner
         android:id="@+id/sort"
         android:layout_width="312dp"
         android:layout_height="31dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="28dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rightArrow" />
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="372dp"
         android:layout_height="312dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="320dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add"

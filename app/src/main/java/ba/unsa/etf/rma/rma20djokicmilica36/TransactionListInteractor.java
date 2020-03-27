@@ -58,7 +58,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
             if(t.getType().equals(transactionType.INDIVIDUALINCOME) && type.equals("Individual income")){
                 odgovarajuce.add(t);
             }
-            if(type.equals("All types")){
+            if(type.equals("All types") || type.equals("Filter by")){
                 odgovarajuce.add(t);
             }
         }
@@ -96,8 +96,6 @@ public class TransactionListInteractor implements ITransactionListInteractor {
             sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
                     sorted(Comparator.comparing(Transaction::getDate).reversed()).collect(Collectors.toList());
         }
-
-
         return sortirane;
     }
 

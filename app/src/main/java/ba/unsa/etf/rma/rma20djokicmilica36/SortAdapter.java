@@ -54,3 +54,4 @@ public class SortAdapter extends ArrayAdapter<String> {
         return newView;
     }
 }
+

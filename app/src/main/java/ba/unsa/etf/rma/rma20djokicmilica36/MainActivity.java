@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
     private FilterAdapter filterAdapter;
 
-    private SortAdapter sortAdapter;
+    private ArrayAdapter<String> sortAdapter;
 
 
     private TransactionsModel model = new TransactionsModel();
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         filterAdapter = new FilterAdapter(this, R.layout.filter_element, getPresenter().getFiltriranje());
 
+        //sortAdapter = new ArrayAdapter<>(this, R.layout.sort_element, R.id.textView, getPresenter().getSortiranje());
         sortAdapter = new SortAdapter(this, R.layout.sort_element, getPresenter().getSortiranje());
 
         LocalDate trenutniDatum = LocalDate.now();
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             public void onClick(View v) {
                 getPresenter().decreaseTransactionsMonth();
                 getPresenter().refreshTransactionsByDate();
-
+                getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
             }
         });
 
@@ -97,9 +99,10 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             public void onClick(View v) {
                getPresenter().increaseTransactionsMonth();
                getPresenter().refreshTransactionsByDate();
-
+               getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
             }
         });
+
 
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
             }
         });
+
     }
 
     @Override
