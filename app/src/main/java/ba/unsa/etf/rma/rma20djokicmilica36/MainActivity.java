@@ -99,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                getPresenter().refreshTransactionsByType(selectedItem);
+                String selectedType = sort.getSelectedItem().toString();
+                getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
@@ -109,14 +110,13 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                getPresenter().refreshTransactionsSort(selectedItem);
+                String selectedFilter = filter.getSelectedItem().toString();
+                getPresenter().refreshTransactionsByTypeSorted(selectedFilter, selectedItem);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
             }
         });
-
-
     }
 
     @Override
