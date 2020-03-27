@@ -89,4 +89,9 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
         this.clear();
         this.addAll(transactions);
     }
+
+    public void setTransactionsSorted(ArrayList<Transaction> transactions){
+        this.clear();
+        this.addAll(transactions);
+    }
 }

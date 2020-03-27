@@ -14,13 +14,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class SpinnerAdapter extends ArrayAdapter<String> {
+public class FilterAdapter extends ArrayAdapter<String> {
     private int resource;
     public ImageView simbol;
     public TextView tipTransakcije;
 
 
-    public SpinnerAdapter(@NonNull Context context, int _resource, ArrayList<String> items) {
+    public FilterAdapter(@NonNull Context context, int _resource, ArrayList<String> items) {
         super(context, _resource, items);
         resource = _resource;
     }
@@ -89,3 +89,4 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         return newView;
     }
 }
+

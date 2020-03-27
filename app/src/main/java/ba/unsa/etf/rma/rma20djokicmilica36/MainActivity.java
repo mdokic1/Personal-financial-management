@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
     private TransactionListAdapter transactionListAdapter;
 
-    private SpinnerAdapter spinnerAdapter;
+    private FilterAdapter filterAdapter;
 
 
     private TransactionsModel model = new TransactionsModel();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         transactionListAdapter = new TransactionListAdapter(this, R.layout.list_element,new ArrayList<Transaction>());
 
-        spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_element, getPresenter().getFiltriranje());
+        filterAdapter = new FilterAdapter(this, R.layout.filter_element, getPresenter().getFiltriranje());
 
         LocalDate trenutniDatum = LocalDate.now();
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         getPresenter().refreshTransactionsByDate();
 
         filter = (Spinner) findViewById(R.id.filter);
-        filter.setAdapter(spinnerAdapter);
+        filter.setAdapter(filterAdapter);
 
         sort = (Spinner) findViewById(R.id.sort);
 
@@ -127,6 +127,11 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     @Override
     public void setTransactionsByType(ArrayList<Transaction> transactions){
         transactionListAdapter.setTransactionsByType(transactions);
+    }
+
+    @Override
+    public void setTransactionsSorted(ArrayList<Transaction> transactions) {
+        transactionListAdapter.setTransactionsSorted(transactions);
     }
 
     @Override
