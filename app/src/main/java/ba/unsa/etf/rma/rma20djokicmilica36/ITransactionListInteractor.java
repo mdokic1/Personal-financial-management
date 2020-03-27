@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public interface ITransactionListInteractor {
 
 
+    ArrayList<Transaction> getByTypeSorted(String type, String sort);
+
     String increaseMonth();
 
     String decreaseMonth();
@@ -13,5 +15,4 @@ public interface ITransactionListInteractor {
 
     ArrayList<Transaction> get();
 
-    ArrayList<Transaction> getByType(String type);
 }

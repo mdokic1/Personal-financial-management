@@ -10,4 +10,6 @@ interface ITransactionListView {
     void setDate(String date);
 
     void setTransactionsByType(ArrayList<Transaction> transactions);
+
+    void setTransactionsSorted(ArrayList<Transaction> transactions);
 }

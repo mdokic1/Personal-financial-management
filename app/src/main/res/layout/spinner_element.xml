@@ -11,23 +11,23 @@
         android:layout_width="192dp"
         android:layout_height="30dp"
         android:layout_marginStart="53dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="299dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/simbol"
-        android:layout_width="45dp"
-        android:layout_height="30dp"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
         android:layout_marginStart="224dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toStartOf="@id/tipTransakcije"
-        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

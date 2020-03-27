@@ -81,6 +81,11 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
             simbol.setImageResource(R.drawable.alltypes);
         }
 
+        if(tip.equals("Filter by")){
+            simbol.setImageResource(0);
+        }
+
+
         return newView;
     }
 }

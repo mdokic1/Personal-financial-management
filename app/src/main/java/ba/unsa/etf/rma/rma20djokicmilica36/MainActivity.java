@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         filter = (Spinner) findViewById(R.id.filter);
         filter.setAdapter(spinnerAdapter);
 
+        sort = (Spinner) findViewById(R.id.sort);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
@@ -98,6 +100,16 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 getPresenter().refreshTransactionsByType(selectedItem);
+            }
+            public void onNothingSelected(AdapterView<?> parent){
+
+            }
+        });
+
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                getPresenter().refreshTransactionsSort(selectedItem);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
