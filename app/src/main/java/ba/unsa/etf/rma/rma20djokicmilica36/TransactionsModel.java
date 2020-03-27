@@ -20,6 +20,10 @@ public class TransactionsModel {
             add(new Transaction(LocalDate.of(2020, 2, 16), 1000, "Transakcija2",
                     transactionType.REGULARPAYMENT, "Proizvod2", 30, LocalDate.of(2020, 6, 16)));
 
+            add(new Transaction(LocalDate.of(2020, 2, 20), 400, "Transakcija3",
+                    transactionType.REGULARINCOME, "Proizvod3", 30, LocalDate.of(2020, 8, 20)));
+
+
         }
 
     };

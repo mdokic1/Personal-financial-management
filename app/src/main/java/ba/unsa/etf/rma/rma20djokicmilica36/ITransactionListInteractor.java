@@ -12,4 +12,6 @@ public interface ITransactionListInteractor {
     ArrayList<Transaction> getByDate();
 
     ArrayList<Transaction> get();
+
+    ArrayList<Transaction> getByType(String type);
 }

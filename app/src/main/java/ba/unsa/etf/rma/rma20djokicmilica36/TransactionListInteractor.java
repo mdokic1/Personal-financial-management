@@ -13,6 +13,33 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
 
     @Override
+    public ArrayList<Transaction> getByType(String type) {
+        ArrayList<Transaction> odgovarajuce = new ArrayList<>();
+        ArrayList<Transaction> sve = getByDate();
+        for(Transaction t : sve){
+            if(t.getType().equals(transactionType.INDIVIDUALPAYMENT) && type.equals("Individual payment")){
+                odgovarajuce.add(t);
+            }
+            if(t.getType().equals(transactionType.REGULARPAYMENT) && type.equals("Regular payment")){
+                odgovarajuce.add(t);
+            }
+            if(t.getType().equals(transactionType.PURCHASE) && type.equals("Purchase")){
+                odgovarajuce.add(t);
+            }
+            if(t.getType().equals(transactionType.REGULARINCOME) && type.equals("Regular income")){
+                odgovarajuce.add(t);
+            }
+            if(t.getType().equals(transactionType.INDIVIDUALINCOME) && type.equals("Individual income")){
+                odgovarajuce.add(t);
+            }
+            if(type.equals("All types")){
+                odgovarajuce.add(t);
+            }
+        }
+        return odgovarajuce;
+    }
+
+    @Override
     public ArrayList<Transaction> getByDate(){
         ArrayList<Transaction> odgovarajuce = new ArrayList<>();
         ArrayList<Transaction> sve = get();

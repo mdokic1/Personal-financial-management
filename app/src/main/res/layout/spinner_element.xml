@@ -8,29 +8,26 @@
 
     <TextView
         android:id="@+id/tipTransakcije"
-        android:layout_width="197dp"
-        android:layout_height="50dp"
+        android:layout_width="192dp"
+        android:layout_height="30dp"
         android:layout_marginStart="53dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="299dp"
-        android:layout_marginBottom="663dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/simbol"
-        android:layout_width="63dp"
-        android:layout_height="54dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
         android:layout_marginStart="224dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toStartOf="@id/tipTransakcije"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

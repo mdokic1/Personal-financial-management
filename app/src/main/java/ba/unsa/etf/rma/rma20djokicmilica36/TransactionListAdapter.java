@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,11 +68,11 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
        }
 
        if (tip.equals(transactionType.INDIVIDUALINCOME)) {
-           ikonica.setImageResource(R.drawable.iincome);
+           ikonica.setImageResource(R.drawable.income);
        }
 
        if (tip.equals(transactionType.REGULARINCOME)) {
-           ikonica.setImageResource(R.drawable.regincome);
+           ikonica.setImageResource(R.drawable.reginc);
        }
 
        return newView;
@@ -80,6 +81,11 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
 
 
     public void setTransactions(ArrayList<Transaction> transactions) {
+        this.clear();
+        this.addAll(transactions);
+    }
+
+    public void setTransactionsByType(ArrayList<Transaction> transactions) {
         this.clear();
         this.addAll(transactions);
     }

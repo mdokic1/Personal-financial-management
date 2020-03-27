@@ -10,7 +10,20 @@ public class TransactionListPresenter implements ITransactionListPresenter {
     private ITransactionListInteractor interactor;
     private Context context;
 
+    public static ArrayList<String> filtriranje = new ArrayList<String>(){
+        {
+            add("All types");
+            add("Individual payment");
+            add("Purchase");
+            add("Regular payment");
+            add("Individual income");
+            add("Regular income");
+        }
+    };
 
+    public ArrayList<String> getFiltriranje() {
+        return filtriranje;
+    }
 
     public TransactionListPresenter(ITransactionListView view, Context context) {
         this.view       = view;
@@ -26,6 +39,12 @@ public class TransactionListPresenter implements ITransactionListPresenter {
     @Override
     public void refreshTransactionsByDate() {
         view.setTransactions(interactor.getByDate());
+        view.notifyTransactionListDataSetChanged();
+    }
+
+    @Override
+    public void refreshTransactionsByType(String type){
+        view.setTransactionsByType(interactor.getByType(type));
         view.notifyTransactionListDataSetChanged();
     }
 

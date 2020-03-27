@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
     private TransactionListAdapter transactionListAdapter;
 
+    private SpinnerAdapter spinnerAdapter;
+
 
     private TransactionsModel model = new TransactionsModel();
 
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         transactionListAdapter = new TransactionListAdapter(this, R.layout.list_element,new ArrayList<Transaction>());
 
+        spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_element, getPresenter().getFiltriranje());
+
         LocalDate trenutniDatum = LocalDate.now();
 
         int mjesec = trenutniDatum.getMonthValue();
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         listView.setAdapter(transactionListAdapter);
         getPresenter().refreshTransactionsByDate();
 
+        filter = (Spinner) findViewById(R.id.filter);
+        filter.setAdapter(spinnerAdapter);
 
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +94,27 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             }
         });
 
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                getPresenter().refreshTransactionsByType(selectedItem);
+            }
+            public void onNothingSelected(AdapterView<?> parent){
+
+            }
+        });
+
+
     }
 
     @Override
     public void setTransactions(ArrayList<Transaction> transactions) {
         transactionListAdapter.setTransactions(transactions);
+    }
+
+    @Override
+    public void setTransactionsByType(ArrayList<Transaction> transactions){
+        transactionListAdapter.setTransactionsByType(transactions);
     }
 
     @Override

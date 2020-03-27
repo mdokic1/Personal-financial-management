@@ -14,12 +14,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class SpinnerAdapter extends ArrayAdapter<transactionType> {
+public class SpinnerAdapter extends ArrayAdapter<String> {
     private int resource;
     public ImageView simbol;
     public TextView tipTransakcije;
 
-    public SpinnerAdapter(@NonNull Context context, int _resource, ArrayList<transactionType> items) {
+
+    public SpinnerAdapter(@NonNull Context context, int _resource, ArrayList<String> items) {
         super(context, _resource, items);
         resource = _resource;
     }
@@ -27,6 +28,16 @@ public class SpinnerAdapter extends ArrayAdapter<transactionType> {
     @NonNull
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return createItemView(position, convertView, parent);
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return createItemView(position, convertView, parent);
+    }
+
+    private View createItemView(int position, View convertView, ViewGroup parent){
         LinearLayout newView;
         if (convertView == null) {
             newView = new LinearLayout(getContext());
@@ -39,34 +50,34 @@ public class SpinnerAdapter extends ArrayAdapter<transactionType> {
             newView = (LinearLayout) convertView;
         }
 
-        transactionType tip = getItem(position);
+        String tip = getItem(position);
 
         simbol = (ImageView) newView.findViewById(R.id.simbol);
         tipTransakcije = (TextView) newView.findViewById(R.id.tipTransakcije);
 
-        tipTransakcije.setText(tip.toString());
+        tipTransakcije.setText(tip);
 
-        if(tip.equals(transactionType.INDIVIDUALPAYMENT)){
+        if(tip.equals("Individual payment")){
             simbol.setImageResource(R.drawable.individual);
         }
 
-        if(tip.equals(transactionType.REGULARPAYMENT)){
+        if(tip.equals("Regular payment")){
             simbol.setImageResource(R.drawable.regular);
         }
 
-        if(tip.equals(transactionType.PURCHASE)){
+        if(tip.equals("Purchase")){
             simbol.setImageResource(R.drawable.purchase);
         }
 
-        if(tip.equals(transactionType.REGULARINCOME)){
-            simbol.setImageResource(R.drawable.regincome);
+        if(tip.equals("Regular income")){
+            simbol.setImageResource(R.drawable.reginc);
         }
 
-        if(tip.equals(transactionType.INDIVIDUALINCOME)){
-            simbol.setImageResource(R.drawable.iincome);
+        if(tip.equals("Individual income")){
+            simbol.setImageResource(R.drawable.income);
         }
 
-        if(tip.equals("Filter by: ")){
+        if(tip.equals("All types")){
             simbol.setImageResource(R.drawable.alltypes);
         }
 

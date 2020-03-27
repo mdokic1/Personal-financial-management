@@ -8,4 +8,6 @@ interface ITransactionListView {
     void notifyTransactionListDataSetChanged();
 
     void setDate(String date);
+
+    void setTransactionsByType(ArrayList<Transaction> transactions);
 }

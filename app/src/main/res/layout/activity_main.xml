@@ -36,55 +36,50 @@
         android:layout_width="312dp"
         android:layout_height="33dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="565dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lim"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/lim" />
 
     <TextView
         android:id="@+id/month"
         android:layout_width="116dp"
         android:layout_height="31dp"
         android:layout_marginStart="174dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="178dp"
-        android:layout_marginBottom="509dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.649"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
     <Button
         android:id="@+id/leftArrow"
-        android:layout_width="54dp"
-        android:layout_height="44dp"
+        android:layout_width="85dp"
+        android:layout_height="32dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="493dp"
+        android:layout_marginBottom="488dp"
         android:background="@drawable/left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/month"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/rightArrow"
-        android:layout_width="54dp"
-        android:layout_height="46dp"
+        android:layout_width="79dp"
+        android:layout_height="29dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="25dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="493dp"
+        android:layout_marginBottom="488dp"
         android:background="@drawable/right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/month"
-        app:layout_constraintTop_toBottomOf="@+id/filter" />
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toEndOf="@+id/month" />
 
     <Spinner
         android:id="@+id/sort"
