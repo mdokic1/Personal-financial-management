@@ -78,7 +78,7 @@ public class FilterAdapter extends ArrayAdapter<String> {
         }
 
         if(tip.equals("All types")){
-            simbol.setImageResource(R.drawable.alltypes);
+            simbol.setImageResource(R.drawable.all_types);
         }
 
         if(tip.equals("Filter by")){

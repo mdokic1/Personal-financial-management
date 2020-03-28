@@ -7,16 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-
-import static ba.unsa.etf.rma.rma20djokicmilica36.TransactionsModel.transactions;
 
 public class TransactionListAdapter extends ArrayAdapter<Transaction> {
     private int resource;
@@ -47,7 +43,7 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
        Transaction transaction = getItem(position);
 
        ikonica = (ImageView) newView.findViewById(R.id.ikonica);
-       title = (TextView) newView.findViewById(R.id.title);
+       title = (TextView) newView.findViewById(R.id.type);
        iznos = (TextView) newView.findViewById(R.id.iznos);
 
        title.setText(transaction.getTitle());
