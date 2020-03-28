@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         filterAdapter = new FilterAdapter(this, R.layout.filter_element, getPresenter().getFiltriranje());
 
-        //sortAdapter = new ArrayAdapter<>(this, R.layout.sort_element, R.id.textView, getPresenter().getSortiranje());
         sortAdapter = new SortAdapter(this, R.layout.sort_element, getPresenter().getSortiranje());
 
         LocalDate trenutniDatum = LocalDate.now();

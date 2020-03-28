@@ -11,7 +11,7 @@
         android:layout_width="154dp"
         android:layout_height="15dp"
         android:layout_marginStart="59dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="293dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.452"
@@ -35,7 +35,7 @@
         android:layout_width="312dp"
         android:layout_height="33dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -47,10 +47,10 @@
         android:layout_width="116dp"
         android:layout_height="31dp"
         android:layout_marginStart="174dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="178dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.309"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
@@ -59,11 +59,11 @@
         android:layout_width="55dp"
         android:layout_height="32dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/left"
         app:layout_constraintEnd_toStartOf="@+id/month"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.977"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
@@ -72,11 +72,11 @@
         android:layout_width="55dp"
         android:layout_height="32dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="28dp"
         android:background="@drawable/right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toEndOf="@+id/month"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
@@ -86,7 +86,7 @@
         android:layout_height="31dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="36dp"
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -95,21 +95,20 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="372dp"
-        android:layout_height="312dp"
+        android:layout_height="334dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="252dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/lim" />
 
     <Button
         android:id="@+id/add"
         android:layout_width="237dp"
         android:layout_height="45dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="154dp"
         android:text="Add transaction"
         app:layout_constraintEnd_toEndOf="parent"

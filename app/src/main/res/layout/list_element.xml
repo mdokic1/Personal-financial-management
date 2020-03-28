@@ -23,7 +23,7 @@
         android:layout_height="37dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="9dp"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ikonica"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +34,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="13dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/ikonica"
         app:layout_constraintStart_toEndOf="@+id/ikonica"
         app:layout_constraintTop_toBottomOf="@+id/title" />
