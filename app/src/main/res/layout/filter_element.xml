@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/tipTransakcije"
-        android:layout_width="192dp"
-        android:layout_height="30dp"
+        android:layout_width="220dp"
+        android:layout_height="38dp"
         android:layout_marginStart="53dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="299dp"
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/simbol"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="30dp"
+        android:layout_height="36dp"
         android:layout_marginStart="224dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="5dp"
