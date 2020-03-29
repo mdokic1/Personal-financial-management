@@ -163,16 +163,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 amount.setBackgroundColor(Color.GREEN);
+                amount.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                amount.setTag("green");
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
+                amount.setTag("green");
             }
         });
 
@@ -181,17 +182,22 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 title.setBackgroundColor(Color.GREEN);
+                title.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                title.setTag("green");
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
                 if(title.getText().length() <= 3 || title.getText().length() >= 15){
                     title.setBackgroundColor(Color.RED);
+                    title.setTag("red");
+                }
+                else{
+                    title.setTag("green");
                 }
             }
         });
@@ -201,16 +207,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 date.setBackgroundColor(Color.GREEN);
+                date.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                date.setTag("green");
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
+               date.setTag("green");
             }
         });
 
@@ -219,11 +226,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 endDate.setBackgroundColor(Color.GREEN);
+                endDate.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                endDate.setTag("green");
             }
 
             @Override
@@ -231,12 +239,18 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 if((type.getSelectedItem().toString().equals("Individual income") || type.getSelectedItem().toString().equals("Individual payment") ||
                         type.getSelectedItem().toString().equals("Purchase")) && !endDate.getText().toString().equals("")){
                     endDate.setBackgroundColor(Color.RED);
+                    endDate.setTag("red");
                 }
 
-                if((type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment"))  &&
+                else if((type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment"))  &&
                         endDate.getText().toString().equals("")){
                     endDate.setBackgroundColor(Color.RED);
+                    endDate.setTag("red");
                 }
+                else{
+                    endDate.setTag("green");
+                }
+
             }
         });
 
@@ -245,23 +259,29 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 interval.setBackgroundColor(Color.GREEN);
+                interval.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                interval.setTag("green");
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
                 if((type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment"))
                         && interval.getText().toString().equals("")){
-                   interval.setBackgroundColor(Color.RED);
+                    interval.setBackgroundColor(Color.RED);
+                   interval.setTag("red");
                 }
 
-                if((type.getSelectedItem().toString().equals("Individual income") || type.getSelectedItem().toString().equals("Individual payment") ||
+                else if((type.getSelectedItem().toString().equals("Individual income") || type.getSelectedItem().toString().equals("Individual payment") ||
                         type.getSelectedItem().toString().equals("Purchase")) && !interval.getText().toString().equals("")){
                     interval.setBackgroundColor(Color.RED);
+                    interval.setTag("red");
+                }
+                else{
+                    interval.setTag("green");
                 }
             }
         });
@@ -271,11 +291,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 desc.setBackgroundColor(Color.GREEN);
+                desc.setTag("green");
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
+                desc.setTag("green");
             }
 
             @Override
@@ -283,6 +304,10 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 if ((type.getSelectedItem().toString().equals("REGULARINCOME") || type.getSelectedItem().equals("INDIVIDUALINCOME")) &&
                         !desc.getText().toString().equals("")) {
                     desc.setBackgroundColor(Color.RED);
+                    desc.setTag("red");
+                }
+                else{
+                    desc.setTag("green");
                 }
             }
         });
@@ -312,18 +337,70 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
 
         save.setOnClickListener(new View.OnClickListener(){
+            transactionType noviTip;
+            Integer noviInterval;
+            String noviDesc;
+            LocalDate noviEndDate;
+
             @Override
             public void onClick(View v){
-                if(((ColorDrawable)date.getBackground()).getColor() == Color.GREEN && ((ColorDrawable)amount.getBackground()).getColor() == Color.GREEN &&
-                    ((ColorDrawable)title.getBackground()).getColor() == Color.GREEN && ((ColorDrawable)type.getBackground()).getColor() == Color.GREEN &&
-                    ((ColorDrawable)desc.getBackground()).getColor() == Color.GREEN && ((ColorDrawable)interval.getBackground()).getColor() == Color.GREEN &&
-                    ((ColorDrawable)endDate.getBackground()).getColor() == Color.GREEN){
+                if((date.getTag() == null || date.getTag().equals("green")) && (amount.getTag() == null || amount.getTag().equals("green"))
+                        && (title.getTag() == null || title.getTag().equals("green")) && (desc.getTag() == null || desc.getTag().equals("green"))
+                     // treba type
+                     && (interval.getTag() == null || interval.getTag().equals("green")) &&
+                        (endDate.getTag() == null || endDate.getTag().equals("green"))){
+
+
+                        if(type.getSelectedItem().toString().equals("Individual payment")){
+                            noviTip = transactionType.INDIVIDUALPAYMENT;
+                        }
+
+                        if(type.getSelectedItem().toString().equals("Regular payment")){
+                            noviTip = transactionType.REGULARPAYMENT;
+                        }
+
+                        if(type.getSelectedItem().toString().equals("Individual income")){
+                            noviTip = transactionType.INDIVIDUALINCOME;
+                        }
+
+                        if(type.getSelectedItem().toString().equals("Regular income")){
+                            noviTip = transactionType.REGULARINCOME;
+                        }
+
+                        if(type.getSelectedItem().toString().equals("Purchase")){
+                            noviTip = transactionType.PURCHASE;
+                        }
+
+                        if(interval.getText().toString().equals("")){
+                            noviInterval = null;
+                        }
+                        else{
+                            noviInterval = Integer.parseInt(interval.getText().toString());
+                        }
+
+                        if(desc.getText().toString().equals("")){
+                            noviDesc = null;
+                        }
+                        else{
+                            noviDesc = desc.getText().toString();
+                        }
+
+                        if(endDate.getText().toString().equals("")){
+                            noviEndDate = null;
+                        }
+                        else{
+                            noviEndDate = LocalDate.parse(endDate.getText().toString());
+                        }
+
+
+
                     Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
-                            title.getText().toString(), transactionType.valueOf(type.getSelectedItem().toString().toUpperCase()), desc.getText().toString(),
-                            Integer.parseInt(interval.getText().toString()), LocalDate.parse(endDate.getText().toString()));
+                            title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
+
                     stara = nova;
 
-                    getPresenter().getView().setTransactions(getPresenter().getInteractor().get());
+                    //getPresenter().refreshTransactions();
+                    getPresenter().Model().set(0, nova);
 
                 }
             }

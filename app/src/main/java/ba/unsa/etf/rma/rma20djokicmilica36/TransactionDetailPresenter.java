@@ -11,8 +11,15 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     private ITransactionListInteractor interactor;
     private Context context;
 
-    public ITransactionListInteractor getInteractor() {
-        return interactor;
+    public TransactionDetailPresenter(ITransactionListView view, Context context) {
+        this.view       = view;
+        this.interactor = new TransactionListInteractor();
+        this.context    = context;
+    }
+
+    @Override
+    public ArrayList<Transaction> getModel(){
+        interactor.get();
     }
 
     private Transaction transaction;
@@ -103,10 +110,5 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     public Transaction getTransaction() {
         return transaction;
     }
-
-    public ITransactionListView getView() {
-        return view;
-    }
-
 
 }

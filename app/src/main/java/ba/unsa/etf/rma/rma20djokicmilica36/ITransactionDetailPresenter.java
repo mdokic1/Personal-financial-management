@@ -9,13 +9,13 @@ interface ITransactionDetailPresenter {
 
     Transaction getTransaction();
 
+
+    ArrayList<Transaction> getModel();
+
     ArrayList<String> getIzborTipa1();
     ArrayList<String> getIzborTipa2();
     ArrayList<String> getIzborTipa3();
     ArrayList<String> getIzborTipa4();
     ArrayList<String> getIzborTipa5();
 
-    ITransactionListView getView();
-
-    ITransactionListInteractor getInteractor();
 }
