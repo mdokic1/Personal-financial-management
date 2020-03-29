@@ -1,6 +1,9 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,32 +67,144 @@ public class TransactionDetailActivity extends AppCompatActivity {
         interval.setText(String.valueOf(transaction.getTransactionInterval()));
         desc.setText(transaction.getItemDescription());
 
+        transactionType tip = transaction.getType();
+
         icon.setImageResource(R.drawable.all_types);
 
-        if(type.equals(transactionType.INDIVIDUALPAYMENT)){
+        if(tip.equals(transactionType.INDIVIDUALPAYMENT)){
             detailSpinnerAdapter = new DetailSpinnerAdapter(this, R.layout.detail_spinner_element, getPresenter().getIzborTipa1());
             type.setAdapter(detailSpinnerAdapter);
         }
 
-        if(type.equals(transactionType.REGULARPAYMENT)){
+        if(tip.equals(transactionType.REGULARPAYMENT)){
             detailSpinnerAdapter = new DetailSpinnerAdapter(this, R.layout.detail_spinner_element, getPresenter().getIzborTipa2());
             type.setAdapter(detailSpinnerAdapter);
         }
 
-        if(type.equals(transactionType.PURCHASE)){
+        if(tip.equals(transactionType.PURCHASE)){
             detailSpinnerAdapter = new DetailSpinnerAdapter(this, R.layout.detail_spinner_element, getPresenter().getIzborTipa3());
             type.setAdapter(detailSpinnerAdapter);
         }
 
-        if(type.equals(transactionType.INDIVIDUALINCOME)){
+        if(tip.equals(transactionType.INDIVIDUALINCOME)){
             detailSpinnerAdapter = new DetailSpinnerAdapter(this, R.layout.detail_spinner_element, getPresenter().getIzborTipa4());
             type.setAdapter(detailSpinnerAdapter);
         }
 
-        if(type.equals(transactionType.REGULARINCOME)){
+        if(tip.equals(transactionType.REGULARINCOME)){
             detailSpinnerAdapter = new DetailSpinnerAdapter(this, R.layout.detail_spinner_element, getPresenter().getIzborTipa5());
             type.setAdapter(detailSpinnerAdapter);
         }
+
+        amount.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                amount.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        title.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                title.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        date.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                date.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        endDate.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                endDate.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        interval.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                interval.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        desc.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                desc.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+            }
+        });
+
+        
 
     }
 
