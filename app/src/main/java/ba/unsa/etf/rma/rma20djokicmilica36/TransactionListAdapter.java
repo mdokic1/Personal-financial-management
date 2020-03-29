@@ -25,6 +25,8 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
         resource = _resource;
     }
 
+    public Transaction getTransaction(int position) {return this.getItem(position);}
+
    @NonNull
    @Override
    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

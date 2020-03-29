@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         sortAdapter = new SortAdapter(this, R.layout.sort_element, getPresenter().getSortiranje());
 
+
+
         LocalDate trenutniDatum = LocalDate.now();
 
         int mjesec = trenutniDatum.getMonthValue();
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         listView= (ListView) findViewById(R.id.listView);
         listView.setAdapter(transactionListAdapter);
+        listView.setOnItemClickListener(listItemClickListener);
         getPresenter().refreshTransactionsByDate();
 
         filter = (Spinner) findViewById(R.id.filter);
@@ -151,4 +155,20 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     public void setDate(String dat){
         month.setText(dat);
     }
+
+    private AdapterView.OnItemClickListener listItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent transactionDetailIntent = new Intent(MainActivity.this, TransactionDetailActivity.class);
+            Transaction transaction = transactionListAdapter.getTransaction(position);
+            transactionDetailIntent.putExtra("date", transaction.getDate());
+            transactionDetailIntent.putExtra("amount", transaction.getAmount());
+            transactionDetailIntent.putExtra("title", transaction.getTitle());
+            transactionDetailIntent.putExtra("type", transaction.getType());
+            transactionDetailIntent.putExtra("desc", transaction.getItemDescription());
+            transactionDetailIntent.putExtra("interval", transaction.getTransactionInterval());
+            transactionDetailIntent.putExtra("endDate", transaction.getEndDate());
+            MainActivity.this.startActivity(transactionDetailIntent);
+        }
+    };
 }
