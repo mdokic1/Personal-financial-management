@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class TransactionListPresenter implements ITransactionListPresenter {
     private ITransactionListView view;
-    private ITransactionListInteractor interactor;
+    private static ITransactionListInteractor interactor;
     private Context context;
 
     public static ArrayList<String> filtriranje = new ArrayList<String>(){
@@ -33,6 +33,10 @@ public class TransactionListPresenter implements ITransactionListPresenter {
             add("Date - Descending");
         }
     };
+
+    public static ITransactionListInteractor getInteractor() {
+        return interactor;
+    }
 
     public ArrayList<String> getSortiranje() {
         return sortiranje;

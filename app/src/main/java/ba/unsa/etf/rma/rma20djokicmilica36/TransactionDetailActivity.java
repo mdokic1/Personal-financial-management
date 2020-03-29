@@ -1,6 +1,8 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private EditText desc;
     private Button save;
     private Button delete;
+
+    Context context = this;
 
     int amount_before;
     String title_before;
@@ -346,6 +350,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
         }
 
 
+        ;
+
         save.setOnClickListener(new View.OnClickListener(){
             transactionType noviTip;
             Integer noviInterval;
@@ -353,55 +359,51 @@ public class TransactionDetailActivity extends AppCompatActivity {
             LocalDate noviEndDate;
 
             @Override
-            public void onClick(View v){
-                if((date.getTag() == null || date.getTag().equals("green")) && (amount.getTag() == null || amount.getTag().equals("green"))
+            public void onClick(View v) {
+                if ((date.getTag() == null || date.getTag().equals("green")) && (amount.getTag() == null || amount.getTag().equals("green"))
                         && (title.getTag() == null || title.getTag().equals("green")) && (desc.getTag() == null || desc.getTag().equals("green"))
-                     // treba type
-                     && (interval.getTag() == null || interval.getTag().equals("green")) &&
-                        (endDate.getTag() == null || endDate.getTag().equals("green"))){
+                        // treba type
+                        && (interval.getTag() == null || interval.getTag().equals("green")) &&
+                        (endDate.getTag() == null || endDate.getTag().equals("green"))) {
 
 
-                        if(type.getSelectedItem().toString().equals("Individual payment")){
-                            noviTip = transactionType.INDIVIDUALPAYMENT;
-                        }
+                    if (type.getSelectedItem().toString().equals("Individual payment")) {
+                        noviTip = transactionType.INDIVIDUALPAYMENT;
+                    }
 
-                        if(type.getSelectedItem().toString().equals("Regular payment")){
-                            noviTip = transactionType.REGULARPAYMENT;
-                        }
+                    if (type.getSelectedItem().toString().equals("Regular payment")) {
+                        noviTip = transactionType.REGULARPAYMENT;
+                    }
 
-                        if(type.getSelectedItem().toString().equals("Individual income")){
-                            noviTip = transactionType.INDIVIDUALINCOME;
-                        }
+                    if (type.getSelectedItem().toString().equals("Individual income")) {
+                        noviTip = transactionType.INDIVIDUALINCOME;
+                    }
 
-                        if(type.getSelectedItem().toString().equals("Regular income")){
-                            noviTip = transactionType.REGULARINCOME;
-                        }
+                    if (type.getSelectedItem().toString().equals("Regular income")) {
+                        noviTip = transactionType.REGULARINCOME;
+                    }
 
-                        if(type.getSelectedItem().toString().equals("Purchase")){
-                            noviTip = transactionType.PURCHASE;
-                        }
+                    if (type.getSelectedItem().toString().equals("Purchase")) {
+                        noviTip = transactionType.PURCHASE;
+                    }
 
-                        if(interval.getText().toString().equals("")){
-                            noviInterval = null;
-                        }
-                        else{
-                            noviInterval = Integer.parseInt(interval.getText().toString());
-                        }
+                    if (interval.getText().toString().equals("")) {
+                        noviInterval = null;
+                    } else {
+                        noviInterval = Integer.parseInt(interval.getText().toString());
+                    }
 
-                        if(desc.getText().toString().equals("")){
-                            noviDesc = null;
-                        }
-                        else{
-                            noviDesc = desc.getText().toString();
-                        }
+                    if (desc.getText().toString().equals("")) {
+                        noviDesc = null;
+                    } else {
+                        noviDesc = desc.getText().toString();
+                    }
 
-                        if(endDate.getText().toString().equals("")){
-                            noviEndDate = null;
-                        }
-                        else{
-                            noviEndDate = LocalDate.parse(endDate.getText().toString());
-                        }
-
+                    if (endDate.getText().toString().equals("")) {
+                        noviEndDate = null;
+                    } else {
+                        noviEndDate = LocalDate.parse(endDate.getText().toString());
+                    }
 
 
                     Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
@@ -410,10 +412,43 @@ public class TransactionDetailActivity extends AppCompatActivity {
                     stara = nova;
 
                     getPresenter().getModel().set(indeks, nova);
-
                 }
             }
+
+
         });
+
+
+
+
+
+        delete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setTitle("Confirm Deletion")
+                        .setMessage("Are you sure you want to delete?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getPresenter().getModel().remove(indeks);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .show();
+
+            }
+        });
+
+
+
     }
 
 }

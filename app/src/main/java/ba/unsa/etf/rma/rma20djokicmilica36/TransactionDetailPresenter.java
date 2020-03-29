@@ -9,11 +9,13 @@ import java.util.ArrayList;
 public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     private ITransactionListView view;
     private ITransactionListInteractor interactor = new TransactionListInteractor();
+   // private ITransactionListInteractor interactor;
     private Context context;
 
     public TransactionDetailPresenter(ITransactionListView view, Context context) {
         this.view       = view;
-        this.interactor = new TransactionListInteractor();
+        this.interactor = interactor;
+
         this.context    = context;
     }
 
