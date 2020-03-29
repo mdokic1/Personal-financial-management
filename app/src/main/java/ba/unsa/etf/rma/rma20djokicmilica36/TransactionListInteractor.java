@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class TransactionListInteractor implements ITransactionListInteractor {
+
     LocalDate trDatum = TransactionsModel.trDatum;
 
 

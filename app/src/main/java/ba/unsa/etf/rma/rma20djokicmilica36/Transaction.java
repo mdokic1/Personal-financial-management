@@ -1,5 +1,9 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.util.Log;
+
 import java.time.LocalDate;
 
 public class Transaction {
@@ -11,32 +15,8 @@ public class Transaction {
     private Integer transactionInterval;
     private LocalDate endDate;
 
-    public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) throws IllegalArgumentException {
-        if ((type.equals(transactionType.REGULARINCOME) || type.equals(transactionType.INDIVIDUALINCOME)) && desc != null) {
-            throw new IllegalArgumentException("Greska");
-        }
-        if((type.equals(transactionType.REGULARINCOME) || type.equals(transactionType.REGULARPAYMENT)) && trInterval == null){
-            throw new IllegalArgumentException("Greska");
-        }
+   public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
 
-        if((type.equals(transactionType.INDIVIDUALINCOME) || type.equals(transactionType.INDIVIDUALPAYMENT) ||
-            type.equals(transactionType.PURCHASE)) && trInterval != null){
-            throw new IllegalArgumentException("Greska");
-        }
-
-        if((type.equals(transactionType.REGULARINCOME) || type.equals(transactionType.REGULARPAYMENT)) && endDate == null){
-            throw new IllegalArgumentException("Greska");
-        }
-
-        if((type.equals(transactionType.INDIVIDUALINCOME) || type.equals(transactionType.INDIVIDUALPAYMENT) ||
-                type.equals(transactionType.PURCHASE)) && endDate != null){
-            throw new IllegalArgumentException("Greska");
-        }
-
-        if(title.length() <= 3 || title.length() >= 15){
-            throw new IllegalArgumentException("Greska");
-        }
-        
         this.date = dat;
         this.amount = amount;
         this.title = title;

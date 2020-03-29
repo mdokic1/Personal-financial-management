@@ -14,4 +14,8 @@ interface ITransactionDetailPresenter {
     ArrayList<String> getIzborTipa3();
     ArrayList<String> getIzborTipa4();
     ArrayList<String> getIzborTipa5();
+
+    ITransactionListView getView();
+
+    ITransactionListInteractor getInteractor();
 }
