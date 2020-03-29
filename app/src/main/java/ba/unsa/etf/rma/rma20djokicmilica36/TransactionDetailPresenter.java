@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     private ITransactionListView view;
-    private ITransactionListInteractor interactor;
+    private ITransactionListInteractor interactor = new TransactionListInteractor();
     private Context context;
 
     public TransactionDetailPresenter(ITransactionListView view, Context context) {
@@ -17,10 +17,6 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
         this.context    = context;
     }
 
-    @Override
-    public ArrayList<Transaction> getModel(){
-        interactor.get();
-    }
 
     private Transaction transaction;
 
@@ -104,6 +100,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
 
 
         this.transaction = new Transaction(dat, amount, title, type, desc, trInterval, endDate);
+    }
+
+    @Override
+    public ArrayList<Transaction> getModel(){
+        return interactor.get();
     }
 
     @Override

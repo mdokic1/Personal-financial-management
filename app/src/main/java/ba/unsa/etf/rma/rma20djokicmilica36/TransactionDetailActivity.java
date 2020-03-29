@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class TransactionDetailActivity extends AppCompatActivity {
     private ImageView icon;
@@ -41,6 +42,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
     transactionType type_before;
 
     Transaction stara;
+    int indeks = 0;
 
     private ITransactionDetailPresenter presenter;
 
@@ -48,7 +50,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
     public ITransactionDetailPresenter getPresenter() {
         if (presenter == null) {
-            presenter = new TransactionDetailPresenter(this);
+            presenter = new TransactionDetailPresenter( this);
         }
         return presenter;
     }
@@ -336,6 +338,14 @@ public class TransactionDetailActivity extends AppCompatActivity {
         stara = new Transaction(date_before, amount_before, title_before, type_before, desc_before, interval_before, endDate_before);
 
 
+        ArrayList<Transaction> sve = getPresenter().getModel();
+        for(Transaction t : sve){
+            while(t != stara){
+                indeks++;
+            }
+        }
+
+
         save.setOnClickListener(new View.OnClickListener(){
             transactionType noviTip;
             Integer noviInterval;
@@ -399,8 +409,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
                     stara = nova;
 
-                    //getPresenter().refreshTransactions();
-                    getPresenter().Model().set(0, nova);
+                    getPresenter().getModel().set(indeks, nova);
 
                 }
             }

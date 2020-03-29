@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 public class TransactionListInteractor implements ITransactionListInteractor {
 
     LocalDate trDatum = TransactionsModel.trDatum;
+    TransactionsModel model;
 
     @Override
     public ArrayList<Transaction> get() {
-        return TransactionsModel.transactions;
+        return model.transactions;
     }
 
 
