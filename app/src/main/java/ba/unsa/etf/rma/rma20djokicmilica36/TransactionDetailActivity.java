@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +59,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
         endDate = (EditText)findViewById(R.id.endDate);
         interval = (EditText)findViewById(R.id.interval);
         desc = (EditText)findViewById(R.id.desc);
+        save = (Button)findViewById(R.id.save);
+        delete = (Button)findViewById(R.id.delete);
 
         Transaction transaction = getPresenter().getTransaction();
         amount.setText(String.valueOf(transaction.getAmount()));
@@ -204,7 +207,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
             }
         });
 
-        
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+            }
+        });
 
     }
 
