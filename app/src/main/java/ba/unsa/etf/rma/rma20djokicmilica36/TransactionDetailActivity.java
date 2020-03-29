@@ -40,8 +40,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
     String desc_before;
     transactionType type_before;
 
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-mm-yyyy");
-
     Transaction stara;
 
     private ITransactionDetailPresenter presenter;
@@ -105,6 +103,31 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
         transactionType tip = transaction.getType();
 
+        amount_before = Integer.parseInt(amount.getText().toString());
+        title_before = title.getText().toString();
+        date_before = LocalDate.parse(date.getText().toString());
+        if(endDate.getText().toString().equals("")){
+            endDate_before = null;
+        }
+        else{
+            endDate_before = LocalDate.parse(date.getText().toString());
+        }
+
+        if(interval.getText().toString().equals("")){
+            interval_before = null;
+        }
+        else{
+            interval_before = Integer.parseInt(interval.getText().toString());
+        }
+
+        if(desc.getText().toString().equals("")){
+            desc_before = null;
+        }
+        else{
+            desc_before = desc.getText().toString();
+        }
+
+
         icon.setImageResource(R.drawable.all_types);
 
         if(tip.equals(transactionType.INDIVIDUALPAYMENT)){
@@ -132,6 +155,9 @@ public class TransactionDetailActivity extends AppCompatActivity {
             type.setAdapter(detailSpinnerAdapter);
         }
 
+        //type_before = transactionType.valueOf(type.getSelectedItem().toString().toUpperCase());
+        type_before = tip;
+
         amount.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -141,7 +167,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                amount_before = Integer.parseInt(amount.getText().toString());
+
             }
 
             @Override
@@ -159,7 +185,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                title_before = title.getText().toString();
+
             }
 
             @Override
@@ -179,7 +205,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                date_before = LocalDate.parse(date.getText().toString(), df);
+
             }
 
             @Override
@@ -197,24 +223,18 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if(endDate.getText().toString().equals("")){
-                    endDate_before = null;
-                }
-                else{
-                    endDate_before = LocalDate.parse(endDate.getText().toString(), df);
-                }
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                        type.getSelectedItem().equals("Purchase")) && endDate.getText().toString() != ""){
+                if((type.getSelectedItem().toString().equals("Individual income") || type.getSelectedItem().toString().equals("Individual payment") ||
+                        type.getSelectedItem().toString().equals("Purchase")) && !endDate.getText().toString().equals("")){
                     endDate.setBackgroundColor(Color.RED);
                 }
 
-                if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                        type.getSelectedItem().equals("Purchase")) && endDate.getText().toString() != ""){
+                if((type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment"))  &&
+                        endDate.getText().toString().equals("")){
                     endDate.setBackgroundColor(Color.RED);
                 }
             }
@@ -229,23 +249,18 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if(interval.getText().toString().equals("")){
-                    interval_before = null;
-                }
-                else{
-                    interval_before = Integer.parseInt(interval.getText().toString());
-                }
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && interval.getText().toString() == ""){
+                if((type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment"))
+                        && interval.getText().toString().equals("")){
                    interval.setBackgroundColor(Color.RED);
                 }
 
-                if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                        type.getSelectedItem().equals("Purchase")) && interval.getText().toString() != ""){
+                if((type.getSelectedItem().toString().equals("Individual income") || type.getSelectedItem().toString().equals("Individual payment") ||
+                        type.getSelectedItem().toString().equals("Purchase")) && !interval.getText().toString().equals("")){
                     interval.setBackgroundColor(Color.RED);
                 }
             }
@@ -260,24 +275,19 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if(desc.getText().toString().equals("")){
-                    desc_before = null;
-                }
-                else{
-                    desc_before = desc.getText().toString();
-                }
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && desc.getText().toString() != "") {
+                if ((type.getSelectedItem().toString().equals("REGULARINCOME") || type.getSelectedItem().equals("INDIVIDUALINCOME")) &&
+                        !desc.getText().toString().equals("")) {
                     desc.setBackgroundColor(Color.RED);
                 }
             }
         });
 
-        if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && desc.getText().toString() != "") {
+       /* if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && desc.getText().toString() != "") {
             type.setBackgroundColor(Color.RED);
         }
         if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && interval.getText().toString() == ""){
@@ -296,7 +306,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
                 type.getSelectedItem().equals("Purchase")) && endDate.getText().toString() != ""){
              type.setBackgroundColor(Color.RED);
-        }
+        }*/
 
         stara = new Transaction(date_before, amount_before, title_before, type_before, desc_before, interval_before, endDate_before);
 
@@ -308,9 +318,9 @@ public class TransactionDetailActivity extends AppCompatActivity {
                     ((ColorDrawable)title.getBackground()).getColor() == Color.GREEN && ((ColorDrawable)type.getBackground()).getColor() == Color.GREEN &&
                     ((ColorDrawable)desc.getBackground()).getColor() == Color.GREEN && ((ColorDrawable)interval.getBackground()).getColor() == Color.GREEN &&
                     ((ColorDrawable)endDate.getBackground()).getColor() == Color.GREEN){
-                    Transaction nova = new Transaction(LocalDate.parse(date.getText().toString(), df), Integer.parseInt(amount.getText().toString()),
+                    Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
                             title.getText().toString(), transactionType.valueOf(type.getSelectedItem().toString().toUpperCase()), desc.getText().toString(),
-                            Integer.parseInt(interval.getText().toString()), LocalDate.parse(endDate.getText().toString(), df));
+                            Integer.parseInt(interval.getText().toString()), LocalDate.parse(endDate.getText().toString()));
                     stara = nova;
 
                     getPresenter().getView().setTransactions(getPresenter().getInteractor().get());
