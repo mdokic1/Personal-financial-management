@@ -7,12 +7,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TransactionDetailPresenter implements ITransactionDetailPresenter {
-    private ITransactionListView view;
+    private ITransactionDetailView view;
     private ITransactionListInteractor interactor = new TransactionListInteractor();
    // private ITransactionListInteractor interactor;
     private Context context;
 
-    public TransactionDetailPresenter(ITransactionListView view, Context context) {
+    public TransactionDetailPresenter(ITransactionDetailView view, Context context) {
         this.view       = view;
         this.interactor = interactor;
 
@@ -112,6 +112,18 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     @Override
     public Transaction getTransaction() {
         return transaction;
+    }
+
+    @Override
+    public void refreshTransactions(int indeks, Transaction t) {
+        view.changeTransaction(interactor.get(), indeks, t);
+        view.notifyTransactionListDataSetChanged();
+    }
+
+    @Override
+    public void refreshTransactionsRemove(int indeks){
+        view.removeTransaction(interactor.get(), indeks);
+        view.notifyTransactionListDataSetChanged();
     }
 
 }

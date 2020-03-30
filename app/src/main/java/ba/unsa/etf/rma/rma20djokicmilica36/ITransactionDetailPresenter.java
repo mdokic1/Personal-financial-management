@@ -18,4 +18,7 @@ interface ITransactionDetailPresenter {
     ArrayList<String> getIzborTipa4();
     ArrayList<String> getIzborTipa5();
 
+    void refreshTransactions(int indeks, Transaction t);
+
+    void refreshTransactionsRemove(int indeks);
 }

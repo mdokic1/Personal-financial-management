@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class TransactionDetailActivity extends AppCompatActivity {
+public class TransactionDetailActivity extends AppCompatActivity implements ITransactionDetailView{
     private ImageView icon;
     private Spinner type;
     private EditText amount;
@@ -35,8 +35,6 @@ public class TransactionDetailActivity extends AppCompatActivity {
     private Button save;
     private Button delete;
 
-    Context context = this;
-
     int amount_before;
     String title_before;
     LocalDate date_before;
@@ -46,15 +44,19 @@ public class TransactionDetailActivity extends AppCompatActivity {
     transactionType type_before;
 
     Transaction stara;
-    int indeks = 0;
+    int indeks = 1;
+    int brojac = 0;
 
     private ITransactionDetailPresenter presenter;
 
     private DetailSpinnerAdapter detailSpinnerAdapter;
+    private TransactionListAdapter transactionListAdapter;
+
+    private ArrayAdapter<Transaction> arrayAdapter;
 
     public ITransactionDetailPresenter getPresenter() {
         if (presenter == null) {
-            presenter = new TransactionDetailPresenter( this);
+            presenter = new TransactionDetailPresenter( this, this);
         }
         return presenter;
     }
@@ -62,6 +64,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_detail_activity);
+
+        arrayAdapter = new ArrayAdapter<Transaction>(this, R.layout.transaction_detail_activity, getPresenter().getModel());
 
         getPresenter().create((LocalDate)getIntent().getSerializableExtra("date"),
                               (int)getIntent().getSerializableExtra("amount"),
@@ -116,7 +120,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
             endDate_before = null;
         }
         else{
-            endDate_before = LocalDate.parse(date.getText().toString());
+            endDate_before = LocalDate.parse(endDate.getText().toString());
         }
 
         if(interval.getText().toString().equals("")){
@@ -164,18 +168,31 @@ public class TransactionDetailActivity extends AppCompatActivity {
         //type_before = transactionType.valueOf(type.getSelectedItem().toString().toUpperCase());
         type_before = tip;
 
+        ArrayList<Transaction> sve = getPresenter().getModel();
+        getPresenter().create(date_before, amount_before, title_before, type_before, desc_before, interval_before, endDate_before);
+
+        for(Transaction t : sve){
+            if(t.equals(getPresenter().getTransaction())){
+                brojac++;
+                //System.out.println(getPresenter().getTransaction().getTitle());
+                indeks = sve.indexOf(t);
+            }
+        }
+
+        Log.d(String.valueOf(indeks), "OK");
+
         amount.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                amount.setBackgroundColor(Color.GREEN);
-                amount.setTag("green");
-            }
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    amount.setBackgroundColor(Color.GREEN);
+                    amount.setTag("green");
+                }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                amount.setTag("green");
-            }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                    amount.setTag("green");
+                }
 
             @Override
             public void afterTextChanged(Editable arg0) {
@@ -339,18 +356,12 @@ public class TransactionDetailActivity extends AppCompatActivity {
              type.setBackgroundColor(Color.RED);
         }*/
 
-        stara = new Transaction(date_before, amount_before, title_before, type_before, desc_before, interval_before, endDate_before);
 
 
-        ArrayList<Transaction> sve = getPresenter().getModel();
-        for(Transaction t : sve){
-            while(t != stara){
-                indeks++;
-            }
-        }
 
 
-        ;
+
+
 
         save.setOnClickListener(new View.OnClickListener(){
             transactionType noviTip;
@@ -409,9 +420,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
                     Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
                             title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
 
-                    stara = nova;
-
-                    getPresenter().getModel().set(indeks, nova);
+                    getPresenter().refreshTransactions(indeks, nova);
                 }
             }
 
@@ -419,20 +428,17 @@ public class TransactionDetailActivity extends AppCompatActivity {
         });
 
 
-
-
-
         delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
 
-                AlertDialog alertDialog = new AlertDialog.Builder(context)
+                AlertDialog alertDialog = new AlertDialog.Builder(TransactionDetailActivity.this)
                         .setTitle("Confirm Deletion")
                         .setMessage("Are you sure you want to delete?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                getPresenter().getModel().remove(indeks);
+                                getPresenter().refreshTransactionsRemove(indeks);
                                 finish();
                             }
                         })
@@ -443,12 +449,26 @@ public class TransactionDetailActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-
             }
         });
 
-
-
     }
+
+
+    @Override
+    public void notifyTransactionListDataSetChanged() {
+        arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void changeTransaction(ArrayList<Transaction> transactions, int indeks, Transaction t) {
+        transactions.set(indeks, t);
+    }
+
+    @Override
+    public void removeTransaction(ArrayList<Transaction> transactions, int indeks){
+        transactions.remove(indeks);
+    }
+
 
 }

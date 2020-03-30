@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
     private Button rightArrow;
     private Spinner sort;
     private ListView listView;
-    private Button add;
+    private Button dodaj;
 
 
 
@@ -171,4 +171,14 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             MainActivity.this.startActivity(transactionDetailIntent);
         }
     };
+
+    
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
+        getPresenter().refreshTransactionsByDate();
+        getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+    }
 }

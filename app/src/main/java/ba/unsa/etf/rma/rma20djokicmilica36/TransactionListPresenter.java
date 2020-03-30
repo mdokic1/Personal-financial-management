@@ -34,7 +34,7 @@ public class TransactionListPresenter implements ITransactionListPresenter {
         }
     };
 
-    public static ITransactionListInteractor getInteractor() {
+    public ITransactionListInteractor getInteractor() {
         return interactor;
     }
 

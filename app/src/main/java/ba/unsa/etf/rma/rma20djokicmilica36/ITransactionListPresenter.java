@@ -16,4 +16,6 @@ public interface ITransactionListPresenter {
     ArrayList<String> getFiltriranje();
 
     ArrayList<String> getSortiranje();
+
+    ITransactionListInteractor getInteractor();
 }

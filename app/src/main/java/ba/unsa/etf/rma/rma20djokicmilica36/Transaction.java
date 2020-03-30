@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Transaction {
     private LocalDate date;
@@ -15,7 +16,27 @@ public class Transaction {
     private Integer transactionInterval;
     private LocalDate endDate;
 
-   public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return amount == that.amount &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(title, that.title) &&
+                type == that.type &&
+                Objects.equals(itemDescription, that.itemDescription) &&
+                Objects.equals(transactionInterval, that.transactionInterval) &&
+                Objects.equals(endDate, that.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, amount, title, type, itemDescription, transactionInterval, endDate);
+    }
+
+    public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
 
         this.date = dat;
         this.amount = amount;
