@@ -49,8 +49,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
     String desc_before;
     transactionType type_before;
 
-    Transaction stara;
-    int indeks = 1;
+    int indeks = -1;
 
     private ITransactionDetailPresenter presenter;
 
@@ -188,13 +187,15 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
         ArrayList<Transaction> sve = getPresenter().getModel();
         getPresenter().create(date_before, amount_before, title_before, type_before, desc_before, interval_before, endDate_before);
 
+        if(amount_before == 0){
+            delete.setEnabled(false);
+        }
+
         for(Transaction t : sve){
             if(t.equals(getPresenter().getTransaction())){
                 indeks = sve.indexOf(t);
             }
         }
-
-        //Log.d(String.valueOf(indeks), "OK");
 
         amount.addTextChangedListener(new TextWatcher() {
 
@@ -510,7 +511,13 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
                             title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
 
-                    getPresenter().refreshTransactions(indeks, nova);
+                    if(indeks == -1){
+                        getPresenter().refreshTransactionsAdd(nova);
+                    }
+                    else{
+                        getPresenter().refreshTransactionsChange(indeks, nova);
+                    }
+
                 }
             }
         });
@@ -556,6 +563,11 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
     @Override
     public void removeTransaction(ArrayList<Transaction> transactions, int indeks){
         transactions.remove(indeks);
+    }
+
+    @Override
+    public void addTransaction(ArrayList<Transaction> transactions, Transaction t) {
+        transactions.add(t);
     }
 
 

@@ -11,4 +11,5 @@ public interface ITransactionDetailView {
 
     void removeTransaction(ArrayList<Transaction> transactions, int indeks);
 
+    void addTransaction(ArrayList<Transaction> transactions, Transaction t);
 }

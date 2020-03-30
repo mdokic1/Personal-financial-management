@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             @Override
             public void onClick(View v) {
                 Intent transactionDetailIntent = new Intent(MainActivity.this, TransactionDetailActivity.class);
+
                 transactionDetailIntent.putExtra("date", LocalDate.now());
                 transactionDetailIntent.putExtra("amount", 0);
                 transactionDetailIntent.putExtra("title", "");

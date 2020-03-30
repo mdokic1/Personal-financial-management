@@ -115,7 +115,7 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     }
 
     @Override
-    public void refreshTransactions(int indeks, Transaction t) {
+    public void refreshTransactionsChange(int indeks, Transaction t) {
         view.changeTransaction(interactor.get(), indeks, t);
         view.notifyTransactionListDataSetChanged();
     }
@@ -123,6 +123,12 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     @Override
     public void refreshTransactionsRemove(int indeks){
         view.removeTransaction(interactor.get(), indeks);
+        view.notifyTransactionListDataSetChanged();
+    }
+
+    @Override
+    public void refreshTransactionsAdd(Transaction t) {
+        view.addTransaction(interactor.get(), t);
         view.notifyTransactionListDataSetChanged();
     }
 
