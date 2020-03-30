@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,6 +64,19 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             presenter = new TransactionDetailPresenter( this, this);
         }
         return presenter;
+    }
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+    private boolean checkIfDateIsValid(String date, SimpleDateFormat format) {
+
+        format.setLenient(false);
+        try {
+            format.parse(date);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
     }
 
     protected void onCreate(Bundle savedInstanceState){
@@ -257,15 +272,30 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                /*if (validator.isValid(date.getText().toString())) {
-                    date.setBackgroundColor(Color.GREEN);
-                    date.setTag("green");
+                if (checkIfDateIsValid(date.getText().toString(), format)) {
+                    if(!endDate.getText().toString().equals("")){
+                        try {
+                            if(format.parse(endDate.getText().toString()).compareTo(format.parse(date.getText().toString())) < 0){
+                                date.setBackgroundColor(Color.RED);
+                                date.setTag("red");
+                            }
+                            else{
+                                date.setBackgroundColor(Color.GREEN);
+                                date.setTag("green");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                else{
+                else if (!checkIfDateIsValid(date.getText().toString(), format)){
                     date.setBackgroundColor(Color.RED);
                     date.setTag("red");
-                }*/
-                date.setTag("green");
+                }
+                else{
+                    date.setTag("green");
+                }
+
             }
         });
 
@@ -295,20 +325,28 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     endDate.setBackgroundColor(Color.RED);
                     endDate.setTag("red");
                 }
+                else if (checkIfDateIsValid(endDate.getText().toString(), format)) {
+                    if(!date.getText().toString().equals("")){
+                        try {
+                            if(format.parse(endDate.getText().toString()).compareTo(format.parse(date.getText().toString())) > 0){
+                                endDate.setBackgroundColor(Color.RED);
+                                endDate.setTag("red");
+                            }
+                            else{
+                                endDate.setBackgroundColor(Color.GREEN);
+                                endDate.setTag("green");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-
-
-                /*else if (validator.isValid(endDate.getText().toString())) {
-                    endDate.setBackgroundColor(Color.GREEN);
-                    endDate.setTag("green");
                 }
-                else if (!validator.isValid(endDate.getText().toString())){
+                else if (!checkIfDateIsValid(endDate.getText().toString(), format)){
                     endDate.setBackgroundColor(Color.RED);
                     endDate.setTag("red");
-                }*/
-
+                }
                 else{
-                    endDate.setBackgroundColor(Color.GREEN);
                     endDate.setTag("green");
                 }
 
