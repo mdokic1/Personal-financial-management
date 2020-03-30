@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         sort = (Spinner) findViewById(R.id.sort);
         sort.setAdapter(sortAdapter);
 
+        dodaj = (Button) findViewById(R.id.dodaj);
+
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -126,6 +128,21 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             }
             public void onNothingSelected(AdapterView<?> parent){
 
+            }
+        });
+
+        dodaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent transactionDetailIntent = new Intent(MainActivity.this, TransactionDetailActivity.class);
+                transactionDetailIntent.putExtra("date", LocalDate.now());
+                transactionDetailIntent.putExtra("amount", 0);
+                transactionDetailIntent.putExtra("title", "");
+                transactionDetailIntent.putExtra("type", transactionType.INDIVIDUALPAYMENT);
+                transactionDetailIntent.putExtra("desc", "");
+                transactionDetailIntent.putExtra("interval", 0);
+                transactionDetailIntent.putExtra("endDate", LocalDate.now());
+                MainActivity.this.startActivity(transactionDetailIntent);
             }
         });
 
@@ -172,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         }
     };
 
-    
+
 
     @Override
     public void onResume(){
