@@ -13,7 +13,7 @@
         android:layout_marginStart="119dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

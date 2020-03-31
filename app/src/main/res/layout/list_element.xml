@@ -8,35 +8,32 @@
 
     <ImageView
         android:id="@+id/ikonica"
-        android:layout_width="67dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toStartOf="@id/type"
+        android:layout_width="68dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/type"
-        android:layout_width="316dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="9dp"
+        android:layout_width="174dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="92dp"
+        android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ikonica"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/iznos"
-        android:layout_width="243dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="13dp"
+        android:layout_width="176dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
+        android:textAlignment="viewStart"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/ikonica"
-        app:layout_constraintStart_toEndOf="@+id/ikonica"
-        app:layout_constraintTop_toBottomOf="@+id/type" />
+        app:layout_constraintStart_toEndOf="@+id/ikonica" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

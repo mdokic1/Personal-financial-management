@@ -194,6 +194,56 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             }
         }
 
+        type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView tipSpinnera = findViewById(R.id.textView);
+                if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
+                        && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
+                        && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
+                    tipSpinnera.setBackgroundColor(0xFF76AAE1);
+                }
+                else{
+                    if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && !desc.getText().toString().equals("")) {
+                        tipSpinnera.setBackgroundColor(Color.RED);
+                        type.setTag("red");
+                    }
+                    else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && interval.getText().toString().equals("")){
+                        tipSpinnera.setBackgroundColor(Color.RED);
+                        type.setTag("red");
+                    }
+
+                    else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
+                            type.getSelectedItem().equals("Purchase")) && !interval.getText().toString().equals("")){
+                        tipSpinnera.setBackgroundColor(Color.RED);
+                        type.setTag("red");
+                    }
+
+                    else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && endDate.getText().toString().equals("")){
+                        tipSpinnera.setBackgroundColor(Color.RED);
+                        type.setTag("red");
+                    }
+
+                    else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
+                            type.getSelectedItem().equals("Purchase")) && !endDate.getText().toString().equals("")){
+                        tipSpinnera.setBackgroundColor(Color.RED);
+                        type.setTag("red");
+                    }
+
+                    else{
+                        tipSpinnera.setBackgroundColor(Color.GREEN);
+                        type.setTag("green");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //tipSpinnera.setBackgroundColor(0xFF76AAE1);
+            }
+        });
+
         amount.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -210,6 +260,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     else{
                         amount.setTag("green");
                     }
+
                 }
 
             @Override
@@ -240,6 +291,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                 else{
                     title.setTag("green");
                 }
+
             }
 
             @Override
@@ -264,8 +316,8 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3){
-
                 date.setTag("green");
+
             }
 
             @Override
@@ -308,6 +360,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 endDate.setTag("green");
+
             }
 
             @Override
@@ -362,6 +415,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 interval.setTag("green");
+
             }
 
             @Override
@@ -394,6 +448,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 desc.setTag("green");
+
             }
 
             @Override
@@ -409,52 +464,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             }
         });
 
-        type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TextView tipSpinnera = findViewById(R.id.textView);
-                /*if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
-                   && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
-                   && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
-                    tipSpinnera.setBackgroundColor(0xFFA206A8);
-                }*/
-                if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && !desc.getText().toString().equals("")) {
-                    tipSpinnera.setBackgroundColor(Color.RED);
-                    type.setTag("red");
-                }
-                else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && interval.getText().toString().equals("")){
-                    tipSpinnera.setBackgroundColor(Color.RED);
-                    type.setTag("red");
-                }
 
-                else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                        type.getSelectedItem().equals("Purchase")) && !interval.getText().toString().equals("")){
-                    tipSpinnera.setBackgroundColor(Color.RED);
-                    type.setTag("red");
-                }
-
-                else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && endDate.getText().toString().equals("")){
-                    tipSpinnera.setBackgroundColor(Color.RED);
-                    type.setTag("red");
-                }
-
-                else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                        type.getSelectedItem().equals("Purchase")) && !endDate.getText().toString().equals("")){
-                    tipSpinnera.setBackgroundColor(Color.RED);
-                    type.setTag("red");
-                }
-
-                else{
-                    tipSpinnera.setBackgroundColor(Color.GREEN);
-                    type.setTag("green");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         save.setOnClickListener(new View.OnClickListener(){
             transactionType noviTip;
@@ -470,7 +480,17 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                         && (interval.getTag() == null || interval.getTag().equals("green")) &&
                         (endDate.getTag() == null || endDate.getTag().equals("green"))) {
 
-                    date.setBackgroundColor(0xFFF190E4);
+                    date.setBackgroundColor(0xFF76AAE1);
+                    amount.setBackgroundColor(0xFF76AAE1);
+                    title.setBackgroundColor(0xFF76AAE1);
+                    desc.setBackgroundColor(0xFF76AAE1);
+                    date.setBackgroundColor(0xFF76AAE1);
+
+                    TextView tipSpinnera = findViewById(R.id.textView);
+                    tipSpinnera.setBackgroundColor(0xFF76AAE1);
+
+                    interval.setBackgroundColor(0xFF76AAE1);
+                    endDate.setBackgroundColor(0xFF76AAE1);
 
 
                     if (type.getSelectedItem().toString().equals("Individual payment")) {

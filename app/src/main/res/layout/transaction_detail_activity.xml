@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D5B0DC">
+    android:background="#ABC4F4">
 
     <ImageView
         android:id="@+id/icon"
@@ -131,7 +131,9 @@
         android:layout_marginStart="42dp"
         android:layout_marginEnd="259dp"
         android:layout_marginBottom="32dp"
+        android:background="#76AAE1"
         android:text="SAVE"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -142,7 +144,9 @@
         android:layout_height="40dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="32dp"
+        android:background="#76AAE1"
         android:text="DELETE"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -152,7 +156,7 @@
         android:layout_height="46dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="27dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:digits="-0123456789"
         android:ems="10"
         android:inputType="number"
@@ -169,7 +173,7 @@
         android:layout_height="54dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="165dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:ems="10"
         android:inputType="textPersonName"
         android:textSize="24sp"
@@ -184,7 +188,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="50dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:digits="-0123456789"
         android:ems="10"
         android:inputType="number"
@@ -199,7 +203,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="235dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:digits="-0123456789"
         android:ems="10"
         android:inputType="number"
@@ -215,7 +219,7 @@
         android:layout_marginStart="109dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="36dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:digits="0123456789"
         android:ems="10"
         android:inputType="number"
@@ -232,7 +236,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="20dp"
-        android:background="#F190E4"
+        android:background="#76AAE1"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/save"
