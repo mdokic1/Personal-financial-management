@@ -11,8 +11,15 @@ public interface ITransactionListInteractor {
 
     String decreaseMonth();
 
+    boolean CheckTotalLimit(Transaction t);
+
+    boolean CheckMonthLimit(Transaction t);
+
     ArrayList<Transaction> getByDate();
 
     ArrayList<Transaction> get();
 
+    public TransactionsModel getModel();
+
+    int getTotLimit();
 }

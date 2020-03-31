@@ -38,9 +38,6 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
     private Button save;
     private Button delete;
 
-    DateTimeFormatter dateFormatter = DateTimeFormatter.BASIC_ISO_DATE;
-    private DateValidatorLocalDate validator = new DateValidatorLocalDate(dateFormatter);
-
     int amount_before;
     String title_before;
     LocalDate date_before;
@@ -416,6 +413,11 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView tipSpinnera = findViewById(R.id.textView);
+                /*if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
+                   && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
+                   && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
+                    tipSpinnera.setBackgroundColor(0xFFA206A8);
+                }*/
                 if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && !desc.getText().toString().equals("")) {
                     tipSpinnera.setBackgroundColor(Color.RED);
                     type.setTag("red");
@@ -468,6 +470,8 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                         && (interval.getTag() == null || interval.getTag().equals("green")) &&
                         (endDate.getTag() == null || endDate.getTag().equals("green"))) {
 
+                    date.setBackgroundColor(0xFFF190E4);
+
 
                     if (type.getSelectedItem().toString().equals("Individual payment")) {
                         noviTip = transactionType.INDIVIDUALPAYMENT;
@@ -511,13 +515,70 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
                             title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
 
+
+
                     if(indeks == -1){
-                        getPresenter().refreshTransactionsAdd(nova);
+
+                        if(nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
+                                nova.getType() == transactionType.PURCHASE){
+                            if(!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)){
+                                AlertDialog alertDialog1 = new AlertDialog.Builder(TransactionDetailActivity.this)
+                                        .setTitle("Confirm")
+                                        .setMessage("Are you sure you want to add this transaction?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                getPresenter().refreshTransactionsAdd(nova);
+                                                finish();
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        })
+                                        .show();
+                            }
+                            else{
+                                getPresenter().refreshTransactionsAdd(nova);
+                                finish();
+                            }
+                        }
+                        else{
+                            getPresenter().refreshTransactionsAdd(nova);
+                            finish();
+                        }
                     }
                     else{
-                        getPresenter().refreshTransactionsChange(indeks, nova);
-                    }
+                        if(nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
+                                nova.getType() == transactionType.PURCHASE){
+                            if(!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)){
+                                AlertDialog alertDialog2 = new AlertDialog.Builder(TransactionDetailActivity.this)
+                                        .setTitle("Confirm")
+                                        .setMessage("Are you sure you want to change this transaction?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                getPresenter().refreshTransactionsChange(indeks, nova);
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
+                                            }
+                                        })
+                                        .show();
+                            }
+                            else{
+                                getPresenter().refreshTransactionsChange(indeks, nova);
+                            }
+                        }
+                        else{
+                            getPresenter().refreshTransactionsChange(indeks, nova);
+                        }
+                    }
                 }
             }
         });
@@ -527,7 +588,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onClick(View v){
 
-                AlertDialog alertDialog = new AlertDialog.Builder(TransactionDetailActivity.this)
+                AlertDialog alertDialog3 = new AlertDialog.Builder(TransactionDetailActivity.this)
                         .setTitle("Confirm Deletion")
                         .setMessage("Are you sure you want to delete?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -570,5 +631,13 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
         transactions.add(t);
     }
 
+   /* @Override
+    public int refreshAmount(ArrayList<Transaction> transactions){
+        int ukupno = 0;
+        for(Transaction t : transactions){
+            ukupno += t.getAmount();
+        }
+        return ukupno;
+    }*/
 
 }

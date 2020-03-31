@@ -8,15 +8,21 @@ import java.util.ArrayList;
 
 public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     private ITransactionDetailView view;
-    private ITransactionListInteractor interactor = new TransactionListInteractor();
-   // private ITransactionListInteractor interactor;
+    private ITransactionListInteractor interactor;
+
+
+
     private Context context;
 
     public TransactionDetailPresenter(ITransactionDetailView view, Context context) {
         this.view       = view;
-        this.interactor = interactor;
+        this.interactor = new TransactionListInteractor();
 
         this.context    = context;
+    }
+
+    public ITransactionListInteractor getInteractor() {
+        return interactor;
     }
 
 
@@ -131,5 +137,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
         view.addTransaction(interactor.get(), t);
         view.notifyTransactionListDataSetChanged();
     }
+
+    /*@Override
+    public void refreshTransactionsAmount(){
+        view.refreshAmount(interactor.get());
+        view.notifyTransactionListDataSetChanged();
+    }*/
 
 }

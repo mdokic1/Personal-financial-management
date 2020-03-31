@@ -16,6 +16,8 @@ import android.widget.TextView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class MainActivity extends AppCompatActivity implements ITransactionListView{
 
     private TextView glAmount;
@@ -87,6 +89,37 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         sort.setAdapter(sortAdapter);
 
         dodaj = (Button) findViewById(R.id.dodaj);
+
+        glAmount = (TextView) findViewById(R.id.glAmount);
+        lim = (TextView) findViewById(R.id.lim);
+        int global = 0;
+
+        for(Transaction t : getPresenter().getInteractor().get()){
+            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
+                if(t.getType() == transactionType.REGULARINCOME){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global += t.getAmount()*number;
+                }
+                else{
+                    global += t.getAmount();
+                }
+            }
+            else{
+                if(t.getType() == transactionType.REGULARPAYMENT){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global -= t.getAmount()*number;
+                }
+                else{
+                    global -= t.getAmount();
+                }
+            }
+        }
+
+        glAmount.setText("Global amount: " + global);
+
+        lim.setText("Limit: " + getPresenter().getInteractor().getTotLimit());
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
@@ -198,5 +231,30 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+        int global = 0;
+        for(Transaction t : getPresenter().getInteractor().get()){
+            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
+                if(t.getType() == transactionType.REGULARINCOME){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global += t.getAmount()*number;
+                }
+                else{
+                    global += t.getAmount();
+                }
+            }
+            else{
+                if(t.getType() == transactionType.REGULARPAYMENT){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global -= t.getAmount()*number;
+                }
+                else{
+                    global -= t.getAmount();
+                }
+            }
+        }
+
+        glAmount.setText("Global amount: " + global);
     }
 }

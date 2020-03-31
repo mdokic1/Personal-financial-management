@@ -38,6 +38,8 @@ public class Transaction {
 
     public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
 
+
+
         this.date = dat;
         this.amount = amount;
         this.title = title;

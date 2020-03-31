@@ -1,21 +1,92 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class TransactionListInteractor implements ITransactionListInteractor {
 
     LocalDate trDatum = TransactionsModel.trDatum;
     TransactionsModel model;
+    int totLimit = TransactionsModel.racun.getTotalLimit();
+    int mjLimit = TransactionsModel.racun.getMonthLimit();
+
+    public int getTotLimit() {
+        return totLimit;
+    }
+
+    public int getMjLimit() {
+        return mjLimit;
+    }
+
+    public TransactionsModel getModel() {
+        return model;
+    }
+
 
     @Override
     public ArrayList<Transaction> get() {
         return model.transactions;
     }
 
+    @Override
+    public boolean CheckTotalLimit(Transaction transaction){
+        int potrosnja = 0;
+        for(Transaction t : get()){
+            if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                potrosnja += t.getAmount();
+            }
+            if(t.getType() == transactionType.REGULARPAYMENT){
+                long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                long number = numOfDays/t.getTransactionInterval();
+                potrosnja += t.getAmount()*number;
+            }
+        }
 
+        if(transaction.getType() == transactionType.REGULARPAYMENT){
+            long numOfDays = DAYS.between(transaction.getDate(), transaction.getEndDate());
+            long number = numOfDays/transaction.getTransactionInterval();
+            potrosnja += transaction.getAmount()*number;
+        }
+
+        else{
+            potrosnja += transaction.getAmount();
+        }
+
+        return (potrosnja <= getTotLimit());
+    }
+
+    @Override
+    public boolean CheckMonthLimit(Transaction transaction){
+        int potrosnja = 0;
+        for(Transaction t : get()){
+            if(t.getDate().getMonthValue() == transaction.getDate().getMonthValue()){
+                if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                    potrosnja += t.getAmount();
+                }
+                if(t.getType() == transactionType.REGULARPAYMENT){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    potrosnja += t.getAmount()*number;
+                }
+            }
+        }
+
+        if(transaction.getType() == transactionType.REGULARPAYMENT){
+            long numOfDays = DAYS.between(transaction.getDate(), transaction.getEndDate());
+            long number = numOfDays/transaction.getTransactionInterval();
+            potrosnja += transaction.getAmount()*number;
+        }
+        else{
+            potrosnja += transaction.getAmount();
+        }
+
+        return (potrosnja <= getMjLimit());
+    }
 
     @Override
     public ArrayList<Transaction> getByDate(){

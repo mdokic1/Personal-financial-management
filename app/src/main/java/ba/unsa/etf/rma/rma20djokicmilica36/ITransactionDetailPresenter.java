@@ -23,4 +23,8 @@ interface ITransactionDetailPresenter {
     void refreshTransactionsRemove(int indeks);
 
     void refreshTransactionsAdd(Transaction t);
+
+    ITransactionListInteractor getInteractor();
+
+    //void refreshTransactionsAmount();
 }
