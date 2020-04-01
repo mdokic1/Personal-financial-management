@@ -35,7 +35,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
     @Override
     public boolean CheckTotalLimit(Transaction transaction){
-        int potrosnja = 0;
+        double potrosnja = 0;
         for(Transaction t : get()){
             if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 potrosnja += t.getAmount();
@@ -62,7 +62,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
     @Override
     public boolean CheckMonthLimit(Transaction transaction){
-        int potrosnja = 0;
+        double potrosnja = 0;
         for(Transaction t : get()){
             if(t.getDate().getMonthValue() == transaction.getDate().getMonthValue()){
                 if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
@@ -71,7 +71,12 @@ public class TransactionListInteractor implements ITransactionListInteractor {
                 if(t.getType() == transactionType.REGULARPAYMENT){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
-                    potrosnja += t.getAmount()*number;
+                    LocalDate novi = t.getDate().plusDays(number);
+                    while(novi.getMonthValue() == t.getDate().getMonthValue()){
+                        potrosnja += t.getAmount();
+                        novi = novi.plusDays(number);
+                    }
+
                 }
             }
         }
@@ -79,7 +84,11 @@ public class TransactionListInteractor implements ITransactionListInteractor {
         if(transaction.getType() == transactionType.REGULARPAYMENT){
             long numOfDays = DAYS.between(transaction.getDate(), transaction.getEndDate());
             long number = numOfDays/transaction.getTransactionInterval();
-            potrosnja += transaction.getAmount()*number;
+            LocalDate novi = transaction.getDate().plusDays(number);
+            while(novi.getMonthValue() == transaction.getDate().getMonthValue()){
+                potrosnja += transaction.getAmount();
+                novi = novi.plusDays(number);
+            }
         }
         else{
             potrosnja += transaction.getAmount();
@@ -141,12 +150,12 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
         if(sortType.equals("Price - Ascending")){
             sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparingInt(Transaction::getAmount)).collect(Collectors.toList());
+                    sorted(Comparator.comparingDouble(Transaction::getAmount)).collect(Collectors.toList());
         }
 
         if(sortType.equals("Price - Descending")){
             sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparingInt(Transaction::getAmount).reversed()).collect(Collectors.toList());
+                    sorted(Comparator.comparingDouble(Transaction::getAmount).reversed()).collect(Collectors.toList());
         }
 
         if(sortType.equals("Title - Ascending")){

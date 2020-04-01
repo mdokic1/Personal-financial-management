@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 interface ITransactionDetailPresenter {
 
-    void create(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate);
+    void create(LocalDate dat, double amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate);
 
     Transaction getTransaction();
 

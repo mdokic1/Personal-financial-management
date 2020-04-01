@@ -38,7 +38,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
     private Button save;
     private Button delete;
 
-    int amount_before;
+    double amount_before;
     String title_before;
     LocalDate date_before;
     LocalDate endDate_before;
@@ -82,7 +82,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
         arrayAdapter = new ArrayAdapter<Transaction>(this, R.layout.transaction_detail_activity, getPresenter().getModel());
 
         getPresenter().create((LocalDate)getIntent().getSerializableExtra("date"),
-                              (int)getIntent().getSerializableExtra("amount"),
+                              (double)getIntent().getSerializableExtra("amount"),
                                getIntent().getStringExtra("title"),
                               (transactionType)getIntent().getSerializableExtra("type"),
                                getIntent().getStringExtra("desc"),
@@ -127,7 +127,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
         transactionType tip = transaction.getType();
 
-        amount_before = Integer.parseInt(amount.getText().toString());
+        amount_before = Double.parseDouble(amount.getText().toString());
         title_before = title.getText().toString();
         date_before = LocalDate.parse(date.getText().toString());
         if(endDate.getText().toString().equals("")){
@@ -198,12 +198,15 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView tipSpinnera = findViewById(R.id.textView);
-                if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
-                        && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
-                        && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
+                if(type.getSelectedItem().toString().equals("Individual payment") && type_before == transactionType.INDIVIDUALPAYMENT){
                     tipSpinnera.setBackgroundColor(0xFF76AAE1);
                 }
-                else{
+                /*if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
+                        && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
+                        && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
+
+                }*/
+                //else{
                     if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && !desc.getText().toString().equals("")) {
                         tipSpinnera.setBackgroundColor(Color.RED);
                         type.setTag("red");
@@ -234,7 +237,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                         tipSpinnera.setBackgroundColor(Color.GREEN);
                         type.setTag("green");
                     }
-                }
+                //}
 
             }
 
@@ -379,7 +382,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                 else if (checkIfDateIsValid(endDate.getText().toString(), format)) {
                     if(!date.getText().toString().equals("")){
                         try {
-                            if(format.parse(endDate.getText().toString()).compareTo(format.parse(date.getText().toString())) > 0){
+                            if(format.parse(endDate.getText().toString()).compareTo(format.parse(date.getText().toString())) < 0){
                                 endDate.setBackgroundColor(Color.RED);
                                 endDate.setTag("red");
                             }
@@ -532,7 +535,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     }
 
 
-                    Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Integer.parseInt(amount.getText().toString()),
+                    Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Double.parseDouble(amount.getText().toString()),
                             title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
 
 

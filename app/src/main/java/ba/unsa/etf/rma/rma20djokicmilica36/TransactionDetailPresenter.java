@@ -104,7 +104,7 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     }
 
     @Override
-    public void create(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate){
+    public void create(LocalDate dat, double amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate){
 
 
         this.transaction = new Transaction(dat, amount, title, type, desc, trInterval, endDate);

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Transaction {
     private LocalDate date;
-    private int amount;
+    private double amount;
     private String title;
     private transactionType type;
     private String itemDescription;
@@ -36,7 +36,7 @@ public class Transaction {
         return Objects.hash(date, amount, title, type, itemDescription, transactionInterval, endDate);
     }
 
-    public Transaction(LocalDate dat, int amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
+    public Transaction(LocalDate dat, double amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
 
 
 
@@ -57,11 +57,11 @@ public class Transaction {
         this.date = date;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

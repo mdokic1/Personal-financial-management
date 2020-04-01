@@ -1,17 +1,17 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
 public class Account {
-    private int budget;
+    private double budget;
     private int totalLimit;
     private int monthLimit;
 
-    public Account(int budget, int totalLimit, int monthLimit){
+    public Account(double budget, int totalLimit, int monthLimit){
         this.budget = budget;
         this.totalLimit = totalLimit;
         this.monthLimit = monthLimit;
     }
 
-    public int getBudget() {
+    public double getBudget() {
         return budget;
     }
 

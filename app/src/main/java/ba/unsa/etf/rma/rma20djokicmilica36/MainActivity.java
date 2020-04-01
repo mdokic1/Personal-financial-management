@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -92,13 +93,15 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         glAmount = (TextView) findViewById(R.id.glAmount);
         lim = (TextView) findViewById(R.id.lim);
-        int global = 0;
+        double global = 0;
+
 
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
+                    Log.d(String.valueOf(number), "b");
                     global += t.getAmount()*number;
                 }
                 else{
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         }
 
         glAmount.setText("Global amount: " + global);
+        Log.d(String.valueOf(global), "b");
 
         lim.setText("Limit: " + getPresenter().getInteractor().getTotLimit());
 
@@ -170,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
                 Intent transactionDetailIntent = new Intent(MainActivity.this, TransactionDetailActivity.class);
 
                 transactionDetailIntent.putExtra("date", LocalDate.now());
-                transactionDetailIntent.putExtra("amount", 0);
+                transactionDetailIntent.putExtra("amount", 0D);
                 transactionDetailIntent.putExtra("title", "");
                 transactionDetailIntent.putExtra("type", transactionType.INDIVIDUALPAYMENT);
                 transactionDetailIntent.putExtra("desc", "");
@@ -231,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
         transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-        int global = 0;
+        double global = 0;
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){

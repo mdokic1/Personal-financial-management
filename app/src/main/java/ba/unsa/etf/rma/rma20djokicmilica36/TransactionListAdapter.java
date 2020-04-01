@@ -49,7 +49,7 @@ public class TransactionListAdapter extends ArrayAdapter<Transaction> {
        iznos = (TextView) newView.findViewById(R.id.iznos);
 
        title.setText(transaction.getTitle());
-       iznos.setText(Integer.toString(transaction.getAmount()));
+       iznos.setText(Double.toString(transaction.getAmount()));
 
        transactionType tip = transaction.getType();
 
