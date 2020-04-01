@@ -10,7 +10,7 @@ public class TransactionsModel {
 
     public static LocalDate trDatum = LocalDate.now();
 
-    public static Account racun = new Account(27000 , 100000, 2000 );
+    public static Account racun = new Account(100000 , 100000, 2000 );
 
     public static void setTransactions(ArrayList<Transaction> transactions) {
         TransactionsModel.transactions = transactions;
