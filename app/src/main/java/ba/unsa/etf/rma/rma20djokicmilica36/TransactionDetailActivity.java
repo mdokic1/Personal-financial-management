@@ -198,52 +198,14 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView tipSpinnera = findViewById(R.id.textView);
-                if(type.getSelectedItem().toString().equals("Individual payment") && type_before == transactionType.INDIVIDUALPAYMENT){
-                    tipSpinnera.setBackgroundColor(0xFF76AAE1);
-                }
-                /*if(amount.getText().toString().equals("0") && title.getText().equals("") && date.getText().toString().equals(LocalDate.now().toString())
-                        && endDate.getText().toString().equals(LocalDate.now().toString()) && interval.getText().toString().equals("0")
-                        && desc.getText().toString().equals("") && type.getSelectedItem().toString().equals("Individual payment")){
 
-                }*/
-                //else{
-                    if ((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Individual income")) && !desc.getText().toString().equals("")) {
-                        tipSpinnera.setBackgroundColor(Color.RED);
-                        type.setTag("red");
-                    }
-                    else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && interval.getText().toString().equals("")){
-                        tipSpinnera.setBackgroundColor(Color.RED);
-                        type.setTag("red");
-                    }
-
-                    else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                            type.getSelectedItem().equals("Purchase")) && !interval.getText().toString().equals("")){
-                        tipSpinnera.setBackgroundColor(Color.RED);
-                        type.setTag("red");
-                    }
-
-                    else if((type.getSelectedItem().equals("Regular income") || type.getSelectedItem().equals("Regular payment")) && endDate.getText().toString().equals("")){
-                        tipSpinnera.setBackgroundColor(Color.RED);
-                        type.setTag("red");
-                    }
-
-                    else if((type.getSelectedItem().equals("Individual income") || type.getSelectedItem().equals("Individual payment") ||
-                            type.getSelectedItem().equals("Purchase")) && !endDate.getText().toString().equals("")){
-                        tipSpinnera.setBackgroundColor(Color.RED);
-                        type.setTag("red");
-                    }
-
-                    else{
-                        tipSpinnera.setBackgroundColor(Color.GREEN);
-                        type.setTag("green");
-                    }
-                //}
+                tipSpinnera.setBackgroundColor(Color.GREEN);
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //tipSpinnera.setBackgroundColor(0xFF76AAE1);
+
             }
         });
 
@@ -252,23 +214,18 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                         amount.setBackgroundColor(Color.GREEN);
-                        amount.setTag("green");
+
                 }
 
                 @Override
                 public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                    if(amount.getText().toString().equals("0")){
-                        amount.setTag("red");
-                    }
-                    else{
-                        amount.setTag("green");
-                    }
+
 
                 }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                if(amount.getText().toString().equals("") || amount.getText().toString().equals("0")){
+                if(amount.getText().toString().equals("") || amount.getText().toString().equals("0") || amount.getText().toString().equals("0.0")){
                     amount.setBackgroundColor(Color.RED);
                     amount.setTag("red");
                 }
@@ -283,23 +240,18 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 title.setBackgroundColor(Color.GREEN);
-                title.setTag("green");
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if(title.getText().toString().equals("")){
-                    title.setTag("red");
-                }
-                else{
-                    title.setTag("green");
-                }
+
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                if(title.getText().length() <= 3 || title.getText().length() >= 15){
+               if(title.getText().length() <= 3 || title.getText().length() >= 15){
                     title.setBackgroundColor(Color.RED);
                     title.setTag("red");
                 }
@@ -314,12 +266,12 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 date.setBackgroundColor(Color.GREEN);
-                date.setTag("green");
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3){
-                date.setTag("green");
+
 
             }
 
@@ -357,14 +309,16 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 endDate.setBackgroundColor(Color.GREEN);
-                endDate.setTag("green");
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                endDate.setTag("green");
+
 
             }
+
+
 
             @Override
             public void afterTextChanged(Editable arg0) {
@@ -397,8 +351,20 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
                 }
                 else if (!checkIfDateIsValid(endDate.getText().toString(), format)){
-                    endDate.setBackgroundColor(Color.RED);
-                    endDate.setTag("red");
+                    if(endDate.getText().toString().equals("")){
+                        if(type.getSelectedItem().toString().equals("Regular income") || type.getSelectedItem().toString().equals("Regular payment")){
+                            endDate.setBackgroundColor(Color.RED);
+                            endDate.setTag("red");
+                        }
+                        else{
+                            endDate.setTag("green");
+                        }
+                    }
+                    else{
+                        endDate.setBackgroundColor(Color.RED);
+                        endDate.setTag("red");
+                    }
+
                 }
                 else{
                     endDate.setTag("green");
@@ -412,12 +378,12 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 interval.setBackgroundColor(Color.GREEN);
-                interval.setTag("green");
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                interval.setTag("green");
+
 
             }
 
@@ -434,6 +400,9 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                     interval.setBackgroundColor(Color.RED);
                     interval.setTag("red");
                 }
+                else if(interval.getText().toString().equals("0")){
+                    interval.setTag("red");
+                }
                 else{
                     interval.setTag("green");
                 }
@@ -445,12 +414,12 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 desc.setBackgroundColor(Color.GREEN);
-                desc.setTag("green");
+
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                desc.setTag("green");
+
 
             }
 
@@ -477,7 +446,8 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
             @Override
             public void onClick(View v) {
-                if ((date.getTag() == null || date.getTag().equals("green")) && (amount.getTag() == null || amount.getTag().equals("green"))
+
+               if ((date.getTag() == null || date.getTag().equals("green")) && (amount.getTag() == null || amount.getTag().equals("green"))
                         && (title.getTag() == null || title.getTag().equals("green")) && (desc.getTag() == null || desc.getTag().equals("green"))
                         && (type.getTag() == null || type.getTag().equals("green"))
                         && (interval.getTag() == null || interval.getTag().equals("green")) &&
@@ -544,34 +514,34 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
 
                         if(nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
                                 nova.getType() == transactionType.PURCHASE){
-                            if(!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)){
-                                AlertDialog alertDialog1 = new AlertDialog.Builder(TransactionDetailActivity.this)
-                                        .setTitle("Confirm")
-                                        .setMessage("Are you sure you want to add this transaction?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                getPresenter().refreshTransactionsAdd(nova);
-                                                finish();
-                                            }
-                                        })
-                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
-                                        .show();
+                                 if(!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)){
+                                    AlertDialog alertDialog1 = new AlertDialog.Builder(TransactionDetailActivity.this)
+                                            .setTitle("Confirm")
+                                            .setMessage("Are you sure you want to add this transaction?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    getPresenter().refreshTransactionsAdd(nova);
+                                                    finish();
+                                                }
+                                            })
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //finish();
+                                                }
+                                            })
+                                            .show();
+                                }
+                                else{
+                                    getPresenter().refreshTransactionsAdd(nova);
+                                    finish();
+                                }
                             }
                             else{
                                 getPresenter().refreshTransactionsAdd(nova);
                                 finish();
                             }
-                        }
-                        else{
-                            getPresenter().refreshTransactionsAdd(nova);
-                            finish();
-                        }
                     }
                     else{
                         if(nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
@@ -584,6 +554,7 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 getPresenter().refreshTransactionsChange(indeks, nova);
+                                                finish();
                                             }
                                         })
                                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -596,10 +567,12 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
                             }
                             else{
                                 getPresenter().refreshTransactionsChange(indeks, nova);
+                                finish();
                             }
                         }
                         else{
                             getPresenter().refreshTransactionsChange(indeks, nova);
+                            finish();
                         }
                     }
                 }
@@ -653,14 +626,5 @@ public class TransactionDetailActivity extends AppCompatActivity implements ITra
     public void addTransaction(ArrayList<Transaction> transactions, Transaction t) {
         transactions.add(t);
     }
-
-   /* @Override
-    public int refreshAmount(ArrayList<Transaction> transactions){
-        int ukupno = 0;
-        for(Transaction t : transactions){
-            ukupno += t.getAmount();
-        }
-        return ukupno;
-    }*/
 
 }

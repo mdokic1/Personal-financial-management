@@ -9,14 +9,14 @@
 
     <TextView
         android:id="@+id/glAmount"
-        android:layout_width="154dp"
-        android:layout_height="17dp"
+        android:layout_width="374dp"
+        android:layout_height="20dp"
         android:layout_marginStart="59dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="293dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
         android:layout_marginEnd="178dp"
         android:background="#76AAE1"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"

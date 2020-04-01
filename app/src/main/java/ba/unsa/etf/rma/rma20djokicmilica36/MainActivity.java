@@ -14,7 +14,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             transactionListPresenter = new TransactionListPresenter(this, this);
         }
         return transactionListPresenter;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 
@@ -93,15 +104,15 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
 
         glAmount = (TextView) findViewById(R.id.glAmount);
         lim = (TextView) findViewById(R.id.lim);
-        double global = 0;
+        double global = 0.0;
 
 
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
-                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long numOfDays = ChronoUnit.DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
-                    Log.d(String.valueOf(number), "b");
+
                     global += t.getAmount()*number;
                 }
                 else{
@@ -120,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             }
         }
 
-        glAmount.setText("Global amount: " + global);
+        glAmount.setText("Global amount: " + round(global, 2));
         Log.d(String.valueOf(global), "b");
 
         lim.setText("Limit: " + getPresenter().getInteractor().getTotLimit());
@@ -259,6 +270,6 @@ public class MainActivity extends AppCompatActivity implements ITransactionListV
             }
         }
 
-        glAmount.setText("Global amount: " + global);
+        glAmount.setText("Global amount: " + round(global, 2));
     }
 }

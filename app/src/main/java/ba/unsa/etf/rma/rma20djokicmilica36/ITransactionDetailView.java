@@ -3,7 +3,7 @@ package ba.unsa.etf.rma.rma20djokicmilica36;
 import java.util.ArrayList;
 
 public interface ITransactionDetailView {
-    //void setTransactions(ArrayList<Transaction> transactions);
+
 
     void notifyTransactionListDataSetChanged();
 
@@ -13,5 +13,5 @@ public interface ITransactionDetailView {
 
     void addTransaction(ArrayList<Transaction> transactions, Transaction t);
 
-    //int refreshAmount(ArrayList<Transaction> transactions);
+
 }

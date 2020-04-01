@@ -138,10 +138,5 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
         view.notifyTransactionListDataSetChanged();
     }
 
-    /*@Override
-    public void refreshTransactionsAmount(){
-        view.refreshAmount(interactor.get());
-        view.notifyTransactionListDataSetChanged();
-    }*/
 
 }

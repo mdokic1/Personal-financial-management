@@ -109,10 +109,14 @@ public class TransactionListInteractor implements ITransactionListInteractor {
             }
 
             if (t.getType() == transactionType.REGULARPAYMENT || t.getType() == transactionType.REGULARINCOME) {
-                if(t.getDate().getMonthValue() <= trDatum.getMonthValue() && t.getEndDate().getMonthValue() >= trDatum.getMonthValue()
-                  && t.getDate().getYear() <= trDatum.getYear() && t.getEndDate().getYear() >= trDatum.getYear()){
+                if(!(trDatum.getYear() < t.getDate().getYear() || (trDatum.getYear() == t.getDate().getYear()
+                        && trDatum.getMonthValue() < t.getDate().getMonthValue()))
+                    &&  !(trDatum.getYear() > t.getEndDate().getYear() || (trDatum.getYear() == t.getEndDate().getYear()
+                        && trDatum.getMonthValue() > t.getEndDate().getMonthValue())) ){
+
                     odgovarajuce.add(t);
                 }
+
             }
         }
         return odgovarajuce;

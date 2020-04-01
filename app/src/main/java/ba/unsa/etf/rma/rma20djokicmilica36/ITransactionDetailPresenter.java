@@ -26,5 +26,5 @@ interface ITransactionDetailPresenter {
 
     ITransactionListInteractor getInteractor();
 
-    //void refreshTransactionsAmount();
+
 }
