@@ -1,129 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ABC4F4"
-    tools:context=".MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactions_list"
+        android:layout_weight="1">
+    </ScrollView>
+</LinearLayout>
 
-    <TextView
-        android:id="@+id/glAmount"
-        android:layout_width="374dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="293dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lim"
-        android:layout_width="154dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="249dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.619"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/glAmount" />
-
-    <Spinner
-        android:id="@+id/filter"
-        android:layout_width="312dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lim" />
-
-    <TextView
-        android:id="@+id/month"
-        android:layout_width="116dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="174dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="178dp"
-        android:background="#76AAE1"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter" />
-
-    <Button
-        android:id="@+id/leftArrow"
-        android:layout_width="55dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/strelica2"
-        app:layout_constraintEnd_toStartOf="@+id/month"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter" />
-
-    <Button
-        android:id="@+id/rightArrow"
-        android:layout_width="55dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="28dp"
-        android:background="@drawable/strelica1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/month"
-        app:layout_constraintTop_toBottomOf="@+id/filter" />
-
-    <Spinner
-        android:id="@+id/sort"
-        android:layout_width="312dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/listView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="329dp"
-        android:layout_height="271dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginEnd="1dp"
-        android:background="#76AAE1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lim" />
-
-    <Button
-        android:id="@+id/dodaj"
-        android:layout_width="237dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="154dp"
-        android:background="#76AAE1"
-        android:text="Add transaction"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listView" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
