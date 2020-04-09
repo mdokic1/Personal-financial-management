@@ -1,10 +1,13 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -68,11 +71,18 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         void onItemClicked(Transaction transaction);
     }
 
+
+
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Ovdje se dodjeljuje layout fragmentu,
         // tj. ˇsta ´ce se nalaziti unutar fragmenta
         // Ovu liniju ´cemo poslije promijeniti
+
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
 
@@ -249,5 +259,6 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void setDate(String dat){
         month.setText(dat);
+
     }
 }
