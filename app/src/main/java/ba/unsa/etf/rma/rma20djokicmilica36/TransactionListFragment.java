@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class TransactionListFragment extends Fragment implements ITransactionListView {
 
 
@@ -85,6 +87,8 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
+        onItemClick= (OnItemClick) getActivity();
+
 
 
         transactionListAdapter = new TransactionListAdapter(getActivity(), R.layout.list_element,new ArrayList<Transaction>());
@@ -123,13 +127,13 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         lim = fragmentView.findViewById(R.id.lim);
         double global = 0.0;
 
-        onItemClick= (OnItemClick) getActivity();
+
 
 
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
-                    long numOfDays = ChronoUnit.DAYS.between(t.getDate(), t.getEndDate());
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
 
                     global += t.getAmount()*number;
@@ -140,7 +144,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             }
             else{
                 if(t.getType() == transactionType.REGULARPAYMENT){
-                    long numOfDays = ChronoUnit.DAYS.between(t.getDate(), t.getEndDate());
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
                     global -= t.getAmount()*number;
                 }
@@ -200,9 +204,12 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
+                //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
+                Transaction transaction = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
+                                                          0, LocalDate.now());
 
-                transactionDetailIntent.putExtra("date", LocalDate.now());
+                onItemClick.onItemClicked(transaction);
+                /*transactionDetailIntent.putExtra("date", LocalDate.now());
                 transactionDetailIntent.putExtra("amount", 0D);
                 transactionDetailIntent.putExtra("title", "");
                 transactionDetailIntent.putExtra("type", transactionType.INDIVIDUALPAYMENT);
@@ -210,7 +217,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 transactionDetailIntent.putExtra("interval", 0);
                 transactionDetailIntent.putExtra("endDate", LocalDate.now());
                 //MainActivity.this.startActivity(transactionDetailIntent);
-                getActivity().startActivity(transactionDetailIntent);
+                getActivity().startActivity(transactionDetailIntent);*/
             }
         });
 
@@ -222,17 +229,17 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private AdapterView.OnItemClickListener listItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
+            //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
             Transaction transaction = transactionListAdapter.getTransaction(position);
             onItemClick.onItemClicked(transaction);
-            transactionDetailIntent.putExtra("date", transaction.getDate());
+            /*transactionDetailIntent.putExtra("date", transaction.getDate());
             transactionDetailIntent.putExtra("amount", transaction.getAmount());
             transactionDetailIntent.putExtra("title", transaction.getTitle());
             transactionDetailIntent.putExtra("type", transaction.getType());
             transactionDetailIntent.putExtra("desc", transaction.getItemDescription());
             transactionDetailIntent.putExtra("interval", transaction.getTransactionInterval());
             transactionDetailIntent.putExtra("endDate", transaction.getEndDate());
-            getActivity().startActivity(transactionDetailIntent);
+            getActivity().startActivity(transactionDetailIntent);*/
         }
     };
 
@@ -260,5 +267,38 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     public void setDate(String dat){
         month.setText(dat);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
+        getPresenter().refreshTransactionsByDate();
+        getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+        double global = 0;
+        for(Transaction t : getPresenter().getInteractor().get()){
+            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
+                if(t.getType() == transactionType.REGULARINCOME){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global += t.getAmount()*number;
+                }
+                else{
+                    global += t.getAmount();
+                }
+            }
+            else{
+                if(t.getType() == transactionType.REGULARPAYMENT){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global -= t.getAmount()*number;
+                }
+                else{
+                    global -= t.getAmount();
+                }
+            }
+        }
+
+        glAmount.setText("Global amount: " + round(global, 2));
     }
 }

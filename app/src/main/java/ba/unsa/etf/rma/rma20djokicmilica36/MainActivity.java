@@ -198,46 +198,20 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
 
     }
 
-
-
-   /* @Override
+    @Override
     public void onResume(){
         super.onResume();
-        transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
-        getPresenter().refreshTransactionsByDate();
-        getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-        double global = 0;
-        for(Transaction t : getPresenter().getInteractor().get()){
-            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
-                if(t.getType() == transactionType.REGULARINCOME){
-                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
-                    long number = numOfDays/t.getTransactionInterval();
-                    global += t.getAmount()*number;
-                }
-                else{
-                    global += t.getAmount();
-                }
-            }
-            else{
-                if(t.getType() == transactionType.REGULARPAYMENT){
-                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
-                    long number = numOfDays/t.getTransactionInterval();
-                    global -= t.getAmount()*number;
-                }
-                else{
-                    global -= t.getAmount();
-                }
-            }
-        }
+    }
 
-        glAmount.setText("Global amount: " + round(global, 2));
-    }*/
+
+
+
 
     @Override
     public void onItemClicked(Transaction transaction) {
         //Priprema novog fragmenta FragmentDetalji
         Bundle arguments = new Bundle();
-        arguments.putParcelable("movie", transaction);
+        arguments.putParcelable("transaction", transaction);
         TransactionDetailFragment detailFragment = new TransactionDetailFragment();
         detailFragment.setArguments(arguments);
         if (twoPaneMode){

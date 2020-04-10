@@ -2,6 +2,7 @@ package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Parcelable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
 
     public ITransactionListInteractor getInteractor() {
         return interactor;
+    }
+
+    @Override
+    public void setTransaction(Parcelable transaction) {
+        this.transaction = (Transaction)transaction;
     }
 
 

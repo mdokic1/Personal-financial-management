@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import android.os.Parcelable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -27,4 +29,5 @@ interface ITransactionDetailPresenter {
     ITransactionListInteractor getInteractor();
 
 
+    void setTransaction(Parcelable transaction);
 }
