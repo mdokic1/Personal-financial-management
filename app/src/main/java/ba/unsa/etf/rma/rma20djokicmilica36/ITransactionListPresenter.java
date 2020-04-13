@@ -18,4 +18,6 @@ public interface ITransactionListPresenter {
     ArrayList<String> getSortiranje();
 
     ITransactionListInteractor getInteractor();
+
+    double RefreshAmount();
 }

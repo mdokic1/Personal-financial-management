@@ -25,13 +25,19 @@ import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class MainActivity extends AppCompatActivity implements TransactionListFragment.OnItemClick, TransactionDetailFragment.OnItemClick2{
+public class MainActivity extends AppCompatActivity implements TransactionListFragment.OnItemClick, TransactionDetailFragment.OnButtonClick{
 
 
 
     private boolean twoPaneMode=false;
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
 
 
@@ -236,9 +242,10 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
        listFragment.getPresenter().refreshTransactionsByDate();
        Spinner filter = findViewById(R.id.filter);
        Spinner sort = findViewById(R.id.sort);
+       TextView glAmount = findViewById(R.id.glAmount);
        listFragment.getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+       glAmount.setText("Global amount: " + round(listFragment.getPresenter().RefreshAmount(), 2));
    }
-
 
 }
 

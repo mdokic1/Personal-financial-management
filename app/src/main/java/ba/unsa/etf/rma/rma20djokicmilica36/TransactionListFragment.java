@@ -3,6 +3,7 @@ package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +39,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private Spinner sort;
     private ListView listView;
     private Button dodaj;
+
+    int prePos = -1;
+    int prePos2 = -1;
 
 
 
@@ -208,7 +213,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             public void onClick(View v) {
                 //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
                 Transaction transaction = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
-                                                          0, LocalDate.now());
+                        0, LocalDate.now());
 
                 onItemClick.onItemClicked(transaction);
                 /*transactionDetailIntent.putExtra("date", LocalDate.now());
@@ -233,7 +238,67 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
             Transaction transaction = transactionListAdapter.getTransaction(position);
-            onItemClick.onItemClicked(transaction);
+            Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
+                    0, LocalDate.now());
+            //view.setBackgroundColor(Color.GRAY);
+            //final boolean isChecked = checkedItems.valueAt(i);
+            for (int i = 0; i < parent.getChildCount(); i++) {
+
+
+
+                        /*if (i == position) {
+                            if(position != prePos && position != prePos2){
+                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
+                                onItemClick.onItemClicked(transaction);
+
+                                prePos = position;
+                                prePos2--;
+
+                            } else if(position != prePos && position == prePos2){
+                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                                prePos = position;
+                                //prePos = -1;
+                                onItemClick.onItemClicked(tr);
+
+                            } else if(position == prePos && position != prePos2){
+                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
+                                onItemClick.onItemClicked(transaction);
+
+                                prePos = -1;
+                                prePos2--;
+                            }
+                            else if(position == prePos && position == prePos2){
+                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                                prePos = -1;
+                                onItemClick.onItemClicked(tr);
+                            }
+
+                        }else{
+
+                            parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                            //prePos = -1;
+                            onItemClick.onItemClicked(tr);
+
+                        }*/
+                        if (i == position) {
+                            if (position != prePos) {
+                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
+                                onItemClick.onItemClicked(transaction);
+                                prePos = position;
+                            } else {
+                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                                prePos = -1;
+                                onItemClick.onItemClicked(tr);
+                            }
+
+                        } else{
+                            parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                            //prePos = -1;
+                            onItemClick.onItemClicked(tr);
+                        }
+
+            }
+
             /*transactionDetailIntent.putExtra("date", transaction.getDate());
             transactionDetailIntent.putExtra("amount", transaction.getAmount());
             transactionDetailIntent.putExtra("title", transaction.getTitle());
@@ -278,7 +343,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-        double global = 0;
+        /*double global = 0;
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
@@ -300,8 +365,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                     global -= t.getAmount();
                 }
             }
-        }
+        }*/
 
-        glAmount.setText("Global amount: " + round(global, 2));
+        glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
+
     }
 }

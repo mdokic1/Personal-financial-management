@@ -74,10 +74,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
         return true;
     }
 
-    private OnItemClick2 onItemClick2;
+    private OnButtonClick onButtonClick;
 
-    public interface OnItemClick2 {
-        void onItemClicked(Transaction transaction);
+    public interface OnButtonClick {
+        //void onItemClicked(Transaction transaction);
         //void onAddClicked();
         void Refresh();
     }
@@ -89,7 +89,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
         //Ovu liniju ´cemo poslije promijeniti
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        onItemClick2 = (OnItemClick2) getActivity();
+        onButtonClick = (OnButtonClick) getActivity();
 
 
         arrayAdapter = new ArrayAdapter<Transaction>(getActivity(), R.layout.transaction_detail_activity, getPresenter().getModel());
@@ -511,7 +511,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     getPresenter().refreshTransactionsAdd(nova);
-                                                    onItemClick2.Refresh();
+                                                    onButtonClick.Refresh();
                                                     //getActivity().finish();
                                                     getFragmentManager().popBackStack();
                                                 }
@@ -525,13 +525,13 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             .show();
                                 } else {
                                     getPresenter().refreshTransactionsAdd(nova);
-                                    onItemClick2.Refresh();
+                                    onButtonClick.Refresh();
                                     //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
                                 getPresenter().refreshTransactionsAdd(nova);
-                                onItemClick2.Refresh();
+                                onButtonClick.Refresh();
                                 //getActivity().finish();
                                 getFragmentManager().popBackStack();
                             }
@@ -547,7 +547,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     getPresenter().refreshTransactionsChange(indeks, nova);
-                                                    onItemClick2.Refresh();
+                                                    onButtonClick.Refresh();
                                                     //getActivity().finish();
                                                     getFragmentManager().popBackStack();
                                                 }
@@ -561,13 +561,13 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             .show();
                                 } else {
                                     getPresenter().refreshTransactionsChange(indeks, nova);
-                                    onItemClick2.Refresh();
+                                    onButtonClick.Refresh();
                                     //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
                                 getPresenter().refreshTransactionsChange(indeks, nova);
-                                onItemClick2.Refresh();
+                                onButtonClick.Refresh();
                                 //getActivity().finish();
                                 getFragmentManager().popBackStack();
                             }
@@ -588,7 +588,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     getPresenter().refreshTransactionsRemove(indeks);
-                                    onItemClick2.Refresh();
+                                    onButtonClick.Refresh();
                                     //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }

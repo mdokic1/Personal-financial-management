@@ -5,6 +5,8 @@ import android.content.Context;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class TransactionListPresenter implements ITransactionListPresenter {
     private ITransactionListView view;
     private static ITransactionListInteractor interactor;
@@ -81,6 +83,35 @@ public class TransactionListPresenter implements ITransactionListPresenter {
         view.setDate(interactor.decreaseMonth());
 
     }
+
+    @Override
+    public double RefreshAmount(){
+        double global = 0;
+        for(Transaction t : getInteractor().get()){
+            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
+                if(t.getType() == transactionType.REGULARINCOME){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global += t.getAmount()*number;
+                }
+                else{
+                    global += t.getAmount();
+                }
+            }
+            else{
+                if(t.getType() == transactionType.REGULARPAYMENT){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    global -= t.getAmount()*number;
+                }
+                else{
+                    global -= t.getAmount();
+                }
+            }
+        }
+        return global;
+    }
+
 
 
 }

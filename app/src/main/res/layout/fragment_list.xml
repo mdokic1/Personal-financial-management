@@ -106,6 +106,7 @@
         android:layout_marginTop="212dp"
         android:layout_marginEnd="1dp"
         android:background="#76AAE1"
+
         android:nestedScrollingEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
