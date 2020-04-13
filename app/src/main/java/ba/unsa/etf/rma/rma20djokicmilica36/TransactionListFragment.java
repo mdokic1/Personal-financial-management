@@ -71,6 +71,8 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
     public interface OnItemClick {
         void onItemClicked(Transaction transaction);
+        //void onAddClicked();
+        //void Refresh();
     }
 
 
@@ -272,6 +274,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void onResume(){
         super.onResume();
+        //onItemClick.Refresh();
         transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());

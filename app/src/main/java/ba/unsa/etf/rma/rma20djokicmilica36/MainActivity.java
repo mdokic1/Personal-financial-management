@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class MainActivity extends AppCompatActivity implements TransactionListFragment.OnItemClick{
+public class MainActivity extends AppCompatActivity implements TransactionListFragment.OnItemClick, TransactionDetailFragment.OnItemClick2{
 
 
 
@@ -223,6 +223,21 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
             //Primijetite liniju .addToBackStack(null)
         }
     }
+
+   /* @Override
+    public void onAddClicked(){
+
+    }*/
+
+   @Override
+    public void Refresh(){
+       TransactionListFragment listFragment = (TransactionListFragment)getSupportFragmentManager().findFragmentById(R.id.transactions_list);
+       listFragment.getPresenter().refreshTransactions();
+       listFragment.getPresenter().refreshTransactionsByDate();
+       Spinner filter = findViewById(R.id.filter);
+       Spinner sort = findViewById(R.id.sort);
+       listFragment.getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+   }
 
 
 }
