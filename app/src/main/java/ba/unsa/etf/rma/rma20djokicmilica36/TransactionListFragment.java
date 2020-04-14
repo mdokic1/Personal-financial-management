@@ -40,6 +40,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private ListView listView;
     private Button dodaj;
     private Button account;
+    //private Button graphs;
 
     int prePos = -1;
     int prePos2 = -1;
@@ -129,6 +130,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
         dodaj = fragmentView.findViewById(R.id.dodaj);
         account = fragmentView.findViewById(R.id.account);
+        //graphs = fragmentView.findViewById(R.id.graphs);
 
         glAmount = fragmentView.findViewById(R.id.glAmount);
         lim = fragmentView.findViewById(R.id.lim);
@@ -237,6 +239,13 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             }
         });
 
+        /*graphs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
 
 
         return fragmentView;
@@ -249,8 +258,10 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             Transaction transaction = transactionListAdapter.getTransaction(position);
             Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                     0, LocalDate.now());
+            //onItemClick.onItemClicked(transaction);
             //view.setBackgroundColor(Color.GRAY);
             //final boolean isChecked = checkedItems.valueAt(i);
+
             for (int i = 0; i < parent.getChildCount(); i++) {
 
 
@@ -289,24 +300,26 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                             onItemClick.onItemClicked(tr);
 
                         }*/
-                        if (i == position) {
-                            if (position != prePos) {
-                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
-                                onItemClick.onItemClicked(transaction);
-                                prePos = position;
-                            } else {
-                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                                prePos = -1;
-                                onItemClick.onItemClicked(tr);
-                            }
 
-                        } else{
+
+                if (i == position) {
+                    if (position != prePos) {
+                        parent.getChildAt(i).setBackgroundColor(Color.GRAY);
+                        onItemClick.onItemClicked(transaction);
+                        prePos = position;
+                    } else {
+                        parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                        prePos = -1;
+                        onItemClick.onItemClicked(tr);
+                    }
+
+                } /*else{
                             parent.getChildAt(i).setBackgroundColor(0x76AAE1);
                             //prePos = -1;
                             onItemClick.onItemClicked(tr);
-                        }
+                        }*/
 
-            }
+                //}
 
             /*transactionDetailIntent.putExtra("date", transaction.getDate());
             transactionDetailIntent.putExtra("amount", transaction.getAmount());
@@ -316,6 +329,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             transactionDetailIntent.putExtra("interval", transaction.getTransactionInterval());
             transactionDetailIntent.putExtra("endDate", transaction.getEndDate());
             getActivity().startActivity(transactionDetailIntent);*/
+            }
         }
     };
 

@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
         setContentView(R.layout.activity_main);
 
 
-
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FrameLayout details = findViewById(R.id.transaction_detail);
         //slucaj layouta za ˇsiroke ekrane
@@ -260,8 +258,6 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
         }
 
    }
-
-
 
 }
 

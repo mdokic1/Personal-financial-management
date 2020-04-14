@@ -14,6 +14,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
     private TextView mLimit;
     private TextView tLimit;
     private Button sacuvaj;
+    private Button graphs;
 
     private IBudgetPresenter budgetPresenter;
 
@@ -22,6 +23,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
             budgetPresenter = new BudgetPresenter(this, getActivity());
         }
         return budgetPresenter;
+
     }
 
     @Override
@@ -36,6 +38,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
             mLimit = view.findViewById(R.id.mLimit);
             tLimit = view.findViewById(R.id.tLimit);
             sacuvaj = view.findViewById(R.id.sacuvaj);
+            graphs = view.findViewById(R.id.graphs);
 
             budzet.setText(String.valueOf(getPresenter().getAccount().getBudget()));
             mLimit.setText(String.valueOf(getPresenter().getAccount().getMonthLimit()));
@@ -54,6 +57,15 @@ public class BudgetFragment extends Fragment implements IBudgetView {
 
                     Account stari = getPresenter().getAccount();
                     getPresenter().ChangeAccount(stari, novi);
+                }
+            });
+
+            graphs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  GraphsFragment graphsFragment = new GraphsFragment();
+                  getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, graphsFragment).addToBackStack(null).commit();
+
                 }
             });
 
