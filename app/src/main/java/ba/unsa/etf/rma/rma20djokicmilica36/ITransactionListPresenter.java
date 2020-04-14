@@ -20,4 +20,6 @@ public interface ITransactionListPresenter {
     ITransactionListInteractor getInteractor();
 
     double RefreshAmount();
+
+    int RefreshLimit();
 }

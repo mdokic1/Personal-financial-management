@@ -207,9 +207,9 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
             type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    TextView tipSpinnera = view.findViewById(R.id.textView);
+                    /*TextView tipSpinnera = view.findViewById(R.id.tipSpinnera);
 
-                    tipSpinnera.setBackgroundColor(Color.GREEN);
+                    tipSpinnera.setBackgroundColor(Color.GREEN);*/
 
                 }
 
@@ -449,7 +449,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                         desc.setBackgroundColor(0xFF76AAE1);
                         date.setBackgroundColor(0xFF76AAE1);
 
-                        TextView tipSpinnera = view.findViewById(R.id.textView);
+                        TextView tipSpinnera = view.findViewById(R.id.tipSpinnera);
                         tipSpinnera.setBackgroundColor(0xFF76AAE1);
 
                         interval.setBackgroundColor(0xFF76AAE1);

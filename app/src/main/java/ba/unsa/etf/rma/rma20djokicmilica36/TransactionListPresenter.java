@@ -112,6 +112,10 @@ public class TransactionListPresenter implements ITransactionListPresenter {
         return global;
     }
 
+    @Override
+    public int RefreshLimit() {
+        return getInteractor().getBModel().racun.getTotalLimit();
+    }
 
 
 }

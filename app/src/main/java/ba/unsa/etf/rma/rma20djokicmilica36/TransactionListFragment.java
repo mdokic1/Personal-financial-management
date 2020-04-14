@@ -39,6 +39,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private Spinner sort;
     private ListView listView;
     private Button dodaj;
+    private Button account;
 
     int prePos = -1;
     int prePos2 = -1;
@@ -73,17 +74,14 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     }
 
     private OnItemClick onItemClick;
+    private OnItemClick onRightClick;
 
     public interface OnItemClick {
         void onItemClicked(Transaction transaction);
+        void onRightClicked(Account account);
         //void onAddClicked();
         //void Refresh();
     }
-
-
-
-
-
 
 
     @Override
@@ -95,6 +93,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
         onItemClick= (OnItemClick) getActivity();
+        onRightClick = (OnItemClick) getActivity();
 
 
 
@@ -129,6 +128,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         sort.setAdapter(sortAdapter);
 
         dodaj = fragmentView.findViewById(R.id.dodaj);
+        account = fragmentView.findViewById(R.id.account);
 
         glAmount = fragmentView.findViewById(R.id.glAmount);
         lim = fragmentView.findViewById(R.id.lim);
@@ -225,6 +225,15 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 transactionDetailIntent.putExtra("endDate", LocalDate.now());
                 //MainActivity.this.startActivity(transactionDetailIntent);
                 getActivity().startActivity(transactionDetailIntent);*/
+            }
+        });
+
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Account account = getPresenter().getInteractor().getBModel().racun;
+                onRightClick.onRightClicked(account);
             }
         });
 
@@ -367,7 +376,11 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             }
         }*/
 
+        //glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
+        getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
+        getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
         glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
+        lim.setText("Limit" + getPresenter().RefreshLimit());
 
     }
 }

@@ -12,19 +12,25 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
     LocalDate trDatum = TransactionsModel.trDatum;
     TransactionsModel model;
-    int totLimit = TransactionsModel.racun.getTotalLimit();
-    int mjLimit = TransactionsModel.racun.getMonthLimit();
+    BudgetModel bModel;;
 
-    public int getTotLimit() {
-        return totLimit;
-    }
 
-    public int getMjLimit() {
-        return mjLimit;
-    }
 
     public TransactionsModel getModel() {
         return model;
+    }
+    public BudgetModel getBModel() {
+        return bModel;
+    }
+
+    @Override
+    public int getTotLimit() {
+        return bModel.racun.getTotalLimit();
+    }
+
+    @Override
+    public int getMjLimit() {
+        return bModel.racun.getMonthLimit();
     }
 
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tipSpinnera"
         android:layout_width="192dp"
         android:layout_height="31dp"
         android:layout_marginStart="119dp"

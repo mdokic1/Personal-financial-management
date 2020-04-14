@@ -10,15 +10,13 @@ import java.util.ArrayList;
 public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     private ITransactionDetailView view;
     private ITransactionListInteractor interactor;
-
-
-
     private Context context;
+
+    private Transaction transaction;
 
     public TransactionDetailPresenter(ITransactionDetailView view, Context context) {
         this.view       = view;
         this.interactor = new TransactionListInteractor();
-
         this.context    = context;
     }
 
@@ -32,7 +30,7 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
     }
 
 
-    private Transaction transaction;
+
 
     public static ArrayList<String> izborTipa1 = new ArrayList<String>(){
         {

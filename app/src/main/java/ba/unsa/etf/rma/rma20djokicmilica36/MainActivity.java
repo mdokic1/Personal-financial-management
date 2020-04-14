@@ -230,22 +230,38 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
         }
     }
 
-   /* @Override
-    public void onAddClicked(){
+    @Override
+    public void onRightClicked(Account account) {
 
-    }*/
+            Bundle arguments = new Bundle();
+            arguments.putParcelable("account", account);
+            BudgetFragment budgetFragment = new BudgetFragment();
+            budgetFragment.setArguments(arguments);
 
-   @Override
+            getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, budgetFragment).addToBackStack(null).commit();
+
+
+    }
+
+    @Override
     public void Refresh(){
-       TransactionListFragment listFragment = (TransactionListFragment)getSupportFragmentManager().findFragmentById(R.id.transactions_list);
-       listFragment.getPresenter().refreshTransactions();
-       listFragment.getPresenter().refreshTransactionsByDate();
-       Spinner filter = findViewById(R.id.filter);
-       Spinner sort = findViewById(R.id.sort);
-       TextView glAmount = findViewById(R.id.glAmount);
-       listFragment.getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-       glAmount.setText("Global amount: " + round(listFragment.getPresenter().RefreshAmount(), 2));
+        if(twoPaneMode){
+            TransactionListFragment listFragment = (TransactionListFragment)getSupportFragmentManager().findFragmentById(R.id.transactions_list);
+            //TransactionDetailFragment detailFragment = (TransactionDetailFragment)getSupportFragmentManager().findFragmentById(R.id.transaction_detail);
+            listFragment.getPresenter().refreshTransactions();
+            listFragment.getPresenter().refreshTransactionsByDate();
+            Spinner filter = findViewById(R.id.filter);
+            Spinner sort = findViewById(R.id.sort);
+            TextView glAmount = findViewById(R.id.glAmount);
+            TextView lim = findViewById(R.id.lim);
+            listFragment.getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+            glAmount.setText("Global amount: " + round(listFragment.getPresenter().RefreshAmount(), 2));
+            lim.setText("Limit" + listFragment.getPresenter().RefreshLimit());
+        }
+
    }
+
+
 
 }
 

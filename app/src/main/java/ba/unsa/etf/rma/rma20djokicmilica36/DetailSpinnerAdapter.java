@@ -48,7 +48,7 @@ public class DetailSpinnerAdapter extends ArrayAdapter<String> {
         }
 
         String tip = getItem(position);
-        textView = (TextView) newView.findViewById(R.id.textView);
+        textView = (TextView) newView.findViewById(R.id.tipSpinnera);
         textView.setText(tip);
 
         return newView;

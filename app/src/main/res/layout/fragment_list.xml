@@ -25,10 +25,11 @@
         android:layout_width="154dp"
         android:layout_height="20dp"
         android:layout_marginStart="128dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="174dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/glAmount" />
 
@@ -126,5 +127,15 @@
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
+
+    <Button
+        android:id="@+id/account"
+        android:layout_width="97dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="68dp"
+        android:text="ACCOUNT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/glAmount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

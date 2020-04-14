@@ -17,9 +17,12 @@ public interface ITransactionListInteractor {
 
     ArrayList<Transaction> getByDate();
 
+    int getMjLimit();
+
     ArrayList<Transaction> get();
 
     public TransactionsModel getModel();
+    public BudgetModel getBModel();
 
     int getTotLimit();
 }
