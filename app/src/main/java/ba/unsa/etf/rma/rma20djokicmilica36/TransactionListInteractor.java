@@ -212,6 +212,57 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
 
     @Override
+    public float DnevnaPotrosnja(int dan) {
+        float potrosnja = 0.0f;
+
+        LocalDate datum = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), dan);
+
+        for(Transaction t : get()){
+
+            if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                if(t.getDate().compareTo(datum) == 0){
+                    potrosnja += t.getAmount();
+                }
+            }
+
+            if(t.getType() == transactionType.REGULARPAYMENT){
+                LocalDate pocetak = t.getDate();
+                LocalDate kraj = t.getEndDate();
+
+                if(pocetak.compareTo(datum) <= 0 && kraj.compareTo(datum) >= 0){
+                    if(pocetak.compareTo(datum) == 0){
+                        potrosnja += t.getAmount();
+                    }
+
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(novi.compareTo(datum) < 0){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+
+                    if(novi.compareTo(datum) == 0){
+                        potrosnja += t.getAmount();
+                    }
+                }
+            }
+        }
+
+        return potrosnja;
+    }
+
+    @Override
+    public float DnevnaZarada(int dan) {
+        return 0;
+    }
+
+    @Override
+    public float DnevnoUkupno(int dan) {
+        return 0;
+    }
+
+    @Override
     public int getMjLimit() {
         return bModel.racun.getMonthLimit();
     }

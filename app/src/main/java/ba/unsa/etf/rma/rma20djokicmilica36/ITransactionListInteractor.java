@@ -39,4 +39,10 @@ public interface ITransactionListInteractor {
     float SedmicnaZarada(int sedmica);
 
     float SedmicnoUkupno(int sedmica);
+
+    float DnevnaPotrosnja(int dan);
+
+    float DnevnaZarada(int dan);
+
+    float DnevnoUkupno(int dan);
 }

@@ -7,6 +7,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GraphsPresenter implements IGraphsPresenter {
@@ -86,11 +87,67 @@ public class GraphsPresenter implements IGraphsPresenter {
 
         if(selectedItem.equals("Day")){
 
+            ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
+                {
+                    add(31);
+                    add(29);
+                    add(31);
+                    add(30);
+                    add(31);
+                    add(30);
+                    add(31);
+                    add(31);
+                    add(30);
+                    add(31);
+                    add(30);
+                    add(31);
+                }
+            };
+
             barEntriesPotrosnja.clear();
             barEntriesZarada.clear();
             barEntriesUkupno.clear();
 
-            
+            int trenutniDan = LocalDate.now().getDayOfMonth();
+            int trenutniMjesec = LocalDate.now().getMonthValue();
+
+            int pocPetlje = 0;
+            int krajPetlje = 0;
+
+            int pocetni = 1;
+            int krajnji = brojDanaUMjesecu.get(trenutniMjesec - 1);
+            int krajSedmice = 7;
+            if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
+                pocPetlje = pocetni;
+                krajPetlje = krajSedmice;
+            }
+            else{
+                while(pocetni <= krajnji){
+
+                    if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
+                        pocPetlje = pocetni;
+                        krajPetlje = krajSedmice;
+                        break;
+                    }
+
+                    pocetni = pocetni + 7;
+                    krajSedmice = krajSedmice + 7;
+                    if(pocetni > 28){
+                        krajSedmice = krajnji;
+                        pocPetlje = pocetni;
+                        krajPetlje = krajnji;
+                    }
+                }
+            }
+
+
+
+            for(int i = pocPetlje; i <= krajPetlje; i++){
+                barEntriesPotrosnja.add(new BarEntry(i, getInteractor().DnevnaPotrosnja(i)));
+                barEntriesZarada.add(new BarEntry(i, getInteractor().DnevnaZarada(i)));
+                barEntriesUkupno.add(new BarEntry(i, getInteractor().DnevnoUkupno(i)));
+            }
+
         }
 
         barDataSetPotrosnja = new BarDataSet(barEntriesPotrosnja, "Potrošnja");
