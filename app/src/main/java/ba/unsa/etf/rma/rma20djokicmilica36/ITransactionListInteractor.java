@@ -32,5 +32,11 @@ public interface ITransactionListInteractor {
 
     float MjesecnaZarada(int mjesec);
 
-    float Ukupno(int mjesec);
+    float MjesecnoUkupno(int mjesec);
+
+    float SedmicnaPotrosnja(int sedmica);
+
+    float SedmicnaZarada(int sedmica);
+
+    float SedmicnoUkupno(int sedmica);
 }

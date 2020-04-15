@@ -103,7 +103,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
 
     @Override
-    public float Ukupno(int mjesec) {
+    public float MjesecnoUkupno(int mjesec) {
        float ukupno = 0.0f;
        for(int i = 1; i <= 12; i++){
            if(i <= mjesec){
@@ -112,6 +112,103 @@ public class TransactionListInteractor implements ITransactionListInteractor {
        }
        return ukupno;
 
+    }
+
+    @Override
+    public float SedmicnaPotrosnja(int sedmica) {
+        float potrosnja = 0.0f;
+
+        LocalDate pocetak = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1 + 7*(sedmica - 1));
+        LocalDate kraj = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 7 + 7*(sedmica - 1));
+
+        for(Transaction t : get()){
+            if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                if(t.getDate().compareTo(pocetak) >= 0 && t.getDate().compareTo(kraj) <= 0){
+                    potrosnja += t.getAmount();
+                }
+            }
+
+            if(t.getType() == transactionType.REGULARPAYMENT){
+                LocalDate poc = t.getDate();
+                LocalDate kr = t.getEndDate();
+
+                if(poc.compareTo(kraj) <= 0 && kr.compareTo(pocetak) >= 0){
+                     if(poc.compareTo(pocetak) >= 0 && poc.compareTo(kraj) <= 0){
+                         potrosnja += t.getAmount();
+                     }
+
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(novi.compareTo(pocetak) < 0){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+
+                    while(novi.compareTo(pocetak) >= 0 && novi.compareTo(kraj) <= 0 && novi.compareTo(t.getEndDate()) <= 0){
+                        potrosnja += t.getAmount();
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                }
+            }
+        }
+
+        return potrosnja;
+    }
+
+    @Override
+    public float SedmicnaZarada(int sedmica) {
+        float zarada = 0.0f;
+
+        LocalDate pocetak = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1 + 7*(sedmica - 1));
+        LocalDate kraj = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 7 + 7*(sedmica - 1));
+
+        for(Transaction t : get()){
+            if(t.getType() == transactionType.INDIVIDUALINCOME){
+                if(t.getDate().compareTo(pocetak) >= 0 && t.getDate().compareTo(kraj) <= 0){
+                    zarada += t.getAmount();
+                }
+            }
+
+            if(t.getType() == transactionType.REGULARINCOME){
+                LocalDate poc = t.getDate();
+                LocalDate kr = t.getEndDate();
+
+                if(poc.compareTo(kraj) <= 0 && kr.compareTo(pocetak) >= 0){
+                    if(poc.compareTo(pocetak) >= 0 && poc.compareTo(kraj) <= 0){
+                        zarada += t.getAmount();
+                    }
+
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(novi.compareTo(pocetak) < 0){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+
+                    while(novi.compareTo(pocetak) >= 0 && novi.compareTo(kraj) <= 0 && novi.compareTo(t.getEndDate()) <= 0){
+                        zarada += t.getAmount();
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                }
+            }
+        }
+
+        return zarada;
+    }
+
+    @Override
+    public float SedmicnoUkupno(int sedmica) {
+        float ukupno = 0.0f;
+
+        for(int i = 1; i <= 4; i++){
+            if(i <= sedmica){
+                ukupno += (SedmicnaZarada(i) - SedmicnaPotrosnja(i));
+            }
+        }
+
+        return ukupno;
     }
 
     @Override
