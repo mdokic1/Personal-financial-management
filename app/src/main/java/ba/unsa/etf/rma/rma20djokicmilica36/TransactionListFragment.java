@@ -40,6 +40,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private ListView listView;
     private Button dodaj;
     private Button account;
+    private Button buttonMGraphs;
     //private Button graphs;
 
     int prePos = -1;
@@ -76,26 +77,23 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
     private OnItemClick onItemClick;
     private OnItemClick onRightClick;
+    private OnItemClick onLeftClick;
 
     public interface OnItemClick {
         void onItemClicked(Transaction transaction);
         void onRightClicked(Account account);
-        //void onAddClicked();
-        //void Refresh();
+        void onLeftClicked();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Ovdje se dodjeljuje layout fragmentu,
-        // tj. ˇsta ´ce se nalaziti unutar fragmenta
-        // Ovu liniju ´cemo poslije promijeniti
 
         View fragmentView = inflater.inflate(R.layout.fragment_list, container, false);
 
         onItemClick= (OnItemClick) getActivity();
         onRightClick = (OnItemClick) getActivity();
-
+        onLeftClick = (OnItemClick) getActivity();
 
 
         transactionListAdapter = new TransactionListAdapter(getActivity(), R.layout.list_element,new ArrayList<Transaction>());
@@ -103,7 +101,6 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         filterAdapter = new FilterAdapter(getActivity(), R.layout.filter_element, getPresenter().getFiltriranje());
 
         sortAdapter = new SortAdapter(getActivity(), R.layout.sort_element, getPresenter().getSortiranje());
-
 
 
         LocalDate trenutniDatum = LocalDate.now();
@@ -130,14 +127,11 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
         dodaj = fragmentView.findViewById(R.id.dodaj);
         account = fragmentView.findViewById(R.id.account);
-        //graphs = fragmentView.findViewById(R.id.graphs);
+        buttonMGraphs = fragmentView.findViewById(R.id.buttonMGraphs);
 
         glAmount = fragmentView.findViewById(R.id.glAmount);
         lim = fragmentView.findViewById(R.id.lim);
         double global = 0.0;
-
-
-
 
         for(Transaction t : getPresenter().getInteractor().get()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
@@ -213,20 +207,10 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
                 Transaction transaction = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                         0, LocalDate.now());
 
                 onItemClick.onItemClicked(transaction);
-                /*transactionDetailIntent.putExtra("date", LocalDate.now());
-                transactionDetailIntent.putExtra("amount", 0D);
-                transactionDetailIntent.putExtra("title", "");
-                transactionDetailIntent.putExtra("type", transactionType.INDIVIDUALPAYMENT);
-                transactionDetailIntent.putExtra("desc", "");
-                transactionDetailIntent.putExtra("interval", 0);
-                transactionDetailIntent.putExtra("endDate", LocalDate.now());
-                //MainActivity.this.startActivity(transactionDetailIntent);
-                getActivity().startActivity(transactionDetailIntent);*/
             }
         });
 
@@ -239,13 +223,12 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             }
         });
 
-        /*graphs.setOnClickListener(new View.OnClickListener() {
+        buttonMGraphs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onLeftClick.onLeftClicked();
             }
-        });*/
-
+        });
 
 
         return fragmentView;
@@ -254,53 +237,11 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private AdapterView.OnItemClickListener listItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //Intent transactionDetailIntent = new Intent(getActivity(), TransactionDetailActivity.class);
             Transaction transaction = transactionListAdapter.getTransaction(position);
             Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                     0, LocalDate.now());
-            //onItemClick.onItemClicked(transaction);
-            //view.setBackgroundColor(Color.GRAY);
-            //final boolean isChecked = checkedItems.valueAt(i);
 
             for (int i = 0; i < parent.getChildCount(); i++) {
-
-
-
-                        /*if (i == position) {
-                            if(position != prePos && position != prePos2){
-                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
-                                onItemClick.onItemClicked(transaction);
-
-                                prePos = position;
-                                prePos2--;
-
-                            } else if(position != prePos && position == prePos2){
-                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                                prePos = position;
-                                //prePos = -1;
-                                onItemClick.onItemClicked(tr);
-
-                            } else if(position == prePos && position != prePos2){
-                                parent.getChildAt(i).setBackgroundColor(Color.GRAY);
-                                onItemClick.onItemClicked(transaction);
-
-                                prePos = -1;
-                                prePos2--;
-                            }
-                            else if(position == prePos && position == prePos2){
-                                parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                                prePos = -1;
-                                onItemClick.onItemClicked(tr);
-                            }
-
-                        }else{
-
-                            parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                            //prePos = -1;
-                            onItemClick.onItemClicked(tr);
-
-                        }*/
-
 
                 if (i == position) {
                     if (position != prePos) {
@@ -313,22 +254,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                         onItemClick.onItemClicked(tr);
                     }
 
-                } /*else{
-                            parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                            //prePos = -1;
-                            onItemClick.onItemClicked(tr);
-                        }*/
-
-                //}
-
-            /*transactionDetailIntent.putExtra("date", transaction.getDate());
-            transactionDetailIntent.putExtra("amount", transaction.getAmount());
-            transactionDetailIntent.putExtra("title", transaction.getTitle());
-            transactionDetailIntent.putExtra("type", transaction.getType());
-            transactionDetailIntent.putExtra("desc", transaction.getItemDescription());
-            transactionDetailIntent.putExtra("interval", transaction.getTransactionInterval());
-            transactionDetailIntent.putExtra("endDate", transaction.getEndDate());
-            getActivity().startActivity(transactionDetailIntent);*/
+                }
             }
         }
     };
@@ -362,39 +288,12 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void onResume(){
         super.onResume();
-        //onItemClick.Refresh();
         transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-        /*double global = 0;
-        for(Transaction t : getPresenter().getInteractor().get()){
-            if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
-                if(t.getType() == transactionType.REGULARINCOME){
-                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
-                    long number = numOfDays/t.getTransactionInterval();
-                    global += t.getAmount()*number;
-                }
-                else{
-                    global += t.getAmount();
-                }
-            }
-            else{
-                if(t.getType() == transactionType.REGULARPAYMENT){
-                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
-                    long number = numOfDays/t.getTransactionInterval();
-                    global -= t.getAmount()*number;
-                }
-                else{
-                    global -= t.getAmount();
-                }
-            }
-        }*/
-
-        //glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
         getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
         getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
         glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
         lim.setText("Limit" + getPresenter().RefreshLimit());
-
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 public interface IGraphsPresenter {
     ArrayList<String> getIntervali();
 
+    ITransactionListInteractor getInteractor();
+
     void makeGraphs(String selectedItem);
     ArrayList<BarEntry> getBarEntriesPotrosnja();
 

@@ -6,16 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 
 public class GraphsFragment extends Fragment implements IGraphsView {
     private Spinner tipGrafa;
+    private Button buttonGMain;
+    private Button buttonGBudget;
 
     private GraphsAdapter graphsAdapter;
 
@@ -40,6 +41,9 @@ public class GraphsFragment extends Fragment implements IGraphsView {
         potrosnja = view.findViewById(R.id.potrosnja);
         zarada = view.findViewById(R.id.zarada);
         ukupno = view.findViewById(R.id.ukupno);
+
+        buttonGMain = view.findViewById(R.id.buttonGMain);
+        buttonGBudget = view.findViewById(R.id.buttonGBudget);
 
         potrosnja.setDrawBarShadow(false);
         zarada.setDrawBarShadow(false);
@@ -75,12 +79,33 @@ public class GraphsFragment extends Fragment implements IGraphsView {
                 zarada.setData(getPresenter().getBarDataZarada());
                 ukupno.setData(getPresenter().getBarDataUkupno());
 
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        buttonGMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransactionListFragment listFragment = new TransactionListFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, listFragment).addToBackStack(null).commit();
+            }
+        });
+
+        buttonGBudget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arguments = new Bundle();
+                Account account = new Account(getPresenter().getInteractor().getBModel().racun.getBudget(),
+                        getPresenter().getInteractor().getBModel().racun.getTotalLimit(),
+                        getPresenter().getInteractor().getBModel().racun.getMonthLimit());
+                arguments.putParcelable("account", account);
+                BudgetFragment budgetFragment = new BudgetFragment();
+                budgetFragment.setArguments(arguments);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, budgetFragment).addToBackStack(null).commit();
             }
         });
 

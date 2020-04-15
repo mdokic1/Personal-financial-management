@@ -77,30 +77,17 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
     private OnButtonClick onButtonClick;
 
     public interface OnButtonClick {
-        //void onItemClicked(Transaction transaction);
-        //void onAddClicked();
-        void Refresh();
+       void Refresh();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Ovdje se dodjeljuje layout fragmentu,
-        // tj. ˇsta ´ce se nalaziti unutar fragmenta
-        //Ovu liniju ´cemo poslije promijeniti
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         onButtonClick = (OnButtonClick) getActivity();
 
 
         arrayAdapter = new ArrayAdapter<Transaction>(getActivity(), R.layout.transaction_detail_activity, getPresenter().getModel());
-
-       /* getPresenter().create((LocalDate)getActivity().getIntent().getSerializableExtra("date"),
-                (double)getActivity().getIntent().getSerializableExtra("amount"),
-                getActivity().getIntent().getStringExtra("title"),
-                (transactionType)getActivity().getIntent().getSerializableExtra("type"),
-                getActivity().getIntent().getStringExtra("desc"),
-                (Integer)getActivity().getIntent().getSerializableExtra("interval"),
-                (LocalDate)getActivity().getIntent().getSerializableExtra("endDate"));*/
 
         if (getArguments() != null && getArguments().containsKey("transaction")) {
             getPresenter().setTransaction(getArguments().getParcelable("transaction"));
@@ -512,34 +499,30 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     getPresenter().refreshTransactionsAdd(nova);
                                                     onButtonClick.Refresh();
-                                                    //getActivity().finish();
                                                     getFragmentManager().popBackStack();
                                                 }
                                             })
                                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    //finish();
+                                                    getFragmentManager().popBackStack();
                                                 }
                                             })
                                             .show();
                                 } else {
                                     getPresenter().refreshTransactionsAdd(nova);
                                     onButtonClick.Refresh();
-                                    //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
                                 getPresenter().refreshTransactionsAdd(nova);
                                 onButtonClick.Refresh();
-                                //getActivity().finish();
                                 getFragmentManager().popBackStack();
                             }
                         } else {
                             if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
                                     nova.getType() == transactionType.PURCHASE) {
                                 if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
-                                    //AlertDialog alertDialog2 = new AlertDialog.Builder(TransactionDetailActivity.this)
                                     AlertDialog alertDialog2 = new AlertDialog.Builder(getActivity())
                                             .setTitle("Confirm")
                                             .setMessage("Are you sure you want to change this transaction?")
@@ -548,7 +531,6 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     getPresenter().refreshTransactionsChange(indeks, nova);
                                                     onButtonClick.Refresh();
-                                                    //getActivity().finish();
                                                     getFragmentManager().popBackStack();
                                                 }
                                             })
@@ -562,13 +544,11 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 } else {
                                     getPresenter().refreshTransactionsChange(indeks, nova);
                                     onButtonClick.Refresh();
-                                    //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
                                 getPresenter().refreshTransactionsChange(indeks, nova);
                                 onButtonClick.Refresh();
-                                //getActivity().finish();
                                 getFragmentManager().popBackStack();
                             }
                         }
@@ -589,14 +569,12 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 public void onClick(DialogInterface dialog, int which) {
                                     getPresenter().refreshTransactionsRemove(indeks);
                                     onButtonClick.Refresh();
-                                    //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //getActivity().finish();
                                     getFragmentManager().popBackStack();
                                 }
                             })

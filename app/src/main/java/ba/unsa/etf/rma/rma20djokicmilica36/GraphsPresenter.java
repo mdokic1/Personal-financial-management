@@ -87,8 +87,6 @@ public class GraphsPresenter implements IGraphsPresenter {
 
         if(selectedItem.equals("Day")){
 
-
-
             barEntriesPotrosnja.clear();
             barEntriesZarada.clear();
             barEntriesUkupno.clear();
@@ -119,7 +117,6 @@ public class GraphsPresenter implements IGraphsPresenter {
             }
 
 
-
             for(int i = pocPetlje; i <= krajPetlje; i++){
                 barEntriesPotrosnja.add(new BarEntry(i, getInteractor().DnevnaPotrosnja(i)));
                 barEntriesZarada.add(new BarEntry(i, getInteractor().DnevnaZarada(i)));
@@ -128,19 +125,19 @@ public class GraphsPresenter implements IGraphsPresenter {
 
         }
 
-        barDataSetPotrosnja = new BarDataSet(barEntriesPotrosnja, "Potrošnja");
+        barDataSetPotrosnja = new BarDataSet(barEntriesPotrosnja, "Payments");
         barDataSetPotrosnja.setColor(Color.RED);
 
         barDataPotrosnja = new BarData(barDataSetPotrosnja);
         barDataPotrosnja.setBarWidth(0.9f);
 
-        barDataSetZarada = new BarDataSet(barEntriesZarada, "Zarada");
+        barDataSetZarada = new BarDataSet(barEntriesZarada, "Incomes");
         barDataSetZarada.setColor(Color.GREEN);
 
         barDataZarada = new BarData(barDataSetZarada);
         barDataZarada.setBarWidth(0.9f);
 
-        barDataSetUkupno = new BarDataSet(barEntriesUkupno, "Ukupno stanje");
+        barDataSetUkupno = new BarDataSet(barEntriesUkupno, "Total");
         barDataSetUkupno.setColor(Color.BLUE);
 
         barDataUkupno = new BarData(barDataSetUkupno);

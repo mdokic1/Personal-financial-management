@@ -63,8 +63,6 @@ public class Transaction implements Parcelable {
 
     public Transaction(LocalDate dat, double amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
 
-
-
         this.date = dat;
         this.amount = amount;
         this.title = title;

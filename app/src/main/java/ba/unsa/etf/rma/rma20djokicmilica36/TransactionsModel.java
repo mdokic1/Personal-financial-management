@@ -11,11 +11,9 @@ public class TransactionsModel {
     public static LocalDate trDatum = LocalDate.now();
 
 
-
     public static void setTransactions(ArrayList<Transaction> transactions) {
         TransactionsModel.transactions = transactions;
     }
-
 
 
     public static ArrayList<Transaction> transactions = new ArrayList<Transaction>() {

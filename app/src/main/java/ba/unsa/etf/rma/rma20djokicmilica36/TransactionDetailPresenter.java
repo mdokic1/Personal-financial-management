@@ -29,9 +29,6 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
         this.transaction = (Transaction)transaction;
     }
 
-
-
-
     public static ArrayList<String> izborTipa1 = new ArrayList<String>(){
         {
             add("Individual payment");

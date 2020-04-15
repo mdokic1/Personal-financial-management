@@ -15,6 +15,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
     private TextView tLimit;
     private Button sacuvaj;
     private Button graphs;
+    private Button buttonMain;
 
     private IBudgetPresenter budgetPresenter;
 
@@ -39,6 +40,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
             tLimit = view.findViewById(R.id.tLimit);
             sacuvaj = view.findViewById(R.id.sacuvaj);
             graphs = view.findViewById(R.id.graphs);
+            buttonMain = view.findViewById(R.id.buttonMain);
 
             budzet.setText(String.valueOf(getPresenter().getAccount().getBudget()));
             mLimit.setText(String.valueOf(getPresenter().getAccount().getMonthLimit()));
@@ -69,6 +71,14 @@ public class BudgetFragment extends Fragment implements IBudgetView {
                 }
             });
 
+            buttonMain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TransactionListFragment listFragment = new TransactionListFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, listFragment).addToBackStack(null).commit();
+                }
+            });
+
 
         }
         return view;
@@ -81,8 +91,5 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         stari.setMonthLimit(novi.getMonthLimit());
         stari.setTotalLimit(novi.getTotalLimit());
 
-
-        /*mLimit.setText(String.valueOf(novi.getMonthLimit()));
-        tLimit.setText(String.valueOf(novi.getTotalLimit()));*/
     }
 }

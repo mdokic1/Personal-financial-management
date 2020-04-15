@@ -5,13 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:nestedScrollingEnabled="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ABC4F4">
 
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+    <Button
+        android:id="@+id/buttonGBudget"
+        android:layout_width="51dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="37dp"
+        android:background="@drawable/left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/potrosnja"
@@ -53,13 +64,38 @@
 
     <Spinner
         android:id="@+id/tipGrafa"
-        android:layout_width="305dp"
-        android:layout_height="50dp"
+        android:layout_width="298dp"
+        android:layout_height="40dp"
         android:layout_marginStart="49dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="112dp"
         android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="234dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="71dp"
+        android:text="Transactions Overview"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonGMain"
+        android:layout_width="51dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="34dp"
+        android:background="@drawable/right"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

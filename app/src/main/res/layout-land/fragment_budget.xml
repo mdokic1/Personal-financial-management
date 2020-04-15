@@ -11,9 +11,11 @@
         android:id="@+id/buttonMain"
         android:layout_width="50dp"
         android:layout_height="48dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="52dp"
         android:background="@drawable/left"
+        app:layout_constraintEnd_toStartOf="@+id/sacuvaj"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tLimit" />
 
@@ -122,20 +124,22 @@
         android:id="@+id/sacuvaj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="52dp"
         android:background="#76AAE1"
         android:text="SAVE"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/buttonMain"
+        app:layout_constraintEnd_toStartOf="@+id/graphs"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tLimit" />
 
     <Button
         android:id="@+id/graphs"
         android:layout_width="50dp"
         android:layout_height="48dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="308dp"
         android:background="@drawable/right"
         app:layout_constraintStart_toEndOf="@+id/sacuvaj"
         app:layout_constraintTop_toBottomOf="@+id/budzet" />

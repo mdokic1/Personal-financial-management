@@ -125,31 +125,28 @@
         android:id="@+id/save"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginEnd="259dp"
-        android:layout_marginBottom="164dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="84dp"
         android:background="#76AAE1"
         android:text="SAVE"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/delete"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <Button
         android:id="@+id/delete"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginBottom="164dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="68dp"
         android:background="#76AAE1"
         android:text="DELETE"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/save" />
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <EditText
         android:id="@+id/amount"

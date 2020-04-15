@@ -7,6 +7,19 @@
     android:background="#ABC4F4"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/buttonMGraphs"
+        android:layout_width="50dp"
+        android:layout_height="46dp"
+
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="29dp"
+        android:background="@drawable/left"
+        app:layout_constraintEnd_toStartOf="@+id/dodaj"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView" />
+
     <TextView
         android:id="@+id/glAmount"
         android:layout_width="374dp"
@@ -24,12 +37,9 @@
         android:id="@+id/lim"
         android:layout_width="154dp"
         android:layout_height="20dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="174dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/glAmount" />
 
