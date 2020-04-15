@@ -6,8 +6,9 @@ Prilikom dodavanja nove transakcije, nakon klika na dugme Add transaction, otvar
 se promijeniti.
 
 Druga spirala:
-Umjesto swipe akcije su koristena dugmad. Grafici su napravljeni, ali iz nekog razloga nakon otvaranja GraphsFragment ne prikazu se odmah, nego se 
-mora prvo scrollati misem. Mjesecni grafovi prikazuju mjesece tekuce godine. Sedmicni grafovi prikazuju sedmice tekuceg mjeseca. Racunaju se samo
-cijele sedmice u mjesecu, tacnije datumi od 1. do 28. Dnevni grafovi prikazuju dane u tekucoj sedmici. Tekuca sedmica se pronalazi tako sto se krene
-od 1. u tekucem mjesecu i trazi se sedmica u kojoj se nalazi trenutni datum. Datumi nakon 28. u mjesecu se prikazuju zajedno u jednom grafu(dakle,
-ukupno je 5 mogucih grafika za sedmice u mjesecu). 
+Prilikom pushanja na Bitbucket prosle spirale, iz nekog razloga se nisu pushali folderi mipmap i values, pa sam ih dodala u ovu spiralu.
+Umjesto swipe akcije su koristena dugmad. Grafici su napravljeni, ali iz nekog razloga nakon sto se u GraphsFragment promijeni vremenski interval,
+ne prikazu se odmah, nego se mora prvo scrollati misem (grafici se ucitavaju jedan po jedan). Mjesecni grafovi prikazuju mjesece tekuce godine. 
+Sedmicni grafovi prikazuju sedmice tekuceg mjeseca. Racunaju se samo cijele sedmice u mjesecu, tacnije datumi od 1. do 28. Dnevni grafovi prikazuju 
+dane u tekucoj sedmici. Tekuca sedmica se pronalazi tako sto se krene od 1. u tekucem mjesecu i trazi se sedmica u kojoj se nalazi trenutni datum. 
+Datumi nakon 28. u mjesecu se prikazuju zajedno u jednom grafu(dakle,ukupno je 5 mogucih grafika za sedmice u mjesecu). 
