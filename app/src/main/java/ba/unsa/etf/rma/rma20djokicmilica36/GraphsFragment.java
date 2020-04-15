@@ -1,6 +1,5 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

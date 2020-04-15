@@ -19,16 +19,14 @@ public class TransactionsModel {
     public static ArrayList<Transaction> transactions = new ArrayList<Transaction>() {
 
         {
-
-
-            /*add(new Transaction(LocalDate.of(2020,3,25), 253.0, "Kupovina poklona", transactionType.INDIVIDUALPAYMENT, "Kupovina poklona za rodjendan", null, null));
-            add(new Transaction(LocalDate.of(2020, 1, 1), 150.65, "Racun za struju", transactionType.REGULARPAYMENT, "Placanje racuna", 30, LocalDate.of(2020, 12, 1)));
+            add(new Transaction(LocalDate.of(2020,3,25), 253.0, "Poklon", transactionType.INDIVIDUALPAYMENT, "Kupovina poklona za rodjendan", null, null));
+            add(new Transaction(LocalDate.of(2020, 1, 1), 150.65, "Struja", transactionType.REGULARPAYMENT, "Placanje racuna", 30, LocalDate.of(2020, 12, 1)));
             add(new Transaction(LocalDate.of(2020, 5, 6), 900, "Laptop", transactionType.PURCHASE, "Poslovni laptop", null, null));
             add(new Transaction(LocalDate.of(2019, 12, 31), 10000.0, "Nagradna igra", transactionType.INDIVIDUALINCOME, null, null, null));
             add(new Transaction(LocalDate.of(2020, 1, 12), 85.0, "Stipendija", transactionType.REGULARINCOME, null, 60, LocalDate.of(2020, 9, 1)));
             add(new Transaction(LocalDate.of(2020, 3, 1), 90.0, "Kredit", transactionType.REGULARPAYMENT, "Rata kredita za stan", 16, LocalDate.of(2020, 12, 1)));
-            add(new Transaction(LocalDate.of(2020, 4, 1), 41.95, "Kupovina namirnica", transactionType.INDIVIDUALPAYMENT, "Merkator", null, null));
-            add(new Transaction(LocalDate.of(2020, 4, 5), 400.0, "Polica za knjige", transactionType.PURCHASE, "Namjestaj za sobu", null, null));
+            add(new Transaction(LocalDate.of(2020, 4, 1), 41.95, "Namirnice", transactionType.INDIVIDUALPAYMENT, "Merkator", null, null));
+            add(new Transaction(LocalDate.of(2020, 4, 5), 400.0, "Ormar", transactionType.PURCHASE, "Namjestaj za sobu", null, null));
             add(new Transaction(LocalDate.of(2020, 5, 31), 8500.0, "Bingo dobitak", transactionType.INDIVIDUALINCOME, null, null,null));
             add(new Transaction(LocalDate.of(2020, 1, 5), 868.0, "Plata", transactionType.REGULARINCOME, null, 35, LocalDate.of(2020, 12, 8)));
             add(new Transaction(LocalDate.of(2020, 7, 27), 1000.0, "Godisnji odmor", transactionType.INDIVIDUALPAYMENT, "Rezervacija hotela i kupovina karata", null, null));
@@ -39,17 +37,8 @@ public class TransactionsModel {
             add(new Transaction(LocalDate.of(2020, 5, 18), 600.0, "Haljina", transactionType.PURCHASE, "Haljina za svadbu", null, null));
             add(new Transaction(LocalDate.of(2020, 10, 6), 700.50, "Zimnica", transactionType.INDIVIDUALPAYMENT, "Krompir, luk, paprike", null, null));
             add(new Transaction(LocalDate.of(2020, 3, 16), 100.0, "Internet", transactionType.REGULARPAYMENT, "Telemach", 10, LocalDate.of(2020, 8, 16)));
-            add(new Transaction(LocalDate.of(2020, 1, 9), 64.5, "Djeciji dodatak", transactionType.REGULARINCOME, null, 90, LocalDate.of(2021, 1, 9)));
-            add(new Transaction(LocalDate.of(2020, 2, 23), 756.0, "Novcana nagrada", transactionType.INDIVIDUALINCOME, null, null, null));*/
-
-            add(new Transaction(LocalDate.of(2020, 4, 15), 100.0, "t1", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
-            add(new Transaction(LocalDate.of(2020, 1, 1), 500.0, "t2", transactionType.REGULARINCOME, "bla", 30, LocalDate.of(2021,9,8)));
-            add(new Transaction(LocalDate.of(2020, 4, 16), 200.0, "t3", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
-            add(new Transaction(LocalDate.of(2020, 2, 17), 30.0, "t4", transactionType.REGULARPAYMENT, "bla", 60, LocalDate.of(2020,6,30)));
-
-
-            //add(new Transaction(LocalDate.of(2020, 2, 16), 200.0, "t5", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
-
+            add(new Transaction(LocalDate.of(2020, 1, 9), 64.5, "Naknada", transactionType.REGULARINCOME, null, 90, LocalDate.of(2021, 1, 9)));
+            add(new Transaction(LocalDate.of(2020, 2, 23), 756.0, "Nagrada", transactionType.INDIVIDUALINCOME, null, null, null));
         }
 
     };

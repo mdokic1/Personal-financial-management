@@ -1,7 +1,6 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Parcelable;
 
 public class BudgetPresenter implements IBudgetPresenter {

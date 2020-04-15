@@ -1,6 +1,5 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
