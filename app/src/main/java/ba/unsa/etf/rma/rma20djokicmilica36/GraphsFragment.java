@@ -68,6 +68,12 @@ public class GraphsFragment extends Fragment implements IGraphsView {
 
         tipGrafa.setAdapter(graphsAdapter);
 
+        getPresenter().makeGraphs("Time interval");
+
+        potrosnja.setData(getPresenter().getBarDataPotrosnja());
+        zarada.setData(getPresenter().getBarDataZarada());
+        ukupno.setData(getPresenter().getBarDataUkupno());
+
         tipGrafa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
