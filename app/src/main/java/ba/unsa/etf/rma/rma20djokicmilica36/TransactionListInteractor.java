@@ -23,6 +23,23 @@ public class TransactionListInteractor implements ITransactionListInteractor {
         return bModel;
     }
 
+    ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
+        {
+            add(31);
+            add(29);
+            add(31);
+            add(30);
+            add(31);
+            add(30);
+            add(31);
+            add(31);
+            add(30);
+            add(31);
+            add(30);
+            add(31);
+        }
+    };
+
     @Override
     public int getTotLimit() {
         return bModel.racun.getTotalLimit();
@@ -254,13 +271,101 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
     @Override
     public float DnevnaZarada(int dan) {
-        return 0;
+        float zarada = 0.0f;
+
+        LocalDate datum = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), dan);
+
+        for(Transaction t : get()){
+
+            if(t.getType() == transactionType.INDIVIDUALINCOME){
+                if(t.getDate().compareTo(datum) == 0){
+                    zarada += t.getAmount();
+                }
+            }
+
+            if(t.getType() == transactionType.REGULARINCOME){
+                LocalDate pocetak = t.getDate();
+                LocalDate kraj = t.getEndDate();
+
+                if(pocetak.compareTo(datum) <= 0 && kraj.compareTo(datum) >= 0){
+                    if(pocetak.compareTo(datum) == 0){
+                        zarada += t.getAmount();
+                    }
+
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(novi.compareTo(datum) < 0){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+
+                    if(novi.compareTo(datum) == 0){
+                        zarada += t.getAmount();
+                    }
+                }
+            }
+        }
+
+        return zarada;
+
     }
 
     @Override
     public float DnevnoUkupno(int dan) {
-        return 0;
+        float ukupno = 0.0f;
+        int pocSedmice = pocetakSedmice();
+        int trenutniMjesec = LocalDate.now().getMonthValue();
+        int krajSedmice = pocSedmice + 6;
+        if(pocSedmice > 28){
+            krajSedmice = brojDanaUMjesecu.get(trenutniMjesec - 1);
+        }
+        for(int i = pocSedmice; i <= krajSedmice; i++){
+            if(i <= dan){
+                ukupno += (DnevnaZarada(i) - DnevnaPotrosnja(i));
+            }
+
+        }
+
+        return ukupno;
     }
+
+    @Override
+    public int pocetakSedmice(){
+        int trenutniDan = LocalDate.now().getDayOfMonth();
+        int trenutniMjesec = LocalDate.now().getMonthValue();
+
+        int pocPetlje = 0;
+        int krajPetlje = 0;
+
+        int pocetni = 1;
+        int krajnji = brojDanaUMjesecu.get(trenutniMjesec - 1);
+        int krajSedmice = 7;
+        if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
+            pocPetlje = pocetni;
+            krajPetlje = krajSedmice;
+        }
+        else{
+            while(pocetni <= krajnji){
+
+                if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
+                    pocPetlje = pocetni;
+                    krajPetlje = krajSedmice;
+                    break;
+                }
+
+                pocetni = pocetni + 7;
+                krajSedmice = krajSedmice + 7;
+                if(pocetni > 28){
+                    krajSedmice = krajnji;
+                    pocPetlje = pocetni;
+                    krajPetlje = krajnji;
+                }
+            }
+        }
+        return pocetni;
+    }
+
 
     @Override
     public int getMjLimit() {

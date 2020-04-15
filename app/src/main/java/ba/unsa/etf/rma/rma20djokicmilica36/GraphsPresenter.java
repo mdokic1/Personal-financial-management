@@ -87,6 +87,12 @@ public class GraphsPresenter implements IGraphsPresenter {
 
         if(selectedItem.equals("Day")){
 
+
+
+            barEntriesPotrosnja.clear();
+            barEntriesZarada.clear();
+            barEntriesUkupno.clear();
+
             ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
                 {
                     add(31);
@@ -104,40 +110,12 @@ public class GraphsPresenter implements IGraphsPresenter {
                 }
             };
 
-            barEntriesPotrosnja.clear();
-            barEntriesZarada.clear();
-            barEntriesUkupno.clear();
-
-            int trenutniDan = LocalDate.now().getDayOfMonth();
             int trenutniMjesec = LocalDate.now().getMonthValue();
 
-            int pocPetlje = 0;
-            int krajPetlje = 0;
-
-            int pocetni = 1;
-            int krajnji = brojDanaUMjesecu.get(trenutniMjesec - 1);
-            int krajSedmice = 7;
-            if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
-                pocPetlje = pocetni;
-                krajPetlje = krajSedmice;
-            }
-            else{
-                while(pocetni <= krajnji){
-
-                    if(pocetni <= trenutniDan && krajSedmice >= trenutniDan){
-                        pocPetlje = pocetni;
-                        krajPetlje = krajSedmice;
-                        break;
-                    }
-
-                    pocetni = pocetni + 7;
-                    krajSedmice = krajSedmice + 7;
-                    if(pocetni > 28){
-                        krajSedmice = krajnji;
-                        pocPetlje = pocetni;
-                        krajPetlje = krajnji;
-                    }
-                }
+            int pocPetlje = getInteractor().pocetakSedmice();
+            int krajPetlje = pocPetlje + 6;
+            if(pocPetlje > 28){
+                krajPetlje = brojDanaUMjesecu.get(trenutniMjesec - 1);
             }
 
 
@@ -167,8 +145,6 @@ public class GraphsPresenter implements IGraphsPresenter {
 
         barDataUkupno = new BarData(barDataSetUkupno);
         barDataUkupno.setBarWidth(0.9f);
-
-
 
     }
 }
