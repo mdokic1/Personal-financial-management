@@ -23,7 +23,7 @@ public class TransactionsModel {
         {
 
 
-            add(new Transaction(LocalDate.of(2020,3,25), 253.0, "Kupovina poklona", transactionType.INDIVIDUALPAYMENT, "Kupovina poklona za rodjendan", null, null));
+            /*add(new Transaction(LocalDate.of(2020,3,25), 253.0, "Kupovina poklona", transactionType.INDIVIDUALPAYMENT, "Kupovina poklona za rodjendan", null, null));
             add(new Transaction(LocalDate.of(2020, 1, 1), 150.65, "Racun za struju", transactionType.REGULARPAYMENT, "Placanje racuna", 30, LocalDate.of(2020, 12, 1)));
             add(new Transaction(LocalDate.of(2020, 5, 6), 900, "Laptop", transactionType.PURCHASE, "Poslovni laptop", null, null));
             add(new Transaction(LocalDate.of(2019, 12, 31), 10000.0, "Nagradna igra", transactionType.INDIVIDUALINCOME, null, null, null));
@@ -42,9 +42,15 @@ public class TransactionsModel {
             add(new Transaction(LocalDate.of(2020, 10, 6), 700.50, "Zimnica", transactionType.INDIVIDUALPAYMENT, "Krompir, luk, paprike", null, null));
             add(new Transaction(LocalDate.of(2020, 3, 16), 100.0, "Internet", transactionType.REGULARPAYMENT, "Telemach", 10, LocalDate.of(2020, 8, 16)));
             add(new Transaction(LocalDate.of(2020, 1, 9), 64.5, "Djeciji dodatak", transactionType.REGULARINCOME, null, 90, LocalDate.of(2021, 1, 9)));
-            add(new Transaction(LocalDate.of(2020, 2, 23), 756.0, "Novcana nagrada", transactionType.INDIVIDUALINCOME, null, null, null));
+            add(new Transaction(LocalDate.of(2020, 2, 23), 756.0, "Novcana nagrada", transactionType.INDIVIDUALINCOME, null, null, null));*/
+
+            add(new Transaction(LocalDate.of(2020, 4, 15), 100.0, "t1", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
+            add(new Transaction(LocalDate.of(2020, 1, 1), 500.0, "t2", transactionType.REGULARINCOME, "bla", 30, LocalDate.of(2021,9,8)));
+            add(new Transaction(LocalDate.of(2020, 4, 16), 200.0, "t3", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
+            add(new Transaction(LocalDate.of(2020, 2, 17), 30.0, "t4", transactionType.REGULARPAYMENT, "bla", 60, LocalDate.of(2020,6,30)));
 
 
+            //add(new Transaction(LocalDate.of(2020, 2, 16), 200.0, "t5", transactionType.INDIVIDUALPAYMENT, "bla", null, null));
 
         }
 

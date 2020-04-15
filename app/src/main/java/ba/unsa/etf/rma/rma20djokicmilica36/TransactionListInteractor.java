@@ -29,6 +29,92 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
 
     @Override
+    public float MjesecnaPotrosnja(int mjesec) {
+        float potrosnja = 0.0f;
+        for(Transaction t : get()){
+            if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
+                if(t.getDate().getYear() == LocalDate.now().getYear() && t.getDate().getMonthValue() == mjesec){
+                    potrosnja += t.getAmount();
+                }
+            }
+            if(t.getType() == transactionType.REGULARPAYMENT){
+                LocalDate pocetak = t.getDate();
+                LocalDate kraj = t.getEndDate();
+                if(!(pocetak.getYear() > LocalDate.now().getYear() || kraj.getYear() < LocalDate.now().getYear())){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    if(t.getDate().getMonthValue() == mjesec){
+                        potrosnja += t.getAmount();
+                    }
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(!(novi.getYear() == LocalDate.now().getYear())){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                    while(novi.getYear() == LocalDate.now().getYear() && novi.compareTo(t.getEndDate()) <= 0){
+                        if(novi.getMonthValue() == mjesec){
+                            potrosnja += t.getAmount();
+                        }
+
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                }
+
+            }
+        }
+        return potrosnja;
+    }
+
+    @Override
+    public float MjesecnaZarada(int mjesec) {
+        float zarada = 0.0f;
+
+        for(Transaction t : get()){
+            if(t.getType() == transactionType.INDIVIDUALINCOME){
+                if(t.getDate().getYear() == LocalDate.now().getYear() && t.getDate().getMonthValue() == mjesec){
+                    zarada += t.getAmount();
+                }
+            }
+            if(t.getType() == transactionType.REGULARINCOME){
+                LocalDate pocetak = t.getDate();
+                LocalDate kraj = t.getEndDate();
+                if(!(pocetak.getYear() > LocalDate.now().getYear() || kraj.getYear() < LocalDate.now().getYear())){
+                    long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
+                    long number = numOfDays/t.getTransactionInterval();
+                    if(t.getDate().getMonthValue() == mjesec){
+                        zarada += t.getAmount();
+                    }
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(!(novi.getYear() == LocalDate.now().getYear())){
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                    while(novi.getYear() == LocalDate.now().getYear() && novi.compareTo(t.getEndDate()) <= 0){
+                        if(novi.getMonthValue() == mjesec){
+                            zarada += t.getAmount();
+                        }
+
+                        novi = novi.plusDays(t.getTransactionInterval());
+                    }
+                }
+
+            }
+        }
+
+        return zarada;
+    }
+
+    @Override
+    public float Ukupno(int mjesec) {
+       float ukupno = 0.0f;
+       for(int i = 1; i <= 12; i++){
+           if(i <= mjesec){
+               ukupno += (MjesecnaZarada(i) - MjesecnaPotrosnja(i));
+           }
+       }
+       return ukupno;
+
+    }
+
+    @Override
     public int getMjLimit() {
         return bModel.racun.getMonthLimit();
     }
@@ -77,10 +163,10 @@ public class TransactionListInteractor implements ITransactionListInteractor {
                 if(t.getType() == transactionType.REGULARPAYMENT){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
                     long number = numOfDays/t.getTransactionInterval();
-                    LocalDate novi = t.getDate().plusDays(number);
-                    while(novi.getMonthValue() == t.getDate().getMonthValue()){
+                    LocalDate novi = t.getDate().plusDays(t.getTransactionInterval());
+                    while(novi.getMonthValue() == t.getDate().getMonthValue() && novi.compareTo(t.getEndDate()) <= 0){
                         potrosnja += t.getAmount();
-                        novi = novi.plusDays(number);
+                        novi = novi.plusDays(t.getTransactionInterval());
                     }
 
                 }
@@ -90,10 +176,10 @@ public class TransactionListInteractor implements ITransactionListInteractor {
         if(transaction.getType() == transactionType.REGULARPAYMENT){
             long numOfDays = DAYS.between(transaction.getDate(), transaction.getEndDate());
             long number = numOfDays/transaction.getTransactionInterval();
-            LocalDate novi = transaction.getDate().plusDays(number);
-            while(novi.getMonthValue() == transaction.getDate().getMonthValue()){
+            LocalDate novi = transaction.getDate().plusDays(transaction.getTransactionInterval());
+            while(novi.getMonthValue() == transaction.getDate().getMonthValue() && novi.compareTo(transaction.getEndDate()) <= 0){
                 potrosnja += transaction.getAmount();
-                novi = novi.plusDays(number);
+                novi = novi.plusDays(transaction.getTransactionInterval());
             }
         }
         else{

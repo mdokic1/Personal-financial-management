@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import com.github.mikephil.charting.data.BarDataSet;
+
 import java.util.ArrayList;
 
 public interface ITransactionListInteractor {
@@ -25,4 +27,10 @@ public interface ITransactionListInteractor {
     public BudgetModel getBModel();
 
     int getTotLimit();
+
+    float MjesecnaPotrosnja(int mjesec);
+
+    float MjesecnaZarada(int mjesec);
+
+    float Ukupno(int mjesec);
 }
