@@ -9,7 +9,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class TransactionListPresenter implements ITransactionListPresenter, TransactionListInteractor.OnTransactionsGetDone {
     private ITransactionListView view;
-    private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, "");
+    private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, "GE transactions");
 
     private Context context;
 
@@ -56,8 +56,8 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
     @Override
     public void refreshTransactions() {
-        view.setTransactions(interactor.getTransact());
-        view.notifyTransactionListDataSetChanged();
+       /* view.setTransactions(interactor.getTransact());
+        view.notifyTransactionListDataSetChanged();*/
     }
 
     @Override
@@ -128,5 +128,6 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     public void getTransactions(String query){
         new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
                 this, "GET transactions").execute(query);
+
     }
 }

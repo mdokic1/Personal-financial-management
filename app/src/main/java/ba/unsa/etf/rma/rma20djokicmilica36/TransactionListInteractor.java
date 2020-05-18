@@ -16,7 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -27,7 +31,10 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     LocalDate trDatum = TransactionsModel.trDatum;
     TransactionsModel model;
-    BudgetModel bModel;;
+    BudgetModel bModel;
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    DateTimeFormatter df = DateTimeFormatter .ofPattern("yyyy-MM-dd");
 
     String api_id = "dd11f314-79cd-443b-9fbf-8425e3424f46";
     ArrayList<Transaction> transactions;
@@ -74,20 +81,20 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     @Override
     protected Void doInBackground(String... strings) {
         String query = null;
-        try {
-            query = URLEncoder.encode(strings[0], "utf-8");
+        /*try {
+            query = URLEncoder.encode(strings[0]);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
-        String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/dd11f314-79cd-443b-9fbf-8425e3424f46/transactions"
-                +api_id+"&query=" + query;
+        }*/
+        String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                +api_id+ "/transactions";
         try {
             URL url = new URL(url1);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             String result = convertStreamToString(in);
             JSONObject jo = new JSONObject(result);
-            JSONArray results = jo.getJSONArray("results");
+            JSONArray results = jo.getJSONArray("transactions");
             for (int i = 0; i < results.length(); i++) {
                 JSONObject transaction = results.getJSONObject(i);
                 Integer id = transaction.getInt("id");
@@ -95,14 +102,15 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 String title = transaction.getString("title");
                 double amount = transaction.getDouble("amount");
                 String itemDescription = transaction.getString("itemDescription");
-                Integer transactionInterval = transaction.getInt("transactionInterval");
+                String transactionInterval = transaction.getString("transactionInterval");
+                //Integer transactionInterval = transaction.getInt("transactionInterval");
                 String endDate = transaction.getString("endDate");
                 String createdAt = transaction.getString("createdAt");
                 String updatedAt = transaction.getString("updatedAt");
                 Integer AccountId = transaction.getInt("AccountId");
                 Integer TransactionTypeId = transaction.getInt("TransactionTypeId");
 
-                String datum = date.substring(0, 9);
+                String datum = date.substring(0, 10);
 
                 transactionType tip = transactionType.REGULARPAYMENT;
 
@@ -126,7 +134,37 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     tip = transactionType.INDIVIDUALPAYMENT;
                 }
 
-                transactions.add(new Transaction(id, LocalDate.parse(datum), amount, title, tip, itemDescription, transactionInterval, LocalDate.parse(endDate)));
+                Integer interval = 0;
+
+                try
+                {
+                    if(transactionInterval != null)
+                        interval = Integer.parseInt(transactionInterval);
+                }
+                catch (NumberFormatException e)
+                {
+                    interval = 0;
+                }
+
+                LocalDate krajnjiDatum = null;
+                try{
+                    if(endDate != null){
+                        krajnjiDatum = LocalDate.parse(endDate, df);
+                    }
+                }catch(DateTimeParseException e){
+                    krajnjiDatum = null;
+                }
+
+                LocalDate dat = null;
+                try{
+                    if(datum != null){
+                        dat = LocalDate.parse(datum, df);
+                    }
+                }catch(DateTimeParseException e){
+                    dat = null;
+                }
+
+                transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
                 if (i==4) break;
             }
         } catch (MalformedURLException e) {

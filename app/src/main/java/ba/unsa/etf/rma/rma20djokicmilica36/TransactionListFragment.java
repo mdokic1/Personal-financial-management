@@ -113,6 +113,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         listView= fragmentView.findViewById(R.id.listView);
         listView.setAdapter(transactionListAdapter);
         listView.setOnItemClickListener(listItemClickListener);
+        getPresenter().getTransactions("GET");
         getPresenter().refreshTransactionsByDate();
 
         filter = fragmentView.findViewById(R.id.filter);
