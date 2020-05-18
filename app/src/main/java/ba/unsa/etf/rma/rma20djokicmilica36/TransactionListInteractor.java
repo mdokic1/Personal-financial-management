@@ -1,5 +1,21 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
+import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,12 +23,45 @@ import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class TransactionListInteractor implements ITransactionListInteractor {
+public class TransactionListInteractor extends AsyncTask<String, Integer, Void>  implements ITransactionListInteractor {
 
     LocalDate trDatum = TransactionsModel.trDatum;
     TransactionsModel model;
     BudgetModel bModel;;
 
+    String api_id = "dd11f314-79cd-443b-9fbf-8425e3424f46";
+    ArrayList<Transaction> transactions;
+    private OnTransactionsGetDone caller;
+    private String tipZahtjeva;
+
+    public ArrayList<Transaction> getTransact() {
+        return transactions;
+    }
+
+    public TransactionListInteractor(OnTransactionsGetDone p, String tipZahtjeva) {
+        caller = p;
+        this.tipZahtjeva = tipZahtjeva;
+        transactions = new ArrayList<Transaction>();
+    };
+
+    public String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new
+                InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+            }
+        }
+        return sb.toString();
+    }
 
 
     public TransactionsModel getModel() {
@@ -20,6 +69,84 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
     public BudgetModel getBModel() {
         return bModel;
+    }
+
+    @Override
+    protected Void doInBackground(String... strings) {
+        String query = null;
+        try {
+            query = URLEncoder.encode(strings[0], "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/dd11f314-79cd-443b-9fbf-8425e3424f46/transactions"
+                +api_id+"&query=" + query;
+        try {
+            URL url = new URL(url1);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            String result = convertStreamToString(in);
+            JSONObject jo = new JSONObject(result);
+            JSONArray results = jo.getJSONArray("results");
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject transaction = results.getJSONObject(i);
+                Integer id = transaction.getInt("id");
+                String date = transaction.getString("date");
+                String title = transaction.getString("title");
+                double amount = transaction.getDouble("amount");
+                String itemDescription = transaction.getString("itemDescription");
+                Integer transactionInterval = transaction.getInt("transactionInterval");
+                String endDate = transaction.getString("endDate");
+                String createdAt = transaction.getString("createdAt");
+                String updatedAt = transaction.getString("updatedAt");
+                Integer AccountId = transaction.getInt("AccountId");
+                Integer TransactionTypeId = transaction.getInt("TransactionTypeId");
+
+                String datum = date.substring(0, 9);
+
+                transactionType tip = transactionType.REGULARPAYMENT;
+
+                if(transactionType.REGULARPAYMENT.getID() == TransactionTypeId){
+                    tip = transactionType.REGULARPAYMENT;
+                }
+
+                if(transactionType.REGULARINCOME.getID() == TransactionTypeId){
+                    tip = transactionType.REGULARINCOME;
+                }
+
+                if(transactionType.PURCHASE.getID() == TransactionTypeId){
+                    tip = transactionType.PURCHASE;
+                }
+
+                if(transactionType.INDIVIDUALINCOME.getID() == TransactionTypeId){
+                    tip = transactionType.INDIVIDUALINCOME;
+                }
+
+                if(transactionType.INDIVIDUALPAYMENT.getID() == TransactionTypeId){
+                    tip = transactionType.INDIVIDUALPAYMENT;
+                }
+
+                transactions.add(new Transaction(id, LocalDate.parse(datum), amount, title, tip, itemDescription, transactionInterval, LocalDate.parse(endDate)));
+                if (i==4) break;
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid){
+        super.onPostExecute(aVoid);
+        caller.onDone(transactions);
+    }
+
+    public interface OnTransactionsGetDone{
+        public void onDone(ArrayList<Transaction> results);
     }
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
@@ -47,7 +174,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     @Override
     public float MjesecnaPotrosnja(int mjesec) {
         float potrosnja = 0.0f;
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 if(t.getDate().getYear() == LocalDate.now().getYear() && t.getDate().getMonthValue() == mjesec){
                     potrosnja += t.getAmount();
@@ -84,7 +211,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     public float MjesecnaZarada(int mjesec) {
         float zarada = 0.0f;
 
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getType() == transactionType.INDIVIDUALINCOME){
                 if(t.getDate().getYear() == LocalDate.now().getYear() && t.getDate().getMonthValue() == mjesec){
                     zarada += t.getAmount();
@@ -137,7 +264,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
         LocalDate pocetak = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1 + 7*(sedmica - 1));
         LocalDate kraj = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 7 + 7*(sedmica - 1));
 
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 if(t.getDate().compareTo(pocetak) >= 0 && t.getDate().compareTo(kraj) <= 0){
                     potrosnja += t.getAmount();
@@ -179,7 +306,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
         LocalDate pocetak = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1 + 7*(sedmica - 1));
         LocalDate kraj = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 7 + 7*(sedmica - 1));
 
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getType() == transactionType.INDIVIDUALINCOME){
                 if(t.getDate().compareTo(pocetak) >= 0 && t.getDate().compareTo(kraj) <= 0){
                     zarada += t.getAmount();
@@ -233,7 +360,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
         LocalDate datum = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), dan);
 
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
 
             if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 if(t.getDate().compareTo(datum) == 0){
@@ -274,7 +401,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
 
         LocalDate datum = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), dan);
 
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
 
             if(t.getType() == transactionType.INDIVIDUALINCOME){
                 if(t.getDate().compareTo(datum) == 0){
@@ -372,15 +499,15 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     }
 
 
-    @Override
+    /*@Override
     public ArrayList<Transaction> get() {
         return model.transactions;
-    }
+    }*/
 
     @Override
     public boolean CheckTotalLimit(Transaction transaction){
         double potrosnja = 0;
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 potrosnja += t.getAmount();
             }
@@ -407,7 +534,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     @Override
     public boolean CheckMonthLimit(Transaction transaction){
         double potrosnja = 0;
-        for(Transaction t : get()){
+        for(Transaction t : transactions){
             if(t.getDate().getMonthValue() == transaction.getDate().getMonthValue()){
                 if(t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                     potrosnja += t.getAmount();
@@ -444,7 +571,7 @@ public class TransactionListInteractor implements ITransactionListInteractor {
     @Override
     public ArrayList<Transaction> getByDate(){
         ArrayList<Transaction> odgovarajuce = new ArrayList<>();
-        ArrayList<Transaction> sve = get();
+        ArrayList<Transaction> sve = transactions;
         for(Transaction t : sve){
             if(t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 if(t.getDate().getMonthValue() == trDatum.getMonthValue() && t.getDate().getYear() == trDatum.getYear()){

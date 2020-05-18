@@ -7,9 +7,10 @@ import java.util.ArrayList;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class TransactionListPresenter implements ITransactionListPresenter {
+public class TransactionListPresenter implements ITransactionListPresenter, TransactionListInteractor.OnTransactionsGetDone {
     private ITransactionListView view;
-    private static ITransactionListInteractor interactor;
+    private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, "");
+
     private Context context;
 
     public static ArrayList<String> filtriranje = new ArrayList<String>(){
@@ -51,12 +52,11 @@ public class TransactionListPresenter implements ITransactionListPresenter {
 
     public TransactionListPresenter(ITransactionListView view, Context context) {
         this.view       = view;
-        this.interactor = new TransactionListInteractor();
         this.context    = context;
     }
     @Override
     public void refreshTransactions() {
-        view.setTransactions(interactor.get());
+        view.setTransactions(interactor.getTransact());
         view.notifyTransactionListDataSetChanged();
     }
 
@@ -87,7 +87,7 @@ public class TransactionListPresenter implements ITransactionListPresenter {
     @Override
     public double RefreshAmount(){
         double global = 0;
-        for(Transaction t : getInteractor().get()){
+        for(Transaction t : interactor.getTransact()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
@@ -118,4 +118,15 @@ public class TransactionListPresenter implements ITransactionListPresenter {
     }
 
 
+    @Override
+    public void onDone(ArrayList<Transaction> results) {
+        view.setTransactions(results);
+        view.notifyTransactionListDataSetChanged();
+    }
+
+    @Override
+    public void getTransactions(String query){
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
+                this, "GET transactions").execute(query);
+    }
 }

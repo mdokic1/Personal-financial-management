@@ -7,16 +7,16 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class TransactionDetailPresenter implements ITransactionDetailPresenter {
+public class TransactionDetailPresenter implements ITransactionDetailPresenter{
     private ITransactionDetailView view;
-    private ITransactionListInteractor interactor;
+    private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone) this, "");
     private Context context;
 
     private Transaction transaction;
 
     public TransactionDetailPresenter(ITransactionDetailView view, Context context) {
         this.view       = view;
-        this.interactor = new TransactionListInteractor();
+       // this.interactor = new TransactionListInteractor();
         this.context    = context;
     }
 
@@ -113,7 +113,7 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
 
     @Override
     public ArrayList<Transaction> getModel(){
-        return interactor.get();
+        return interactor.getTransact();
     }
 
     @Override
@@ -123,21 +123,22 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter {
 
     @Override
     public void refreshTransactionsChange(int indeks, Transaction t) {
-        view.changeTransaction(interactor.get(), indeks, t);
+        view.changeTransaction(interactor.getTransact(), indeks, t);
         view.notifyTransactionListDataSetChanged();
     }
 
     @Override
     public void refreshTransactionsRemove(int indeks){
-        view.removeTransaction(interactor.get(), indeks);
+        view.removeTransaction(interactor.getTransact(), indeks);
         view.notifyTransactionListDataSetChanged();
     }
 
     @Override
     public void refreshTransactionsAdd(Transaction t) {
-        view.addTransaction(interactor.get(), t);
+        view.addTransaction(interactor.getTransact(), t);
         view.notifyTransactionListDataSetChanged();
     }
+
 
 
 }

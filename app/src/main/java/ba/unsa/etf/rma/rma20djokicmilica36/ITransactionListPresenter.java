@@ -22,4 +22,6 @@ public interface ITransactionListPresenter {
     double RefreshAmount();
 
     int RefreshLimit();
+
+    void getTransactions(String query);
 }

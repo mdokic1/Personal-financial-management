@@ -12,7 +12,7 @@ public class BudgetPresenter implements IBudgetPresenter {
 
     public BudgetPresenter(IBudgetView view, Context context) {
         this.view       = view;
-        this.interactor = new TransactionListInteractor();
+        //this.interactor = new TransactionListInteractor();
         this.context    = context;
     }
 

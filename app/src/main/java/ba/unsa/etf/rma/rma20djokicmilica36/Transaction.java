@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Transaction implements Parcelable {
+    private Integer transaction_id;
     private LocalDate date;
     private double amount;
     private String title;
@@ -70,6 +71,26 @@ public class Transaction implements Parcelable {
         this.itemDescription = desc;
         this.transactionInterval = trInterval;
         this.endDate = endDate;
+    }
+
+    public Transaction(Integer transaction_id, LocalDate dat, double amount, String title, transactionType type, String desc, Integer trInterval, LocalDate endDate) {
+
+        this.transaction_id = transaction_id;
+        this.date = dat;
+        this.amount = amount;
+        this.title = title;
+        this.type = type;
+        this.itemDescription = desc;
+        this.transactionInterval = trInterval;
+        this.endDate = endDate;
+    }
+
+    public Integer getTransaction_id() {
+        return transaction_id;
+    }
+
+    public void setTransaction_id(Integer transaction_id) {
+        this.transaction_id = transaction_id;
     }
 
     public LocalDate getDate() {

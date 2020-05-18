@@ -23,7 +23,7 @@ public interface ITransactionListInteractor {
 
     int getMjLimit();
 
-    ArrayList<Transaction> get();
+    //ArrayList<Transaction> get();
 
     public TransactionsModel getModel();
     public BudgetModel getBModel();
@@ -47,4 +47,6 @@ public interface ITransactionListInteractor {
     float DnevnaZarada(int dan);
 
     float DnevnoUkupno(int dan);
+
+    ArrayList<Transaction> getTransact();
 }

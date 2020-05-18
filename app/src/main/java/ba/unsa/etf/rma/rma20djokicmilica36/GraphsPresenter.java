@@ -48,7 +48,7 @@ public class GraphsPresenter implements IGraphsPresenter {
 
     public GraphsPresenter(IGraphsView view, Context context) {
         this.view       = view;
-        this.interactor = new TransactionListInteractor();
+        //this.interactor = new TransactionListInteractor();
         this.context    = context;
     }
 

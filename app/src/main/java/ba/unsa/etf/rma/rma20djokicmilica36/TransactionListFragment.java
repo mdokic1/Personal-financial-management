@@ -129,7 +129,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         lim = fragmentView.findViewById(R.id.lim);
         double global = 0.0;
 
-        for(Transaction t : getPresenter().getInteractor().get()){
+        for(Transaction t : getPresenter().getInteractor().getTransact()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
@@ -284,7 +284,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void onResume(){
         super.onResume();
-        transactionListAdapter.setTransactions(getPresenter().getInteractor().get());
+        transactionListAdapter.setTransactions(getPresenter().getInteractor().getTransact());
         getPresenter().refreshTransactionsByDate();
         getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
         getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
