@@ -7,6 +7,8 @@ public interface ITransactionListPresenter {
 
     void refreshTransactionsByDate();
 
+    void refreshByDateTypeSorted(String typeId, String sort, String month, String year);
+
     void refreshTransactionsByTypeSorted(String type, String sortType);
 
     void increaseTransactionsMonth();

@@ -62,14 +62,22 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
 
     @Override
     public void refreshTransactionsByDate() {
-        view.setTransactions(interactor.getByDate());
-        view.notifyTransactionListDataSetChanged();
+        //view.setTransactions(interactor.getByDate());
+        //view.notifyTransactionListDataSetChanged();
+    }
+
+    @Override
+    public void refreshByDateTypeSorted(String typeId, String sort, String month, String year){
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "refresh transactions").execute(typeId, sort, month, year);
     }
 
     @Override
     public void refreshTransactionsByTypeSorted(String type, String sortType){
-        view.setTransactionsByType(interactor.getByTypeSorted(type, sortType));
-        view.notifyTransactionListDataSetChanged();
+        /*new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
+                this, "GET transactions").execute(type, sortType);*/
+        //view.setTransactionsByType(interactor.getByTypeSorted(type, sortType));
+        //view.notifyTransactionListDataSetChanged();
     }
 
     @Override
