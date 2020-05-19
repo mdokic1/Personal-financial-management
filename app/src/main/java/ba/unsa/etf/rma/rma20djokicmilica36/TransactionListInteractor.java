@@ -86,19 +86,18 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }*/
-        if(tipZahtjeva.equals("GET transactions")){
+        if (tipZahtjeva.equals("GET transactions")) {
             boolean imaDovoljno = true;
             int i = 0;
             String url1 = "";
 
-            while(i >= 0){
-                if(i == 0){
+            while (i >= 0) {
+                if (i == 0) {
                     url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions";
-                }
-                else{
+                            + api_id + "/transactions";
+                } else {
                     url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions?page=" + i;
+                            + api_id + "/transactions?page=" + i;
                 }
 
                 try {
@@ -108,10 +107,9 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     String result = convertStreamToString(in);
                     JSONObject jo = new JSONObject(result);
                     JSONArray results = jo.getJSONArray("transactions");
-                    if(results.length() == 5){
+                    if (results.length() == 5) {
                         imaDovoljno = true;
-                    }
-                    else{
+                    } else {
                         imaDovoljno = false;
                     }
                     for (int j = 0; j < results.length(); j++) {
@@ -132,53 +130,50 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                         transactionType tip = transactionType.REGULARPAYMENT;
 
-                        if(transactionType.REGULARPAYMENT.getID() == TransactionTypeId){
+                        if (transactionType.REGULARPAYMENT.getID() == TransactionTypeId) {
                             tip = transactionType.REGULARPAYMENT;
                         }
 
-                        if(transactionType.REGULARINCOME.getID() == TransactionTypeId){
+                        if (transactionType.REGULARINCOME.getID() == TransactionTypeId) {
                             tip = transactionType.REGULARINCOME;
                         }
 
-                        if(transactionType.PURCHASE.getID() == TransactionTypeId){
+                        if (transactionType.PURCHASE.getID() == TransactionTypeId) {
                             tip = transactionType.PURCHASE;
                         }
 
-                        if(transactionType.INDIVIDUALINCOME.getID() == TransactionTypeId){
+                        if (transactionType.INDIVIDUALINCOME.getID() == TransactionTypeId) {
                             tip = transactionType.INDIVIDUALINCOME;
                         }
 
-                        if(transactionType.INDIVIDUALPAYMENT.getID() == TransactionTypeId){
+                        if (transactionType.INDIVIDUALPAYMENT.getID() == TransactionTypeId) {
                             tip = transactionType.INDIVIDUALPAYMENT;
                         }
 
                         Integer interval = 0;
 
-                        try
-                        {
-                            if(transactionInterval != null)
+                        try {
+                            if (transactionInterval != null)
                                 interval = Integer.parseInt(transactionInterval);
-                        }
-                        catch (NumberFormatException e)
-                        {
+                        } catch (NumberFormatException e) {
                             interval = 0;
                         }
 
                         LocalDate krajnjiDatum = null;
-                        try{
-                            if(endDate != null){
+                        try {
+                            if (endDate != null) {
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
-                        }catch(DateTimeParseException e){
+                        } catch (DateTimeParseException e) {
                             krajnjiDatum = null;
                         }
 
                         LocalDate dat = null;
-                        try{
-                            if(datum != null){
+                        try {
+                            if (datum != null) {
                                 dat = LocalDate.parse(datum, df);
                             }
-                        }catch(DateTimeParseException e){
+                        } catch (DateTimeParseException e) {
                             dat = null;
                         }
 
@@ -193,133 +188,191 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     e.printStackTrace();
                 }
 
-                if(imaDovoljno){
+                if (imaDovoljno) {
                     i++;
-                }
-                else{
+                } else {
                     break;
                 }
             }
         }
 
-        if(tipZahtjeva.equals("refresh transactions")){
+        if (tipZahtjeva.equals("refresh transactions")) {
 
             boolean imaDovoljno = true;
-
-            String url1 = "";
-            if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
-                if(strings[0] == "" && strings[1] == ""){
-                    url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions/filter?month=" + strings[2] + "&year=" + strings[3];
-                }
-                if(strings[0] != null && strings[0] != "" && strings[1] == ""){
-                    url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions/filter?typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
-                }
-                if(strings[0] == "" && strings[1] != "" && strings[1] != null){
-                    url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions/filter?sort=" + strings[1]  + "&month=" + strings[2] + "&year=" + strings[3];
-                }
-                if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] !=""){
-                    url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                            +api_id+ "/transactions/filter?sort=" + strings[1]  + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
-                }
-            }
-
-            try {
-                URL url = new URL(url1);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                String result = convertStreamToString(in);
-                JSONObject jo = new JSONObject(result);
-                JSONArray results = jo.getJSONArray("transactions");
-                if(results.length() == 5){
-                    imaDovoljno = true;
-                }
-                else{
-                    imaDovoljno = false;
-                }
-                for (int j = 0; j < results.length(); j++) {
-                    JSONObject transaction = results.getJSONObject(j);
-                    Integer id = transaction.getInt("id");
-                    String date = transaction.getString("date");
-                    String title = transaction.getString("title");
-                    double amount = transaction.getDouble("amount");
-                    String itemDescription = transaction.getString("itemDescription");
-                    String transactionInterval = transaction.getString("transactionInterval");
-                    String endDate = transaction.getString("endDate");
-                    String createdAt = transaction.getString("createdAt");
-                    String updatedAt = transaction.getString("updatedAt");
-                    Integer AccountId = transaction.getInt("AccountId");
-                    Integer TransactionTypeId = transaction.getInt("TransactionTypeId");
-
-                    String datum = date.substring(0, 10);
-
-                    transactionType tip = transactionType.REGULARPAYMENT;
-
-                    if(transactionType.REGULARPAYMENT.getID() == TransactionTypeId){
-                        tip = transactionType.REGULARPAYMENT;
-                    }
-
-                    if(transactionType.REGULARINCOME.getID() == TransactionTypeId){
-                        tip = transactionType.REGULARINCOME;
-                    }
-
-                    if(transactionType.PURCHASE.getID() == TransactionTypeId){
-                        tip = transactionType.PURCHASE;
-                    }
-
-                    if(transactionType.INDIVIDUALINCOME.getID() == TransactionTypeId){
-                        tip = transactionType.INDIVIDUALINCOME;
-                    }
-
-                    if(transactionType.INDIVIDUALPAYMENT.getID() == TransactionTypeId){
-                        tip = transactionType.INDIVIDUALPAYMENT;
-                    }
-
-                    Integer interval = 0;
-
-                    try
-                    {
-                        if(transactionInterval != null)
-                            interval = Integer.parseInt(transactionInterval);
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        interval = 0;
-                    }
-
-                    LocalDate krajnjiDatum = null;
-                    try{
-                        if(endDate != null){
-                            krajnjiDatum = LocalDate.parse(endDate, df);
+            int i = 0;
+            while (i >= 0) {
+                String url1 = "";
+                if(i == 0){
+                    if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
+                        if (strings[0] == "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?month=" + strings[2] + "&year=" + strings[3];
                         }
-                    }catch(DateTimeParseException e){
-                        krajnjiDatum = null;
-                    }
-
-                    LocalDate dat = null;
-                    try{
-                        if(datum != null){
-                            dat = LocalDate.parse(datum, df);
+                        if (strings[0] != null && strings[0] != "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
-                    }catch(DateTimeParseException e){
-                        dat = null;
+                        if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?sort=" + strings[1] + "&month=" + strings[2] + "&year=" + strings[3];
+                        }
+                        if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
+                        }
+                    }
+                    else{
+                        if (strings[0] != null && strings[0] != "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?typeId=" + strings[0];
+                        }
+                        if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?sort=" + strings[1];
+                        }
+                        if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?sort=" + strings[1] + "&typeId=" + strings[0];
+                        }
                     }
 
-                    transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
-                    //if (i==4) break;
+                } else{
+
+                    if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
+                        if (strings[0] == "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "month=" + strings[2] + "&year=" + strings[3];
+                        }
+                        if (strings[0] != null && strings[0] != "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
+                        }
+                        if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&month=" + strings[2] + "&year=" + strings[3];
+                        }
+                        if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
+                        }
+                    }
+                    else{
+                        if (strings[0] != null && strings[0] != "" && strings[1] == "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "typeId=" + strings[0];
+                        }
+                        if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1];
+                        }
+                        if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
+                            url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&typeId=" + strings[0];
+                        }
+                    }
+
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+
+                try {
+                    URL url = new URL(url1);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    String result = convertStreamToString(in);
+                    JSONObject jo = new JSONObject(result);
+                    JSONArray results = jo.getJSONArray("transactions");
+                    if (results.length() == 5) {
+                        imaDovoljno = true;
+                    } else {
+                        imaDovoljno = false;
+                    }
+                    for (int j = 0; j < results.length(); j++) {
+                        JSONObject transaction = results.getJSONObject(j);
+                        Integer id = transaction.getInt("id");
+                        String date = transaction.getString("date");
+                        String title = transaction.getString("title");
+                        double amount = transaction.getDouble("amount");
+                        String itemDescription = transaction.getString("itemDescription");
+                        String transactionInterval = transaction.getString("transactionInterval");
+                        String endDate = transaction.getString("endDate");
+                        String createdAt = transaction.getString("createdAt");
+                        String updatedAt = transaction.getString("updatedAt");
+                        Integer AccountId = transaction.getInt("AccountId");
+                        Integer TransactionTypeId = transaction.getInt("TransactionTypeId");
+
+                        String datum = date.substring(0, 10);
+
+                        transactionType tip = transactionType.REGULARPAYMENT;
+
+                        if (transactionType.REGULARPAYMENT.getID() == TransactionTypeId) {
+                            tip = transactionType.REGULARPAYMENT;
+                        }
+
+                        if (transactionType.REGULARINCOME.getID() == TransactionTypeId) {
+                            tip = transactionType.REGULARINCOME;
+                        }
+
+                        if (transactionType.PURCHASE.getID() == TransactionTypeId) {
+                            tip = transactionType.PURCHASE;
+                        }
+
+                        if (transactionType.INDIVIDUALINCOME.getID() == TransactionTypeId) {
+                            tip = transactionType.INDIVIDUALINCOME;
+                        }
+
+                        if (transactionType.INDIVIDUALPAYMENT.getID() == TransactionTypeId) {
+                            tip = transactionType.INDIVIDUALPAYMENT;
+                        }
+
+                        Integer interval = 0;
+
+                        try {
+                            if (transactionInterval != null)
+                                interval = Integer.parseInt(transactionInterval);
+                        } catch (NumberFormatException e) {
+                            interval = 0;
+                        }
+
+                        LocalDate krajnjiDatum = null;
+                        try {
+                            if (endDate != null) {
+                                krajnjiDatum = LocalDate.parse(endDate, df);
+                            }
+                        } catch (DateTimeParseException e) {
+                            krajnjiDatum = null;
+                        }
+
+                        LocalDate dat = null;
+                        try {
+                            if (datum != null) {
+                                dat = LocalDate.parse(datum, df);
+                            }
+                        } catch (DateTimeParseException e) {
+                            dat = null;
+                        }
+
+                        transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
+                        //if (i==4) break;
+                    }
+
+                    if (imaDovoljno) {
+                        i++;
+                    } else {
+                        break;
+                    }
+
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
         }
-
         return null;
     }
 

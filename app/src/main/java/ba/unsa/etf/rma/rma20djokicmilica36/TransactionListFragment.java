@@ -245,8 +245,72 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             @Override
             public void onClick(View v) {
                 getPresenter().increaseTransactionsMonth();
-                getPresenter().refreshTransactionsByDate();
-                getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+
+                String typeId = "";
+                if(filter.getSelectedItem().toString().equals("Regular payment")){
+                    typeId = "1";
+                }
+                if(filter.getSelectedItem().toString().equals("Regular income")){
+                    typeId = "2";
+                }
+                if(filter.getSelectedItem().toString().equals("Purchase")){
+                    typeId = "3";
+                }
+                if(filter.getSelectedItem().toString().equals("Individual income")){
+                    typeId = "4";
+                }
+                if(filter.getSelectedItem().toString().equals("Individual payment")){
+                    typeId = "5";
+                }
+                if(filter.getSelectedItem().toString().equals("All types") || filter.getSelectedItem().toString().equals("Filter by")){
+                    typeId = "";
+                }
+
+                String sortTip = "";
+
+                if(sort.getSelectedItem().toString().equals("Price - Ascending")){
+                    sortTip = "amount.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Price - Descending")){
+                    sortTip = "amount.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Title - Ascending")){
+                    sortTip = "title.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Title - Descending")){
+                    sortTip = "title.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Date - Ascending")){
+                    sortTip = "date.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Date - Descending")){
+                    sortTip = "date.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Sort by")){
+                    sortTip = "";
+                }
+
+                String d = month.getText().toString();
+                int pozicija = d.indexOf(',');
+                String mjesec = d.substring(0, pozicija);
+                String godina = d.substring(pozicija+1, d.length());
+
+                if(mjesec.equals("January")) mjesec = "01";
+                if(mjesec.equals("February")) mjesec = "02";
+                if(mjesec.equals("March")) mjesec = "03";
+                if(mjesec.equals("April")) mjesec = "04";
+                if(mjesec.equals("May")) mjesec = "05";
+                if(mjesec.equals("June")) mjesec = "06";
+                if(mjesec.equals("July")) mjesec = "07";
+                if(mjesec.equals("August")) mjesec = "08";
+                if(mjesec.equals("September")) mjesec = "09";
+                if(mjesec.equals("October")) mjesec = "10";
+                if(mjesec.equals("November")) mjesec = "11";
+                if(mjesec.equals("December")) mjesec = "12";
+
+                getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
+                //getPresenter().refreshTransactionsByDate();
+                //getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
             }
         });
 
@@ -254,8 +318,70 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                String selectedType = sort.getSelectedItem().toString();
-                getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
+                String typeId = "";
+                if(selectedItem.equals("Regular payment")){
+                    typeId = "1";
+                }
+                if(selectedItem.equals("Regular income")){
+                    typeId = "2";
+                }
+                if(selectedItem.equals("Purchase")){
+                    typeId = "3";
+                }
+                if(selectedItem.equals("Individual income")){
+                    typeId = "4";
+                }
+                if(selectedItem.equals("Individual payment")){
+                    typeId = "5";
+                }
+                if(selectedItem.equals("All types") || selectedItem.equals("Filter by")){
+                    typeId = "";
+                }
+
+                String sortTip = "";
+
+                if(sort.getSelectedItem().toString().equals("Price - Ascending")){
+                    sortTip = "amount.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Price - Descending")){
+                    sortTip = "amount.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Title - Ascending")){
+                    sortTip = "title.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Title - Descending")){
+                    sortTip = "title.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Date - Ascending")){
+                    sortTip = "date.asc";
+                }
+                if(sort.getSelectedItem().toString().equals("Date - Descending")){
+                    sortTip = "date.desc";
+                }
+                if(sort.getSelectedItem().toString().equals("Sort by")){
+                    sortTip = "";
+                }
+
+                String d = month.getText().toString();
+                int pozicija = d.indexOf(',');
+                String mjesec = d.substring(0, pozicija);
+                String godina = d.substring(pozicija+1, d.length());
+
+                if(mjesec.equals("January")) mjesec = "01";
+                if(mjesec.equals("February")) mjesec = "02";
+                if(mjesec.equals("March")) mjesec = "03";
+                if(mjesec.equals("April")) mjesec = "04";
+                if(mjesec.equals("May")) mjesec = "05";
+                if(mjesec.equals("June")) mjesec = "06";
+                if(mjesec.equals("July")) mjesec = "07";
+                if(mjesec.equals("August")) mjesec = "08";
+                if(mjesec.equals("September")) mjesec = "09";
+                if(mjesec.equals("October")) mjesec = "10";
+                if(mjesec.equals("November")) mjesec = "11";
+                if(mjesec.equals("December")) mjesec = "12";
+                //String selectedType = sort.getSelectedItem().toString();
+                //getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
+                getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
@@ -265,8 +391,73 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                String selectedFilter = filter.getSelectedItem().toString();
-                getPresenter().refreshTransactionsByTypeSorted(selectedFilter, selectedItem);
+
+                String typeId = "";
+                if(filter.getSelectedItem().toString().equals("Regular payment")){
+                    typeId = "1";
+                }
+                if(filter.getSelectedItem().toString().equals("Regular income")){
+                    typeId = "2";
+                }
+                if(filter.getSelectedItem().toString().equals("Purchase")){
+                    typeId = "3";
+                }
+                if(filter.getSelectedItem().toString().equals("Individual income")){
+                    typeId = "4";
+                }
+                if(filter.getSelectedItem().toString().equals("Individual payment")){
+                    typeId = "5";
+                }
+                if(filter.getSelectedItem().toString().equals("All types") || filter.getSelectedItem().toString().equals("Filter by")){
+                    typeId = "";
+                }
+
+                String sortTip = "";
+
+                if(selectedItem.equals("Price - Ascending")){
+                    sortTip = "amount.asc";
+                }
+                if(selectedItem.equals("Price - Descending")){
+                    sortTip = "amount.desc";
+                }
+                if(selectedItem.equals("Title - Ascending")){
+                    sortTip = "title.asc";
+                }
+                if(selectedItem.equals("Title - Descending")){
+                    sortTip = "title.desc";
+                }
+                if(selectedItem.equals("Date - Ascending")){
+                    sortTip = "date.asc";
+                }
+                if(selectedItem.equals("Date - Descending")){
+                    sortTip = "date.desc";
+                }
+                if(selectedItem.equals("Sort by")){
+                    sortTip = "";
+                }
+
+                String d = month.getText().toString();
+                int pozicija = d.indexOf(',');
+                String mjesec = d.substring(0, pozicija);
+                String godina = d.substring(pozicija+1, d.length());
+
+                if(mjesec.equals("January")) mjesec = "01";
+                if(mjesec.equals("February")) mjesec = "02";
+                if(mjesec.equals("March")) mjesec = "03";
+                if(mjesec.equals("April")) mjesec = "04";
+                if(mjesec.equals("May")) mjesec = "05";
+                if(mjesec.equals("June")) mjesec = "06";
+                if(mjesec.equals("July")) mjesec = "07";
+                if(mjesec.equals("August")) mjesec = "08";
+                if(mjesec.equals("September")) mjesec = "09";
+                if(mjesec.equals("October")) mjesec = "10";
+                if(mjesec.equals("November")) mjesec = "11";
+                if(mjesec.equals("December")) mjesec = "12";
+                //String selectedType = sort.getSelectedItem().toString();
+                //getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
+                getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
+                //String selectedFilter = filter.getSelectedItem().toString();
+                //getPresenter().refreshTransactionsByTypeSorted(selectedFilter, selectedItem);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
