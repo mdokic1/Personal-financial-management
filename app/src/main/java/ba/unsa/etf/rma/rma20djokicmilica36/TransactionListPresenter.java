@@ -133,6 +133,11 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
 
     @Override
+    public void onAddDone(Transaction transakcija) {
+
+    }
+
+    @Override
     public void getTransactions(String query){
         new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
                 this, "GET transactions").execute(query);

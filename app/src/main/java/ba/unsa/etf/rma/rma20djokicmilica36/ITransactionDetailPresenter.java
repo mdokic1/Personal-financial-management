@@ -24,7 +24,7 @@ interface ITransactionDetailPresenter {
 
     void refreshTransactionsRemove(int indeks);
 
-    void refreshTransactionsAdd(Transaction t);
+    void refreshTransactionsAdd(String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate);
 
     ITransactionListInteractor getInteractor();
 

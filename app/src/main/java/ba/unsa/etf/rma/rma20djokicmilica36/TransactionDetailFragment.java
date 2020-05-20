@@ -418,8 +418,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
             save.setOnClickListener(new View.OnClickListener() {
                 transactionType noviTip;
                 Integer noviInterval;
+                String noviInterval2;
                 String noviDesc;
                 LocalDate noviEndDate;
+                String noviEndDate2;
 
                 @Override
                 public void onClick(View v) {
@@ -467,6 +469,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                             noviInterval = null;
                         } else {
                             noviInterval = Integer.parseInt(interval.getText().toString());
+                            noviInterval2 = interval.getText().toString();
                         }
 
                         if (desc.getText().toString().equals("")) {
@@ -479,6 +482,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                             noviEndDate = null;
                         } else {
                             noviEndDate = LocalDate.parse(endDate.getText().toString());
+                            noviEndDate2 = endDate.getText().toString();
                         }
 
 
@@ -497,7 +501,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    getPresenter().refreshTransactionsAdd(nova);
+                                                    getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
+                                                            type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
                                                     onButtonClick.Refresh();
                                                     getFragmentManager().popBackStack();
                                                 }
@@ -510,12 +515,14 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             })
                                             .show();
                                 } else {
-                                    getPresenter().refreshTransactionsAdd(nova);
+                                    getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
+                                            type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
-                                getPresenter().refreshTransactionsAdd(nova);
+                                getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
+                                        type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
                                 onButtonClick.Refresh();
                                 getFragmentManager().popBackStack();
                             }

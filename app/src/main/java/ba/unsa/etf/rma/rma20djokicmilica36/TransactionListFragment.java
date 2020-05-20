@@ -548,9 +548,72 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void onResume(){
         super.onResume();
-        transactionListAdapter.setTransactions(getPresenter().getInteractor().getTransact());
-        getPresenter().refreshTransactionsByDate();
-        getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+        //transactionListAdapter.setTransactions(getPresenter().getInteractor().getTransact());
+        //getPresenter().getTransactions("GET");
+        //getPresenter().refreshTransactionsByDate();
+        //getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
+        String typeId = "";
+        if(filter.getSelectedItem().toString().equals("Regular payment")){
+            typeId = "1";
+        }
+        if(filter.getSelectedItem().toString().equals("Regular income")){
+            typeId = "2";
+        }
+        if(filter.getSelectedItem().toString().equals("Purchase")){
+            typeId = "3";
+        }
+        if(filter.getSelectedItem().toString().equals("Individual income")){
+            typeId = "4";
+        }
+        if(filter.getSelectedItem().toString().equals("Individual payment")){
+            typeId = "5";
+        }
+        if(filter.getSelectedItem().toString().equals("All types") || filter.getSelectedItem().toString().equals("Filter by")){
+            typeId = "";
+        }
+
+        String sortTip = "";
+
+        if(sort.getSelectedItem().equals("Price - Ascending")){
+            sortTip = "amount.asc";
+        }
+        if(sort.getSelectedItem().equals("Price - Descending")){
+            sortTip = "amount.desc";
+        }
+        if(sort.getSelectedItem().equals("Title - Ascending")){
+            sortTip = "title.asc";
+        }
+        if(sort.getSelectedItem().equals("Title - Descending")){
+            sortTip = "title.desc";
+        }
+        if(sort.getSelectedItem().equals("Date - Ascending")){
+            sortTip = "date.asc";
+        }
+        if(sort.getSelectedItem().equals("Date - Descending")){
+            sortTip = "date.desc";
+        }
+        if(sort.getSelectedItem().equals("Sort by")){
+            sortTip = "";
+        }
+
+        String d = month.getText().toString();
+        int pozicija = d.indexOf(',');
+        String mjesec = d.substring(0, pozicija);
+        String godina = d.substring(pozicija+1, d.length());
+
+        if(mjesec.equals("January")) mjesec = "01";
+        if(mjesec.equals("February")) mjesec = "02";
+        if(mjesec.equals("March")) mjesec = "03";
+        if(mjesec.equals("April")) mjesec = "04";
+        if(mjesec.equals("May")) mjesec = "05";
+        if(mjesec.equals("June")) mjesec = "06";
+        if(mjesec.equals("July")) mjesec = "07";
+        if(mjesec.equals("August")) mjesec = "08";
+        if(mjesec.equals("September")) mjesec = "09";
+        if(mjesec.equals("October")) mjesec = "10";
+        if(mjesec.equals("November")) mjesec = "11";
+        if(mjesec.equals("December")) mjesec = "12";
+        getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
         getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
         getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
         glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));

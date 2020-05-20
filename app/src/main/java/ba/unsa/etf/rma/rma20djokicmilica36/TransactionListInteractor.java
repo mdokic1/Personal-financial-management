@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -38,6 +39,13 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     String api_id = "dd11f314-79cd-443b-9fbf-8425e3424f46";
     ArrayList<Transaction> transactions;
+    Transaction transakcija;
+
+    public interface OnTransactionsGetDone{
+        public void onDone(ArrayList<Transaction> results);
+        public void onAddDone(Transaction transakcija);
+    }
+
     private OnTransactionsGetDone caller;
     private String tipZahtjeva;
 
@@ -162,6 +170,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         LocalDate krajnjiDatum = null;
                         try {
                             if (endDate != null) {
+                                //endDate = endDate.substring(0, 10);
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
                         } catch (DateTimeParseException e) {
@@ -373,6 +382,137 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
             }
 
         }
+
+        if(tipZahtjeva.equals("add transaction")){
+            String url1="http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                    + api_id + "/transactions";
+            try {
+                URL url = new URL(url1);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true);
+
+                String jsonInputString = "";
+                if(strings[4] == null){
+                    if(strings[5] != null && strings[6] != null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + strings[5] +
+                                ", \"endDate\": " + strings[6] + "}";
+                    }
+                    if(strings[5] == null && strings[6] == null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + "}";
+                    }
+                    if(strings[5] != null && strings[6] == null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + strings[5] + "}";
+                    }
+                    if(strings[5] == null && strings[6] != null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"endDate\": " + strings[6] + "}";
+                    }
+                }
+
+                if(strings[4] != null){
+                    if(strings[5] != null && strings[6] != null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"transactionInterval\": " + strings[5] +
+                                ", \"endDate\": " + strings[6] + "}";
+                    }
+                    if(strings[5] == null && strings[6] == null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + "}";
+                    }
+                    if(strings[5] != null && strings[6] == null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"transactionInterval\": " + strings[5] + "}";
+                    }
+                    if(strings[5] == null && strings[6] != null){
+                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"endDate\": " + strings[6] + "}";
+                    }
+                }
+
+                String datum = strings[0].substring(0, 10);
+
+                transactionType tip = transactionType.REGULARPAYMENT;
+
+                if (strings[3].equals("Regular payment")) {
+                    tip = transactionType.REGULARPAYMENT;
+                }
+
+                if (strings[3].equals("Regular income")) {
+                    tip = transactionType.REGULARINCOME;
+                }
+
+                if (strings[3].equals("Purchase")) {
+                    tip = transactionType.PURCHASE;
+                }
+
+                if (strings[3].equals("Individual income")) {
+                    tip = transactionType.INDIVIDUALINCOME;
+                }
+
+                if (strings[3].equals("Individual payment")) {
+                    tip = transactionType.INDIVIDUALPAYMENT;
+                }
+
+                Integer interval = 0;
+
+                try {
+                    if (strings[5] != null)
+                        interval = Integer.parseInt(strings[5]);
+                } catch (NumberFormatException e) {
+                    interval = 0;
+                }
+
+                LocalDate krajnjiDatum = null;
+                try {
+                    if (strings[6] != null) {
+                        strings[6] = strings[6].substring(0, 10);
+                        krajnjiDatum = LocalDate.parse(strings[6], df);
+                    }
+                } catch (DateTimeParseException e) {
+                    krajnjiDatum = null;
+                }
+
+                LocalDate dat = null;
+                try {
+                    if (datum != null) {
+                        dat = LocalDate.parse(datum, df);
+                    }
+                } catch (DateTimeParseException e) {
+                    dat = null;
+                }
+
+                transakcija = new Transaction(dat, Double.parseDouble(strings[1]), strings[2], tip, strings[4], interval, krajnjiDatum);
+                //transactions.add(transakcija);
+
+                try(OutputStream os = urlConnection.getOutputStream()){
+                    byte[] input = jsonInputString.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                try(BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))){
+                    StringBuilder response = new StringBuilder();
+                    String responseLine = null;
+                    while((responseLine = br.readLine()) != null){
+                        response.append(responseLine.trim());
+                    }
+                    System.out.println(response.toString());
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
         return null;
     }
 
@@ -381,10 +521,10 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
         caller.onDone(transactions);
-    }
+        //if(tipZahtjeva.equals("add transaction")){
+            caller.onAddDone(transakcija);
+        //}
 
-    public interface OnTransactionsGetDone{
-        public void onDone(ArrayList<Transaction> results);
     }
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){

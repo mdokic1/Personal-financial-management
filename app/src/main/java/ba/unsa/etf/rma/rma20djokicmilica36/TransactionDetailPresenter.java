@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class TransactionDetailPresenter implements ITransactionDetailPresenter{
+public class TransactionDetailPresenter implements ITransactionDetailPresenter, TransactionListInteractor.OnTransactionsGetDone{
     private ITransactionDetailView view;
     private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone) this, "");
     private Context context;
@@ -134,11 +134,22 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter{
     }
 
     @Override
-    public void refreshTransactionsAdd(Transaction t) {
-        view.addTransaction(interactor.getTransact(), t);
-        view.notifyTransactionListDataSetChanged();
+    public void refreshTransactionsAdd(String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate) {
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "add transaction").execute(date, amount, title, transactionType, desc, trInterval, endDate);
+        //view.addTransaction(interactor.getTransact(), t);
+        //view.notifyTransactionListDataSetChanged();
     }
 
 
+    @Override
+    public void onDone(ArrayList<Transaction> results) {
 
+    }
+
+    @Override
+    public void onAddDone(Transaction transakcija) {
+        view.addTransaction(interactor.getTransact(), transakcija);
+        view.notifyTransactionListDataSetChanged();
+    }
 }
