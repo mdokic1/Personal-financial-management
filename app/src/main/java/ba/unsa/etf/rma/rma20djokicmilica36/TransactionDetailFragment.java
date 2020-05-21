@@ -418,10 +418,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
             save.setOnClickListener(new View.OnClickListener() {
                 transactionType noviTip;
                 Integer noviInterval;
-                String noviInterval2;
-                String noviDesc;
+                String noviInterval2 = "";
+                String noviDesc = "";
                 LocalDate noviEndDate;
-                String noviEndDate2;
+                String noviEndDate2 = "";
 
                 @Override
                 public void onClick(View v) {
@@ -467,6 +467,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
 
                         if (interval.getText().toString().equals("")) {
                             noviInterval = null;
+                            noviInterval2 = null;
                         } else {
                             noviInterval = Integer.parseInt(interval.getText().toString());
                             noviInterval2 = interval.getText().toString();
@@ -480,6 +481,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
 
                         if (endDate.getText().toString().equals("")) {
                             noviEndDate = null;
+                            noviEndDate2 = null;
                         } else {
                             noviEndDate = LocalDate.parse(endDate.getText().toString());
                             noviEndDate2 = endDate.getText().toString();
@@ -518,7 +520,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
                                             type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
                                     onButtonClick.Refresh();
-                                    getFragmentManager().popBackStack();
+                                    //getFragmentManager().popBackStack();
                                 }
                             } else {
                                 getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
@@ -612,6 +614,11 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
     @Override
     public void addTransaction(ArrayList<Transaction> transactions, Transaction t) {
         transactions.add(t);
+    }
+
+    @Override
+    public void setTransactions(ArrayList<Transaction> results) {
+
     }
 
 }

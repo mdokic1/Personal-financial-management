@@ -9,8 +9,8 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class TransactionListPresenter implements ITransactionListPresenter, TransactionListInteractor.OnTransactionsGetDone {
     private ITransactionListView view;
-    private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, "GE transactions");
-
+    //private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, " transactions");
+     private ITransactionListInteractor interactor;
     private Context context;
 
     public static ArrayList<String> filtriranje = new ArrayList<String>(){
@@ -81,21 +81,70 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
 
     @Override
-    public void increaseTransactionsMonth(){
-        view.setDate(interactor.increaseMonth());
+    public void increaseTransactionsMonth(String datum){
+        int mj = 0, god = 0;
+        int zarez = datum.indexOf(',');
+        String mjesec = datum.substring(0, zarez);
+        String godina = datum.substring(zarez + 1);
+        if(mjesec.equals("January")) mj = 1;
+        if(mjesec.equals("February")) mj = 2;
+        if(mjesec.equals("March")) mj = 3;
+        if(mjesec.equals("April")) mj = 4;
+        if(mjesec.equals("May")) mj = 5;
+        if(mjesec.equals("June")) mj = 6;
+        if(mjesec.equals("July")) mj = 7;
+        if(mjesec.equals("August")) mj = 8;
+        if(mjesec.equals("September")) mj = 9;
+        if(mjesec.equals("October")) mj = 10;
+        if(mjesec.equals("November")) mj = 11;
+        if(mjesec.equals("December")) mj = 12;
+
+        god = Integer.valueOf(godina);
+        if(mj <= 11){
+            mj++;
+        }
+        else{
+            mj = 1;
+            god++;
+        }
+        view.setDate(Months.values()[mj - 1] + "," + Integer.toString(god));
 
     }
 
     @Override
-    public void decreaseTransactionsMonth(){
-        view.setDate(interactor.decreaseMonth());
+    public void decreaseTransactionsMonth(String datum){
+        int mj = 0, god = 0;
+        int zarez = datum.indexOf(',');
+        String mjesec = datum.substring(0, zarez);
+        String godina = datum.substring(zarez + 1);
+        if(mjesec.equals("January")) mj = 1;
+        if(mjesec.equals("February")) mj = 2;
+        if(mjesec.equals("March")) mj = 3;
+        if(mjesec.equals("April")) mj = 4;
+        if(mjesec.equals("May")) mj = 5;
+        if(mjesec.equals("June")) mj = 6;
+        if(mjesec.equals("July")) mj = 7;
+        if(mjesec.equals("August")) mj = 8;
+        if(mjesec.equals("September")) mj = 9;
+        if(mjesec.equals("October")) mj = 10;
+        if(mjesec.equals("November")) mj = 11;
+        if(mjesec.equals("December")) mj = 12;
 
+        god = Integer.valueOf(godina);
+        if(mj >= 2){
+            mj--;
+        }
+        else{
+            mj = 12;
+            god--;
+        }
+        view.setDate(Months.values()[mj - 1] + "," + Integer.toString(god));
     }
 
     @Override
     public double RefreshAmount(){
         double global = 0;
-        for(Transaction t : interactor.getTransact()){
+        /*for(Transaction t : interactor.getTransact()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
@@ -116,13 +165,14 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
                     global -= t.getAmount();
                 }
             }
-        }
+        }*/
         return global;
     }
 
     @Override
     public int RefreshLimit() {
-        return getInteractor().getBModel().racun.getTotalLimit();
+        //return getInteractor().getBModel().racun.getTotalLimit();
+        return 0;
     }
 
 
@@ -133,14 +183,9 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
 
     @Override
-    public void onAddDone(Transaction transakcija) {
-
-    }
-
-    @Override
     public void getTransactions(String query){
         new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
-                this, "GET transactions").execute(query);
+                this, "get transactions").execute(query);
 
     }
 }

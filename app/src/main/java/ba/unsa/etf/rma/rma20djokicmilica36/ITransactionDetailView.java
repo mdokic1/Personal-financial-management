@@ -14,4 +14,5 @@ public interface ITransactionDetailView {
     void addTransaction(ArrayList<Transaction> transactions, Transaction t);
 
 
+    void setTransactions(ArrayList<Transaction> results);
 }

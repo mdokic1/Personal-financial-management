@@ -43,11 +43,11 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     public interface OnTransactionsGetDone{
         public void onDone(ArrayList<Transaction> results);
-        public void onAddDone(Transaction transakcija);
+        //public void onAddDone(Transaction transakcija);
     }
 
     private OnTransactionsGetDone caller;
-    private String tipZahtjeva;
+    private String tipZahtjeva="";
 
     public ArrayList<Transaction> getTransact() {
         return transactions;
@@ -57,6 +57,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         caller = p;
         this.tipZahtjeva = tipZahtjeva;
         transactions = new ArrayList<Transaction>();
+        //transakcija = new Transaction(LocalDate.now(), 0.0, "", transactionType.INDIVIDUALPAYMENT, "", null, null);
     };
 
     public String convertStreamToString(InputStream is) {
@@ -86,6 +87,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         return bModel;
     }
 
+
     @Override
     protected Void doInBackground(String... strings) {
         String query = null;
@@ -94,7 +96,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }*/
-        if (tipZahtjeva.equals("GET transactions")) {
+        if (tipZahtjeva.equals("get transactions")) {
             boolean imaDovoljno = true;
             int i = 0;
             String url1 = "";
@@ -170,7 +172,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         LocalDate krajnjiDatum = null;
                         try {
                             if (endDate != null) {
-                                //endDate = endDate.substring(0, 10);
+                                endDate = endDate.substring(0, 10);
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
                         } catch (DateTimeParseException e) {
@@ -185,6 +187,12 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         } catch (DateTimeParseException e) {
                             dat = null;
                         }
+
+                        /*if(endDate != null && transactionInterval != null){
+                            LocalDate pomocni = dat;
+
+
+                        }*/
 
                         transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
                         //if (i==4) break;
@@ -205,7 +213,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
             }
         }
 
-        if (tipZahtjeva.equals("refresh transactions")) {
+        else if (tipZahtjeva.equals("refresh transactions")) {
 
             boolean imaDovoljno = true;
             int i = 0;
@@ -250,33 +258,33 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
                         if (strings[0] == "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "month=" + strings[2] + "&year=" + strings[3];
+                                    + api_id + "/transactions/filter?page=" + i + "&month=" + strings[2] + "&year=" + strings[3];
                         }
                         if (strings[0] != null && strings[0] != "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
+                                    + api_id + "/transactions/filter?page=" + i + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
                         if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&month=" + strings[2] + "&year=" + strings[3];
+                                    + api_id + "/transactions/filter?page=" + i + "&sort=" + strings[1] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
                         if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
+                                    + api_id + "/transactions/filter?page=" + i + "&sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
                     }
                     else{
                         if (strings[0] != null && strings[0] != "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "typeId=" + strings[0];
+                                    + api_id + "/transactions/filter?page=" + i + "&typeId=" + strings[0];
                         }
                         if (strings[0] == "" && strings[1] != "" && strings[1] != null) {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1];
+                                    + api_id + "/transactions/filter?page=" + i + "&sort=" + strings[1];
                         }
                         if (strings[0] != null && strings[0] != "" && strings[1] != null && strings[1] != "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
-                                    + api_id + "/transactions/filter?page=" + i + "sort=" + strings[1] + "&typeId=" + strings[0];
+                                    + api_id + "/transactions/filter?page=" + i + "&sort=" + strings[1] + "&typeId=" + strings[0];
                         }
                     }
 
@@ -345,6 +353,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         LocalDate krajnjiDatum = null;
                         try {
                             if (endDate != null) {
+                                endDate = endDate.substring(0, 10);
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
                         } catch (DateTimeParseException e) {
@@ -383,59 +392,73 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
         }
 
-        if(tipZahtjeva.equals("add transaction")){
+        else if(tipZahtjeva.equals("add transaction")){
             String url1="http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                     + api_id + "/transactions";
             try {
                 URL url = new URL(url1);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setDoOutput(true);
 
                 String jsonInputString = "";
+                if(strings[3].equals("Regular payment")){
+                    strings[3] = "1";
+                }
+                if(strings[3].equals("Regular income")){
+                    strings[3] = "2";
+                }
+                if(strings[3].equals("Purchase")){
+                    strings[3] = "3";
+                }
+                if(strings[3].equals("Individual income")){
+                    strings[3] = "4";
+                }
+                if(strings[3].equals("Individual payment")){
+                    strings[3] = "5";
+                }
+
                 if(strings[4] == null){
                     if(strings[5] != null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + strings[5] +
-                                ", \"endDate\": " + strings[6] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\""+ ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" +
+                                ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
                     if(strings[5] == null && strings[6] == null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + "}";
                     }
                     if(strings[5] != null && strings[6] == null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + strings[5] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" + "}";
                     }
                     if(strings[5] == null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"endDate\": " + strings[6] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\""+
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
                 }
 
                 if(strings[4] != null){
                     if(strings[5] != null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"transactionInterval\": " + strings[5] +
-                                ", \"endDate\": " + strings[6] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" +
+                                ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
                     if(strings[5] == null && strings[6] == null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + "}";
                     }
                     if(strings[5] != null && strings[6] == null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"transactionInterval\": " + strings[5] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" + "}";
                     }
                     if(strings[5] == null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + strings[0] + ", \"amount\": " + strings[1] + ", \"title\": " + strings[2] +
-                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + strings[4] + ", \"endDate\": " + strings[6] + "}";
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
                 }
-
-                String datum = strings[0].substring(0, 10);
 
                 transactionType tip = transactionType.REGULARPAYMENT;
 
@@ -459,19 +482,19 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     tip = transactionType.INDIVIDUALPAYMENT;
                 }
 
-                Integer interval = 0;
+                Integer interval = null;
 
                 try {
                     if (strings[5] != null)
                         interval = Integer.parseInt(strings[5]);
                 } catch (NumberFormatException e) {
-                    interval = 0;
+                    interval = null;
                 }
 
                 LocalDate krajnjiDatum = null;
                 try {
                     if (strings[6] != null) {
-                        strings[6] = strings[6].substring(0, 10);
+                        //strings[6] = strings[6].substring(0, 10);
                         krajnjiDatum = LocalDate.parse(strings[6], df);
                     }
                 } catch (DateTimeParseException e) {
@@ -480,15 +503,12 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                 LocalDate dat = null;
                 try {
-                    if (datum != null) {
-                        dat = LocalDate.parse(datum, df);
+                    if (strings[0] != null) {
+                        dat = LocalDate.parse(strings[0], df);
                     }
                 } catch (DateTimeParseException e) {
                     dat = null;
                 }
-
-                transakcija = new Transaction(dat, Double.parseDouble(strings[1]), strings[2], tip, strings[4], interval, krajnjiDatum);
-                //transactions.add(transakcija);
 
                 try(OutputStream os = urlConnection.getOutputStream()){
                     byte[] input = jsonInputString.getBytes("utf-8");
@@ -517,14 +537,11 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     }
 
 
+
     @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
         caller.onDone(transactions);
-        //if(tipZahtjeva.equals("add transaction")){
-            caller.onAddDone(transakcija);
-        //}
-
     }
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
@@ -876,12 +893,6 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         return bModel.racun.getMonthLimit();
     }
 
-
-    /*@Override
-    public ArrayList<Transaction> get() {
-        return model.transactions;
-    }*/
-
     @Override
     public boolean CheckTotalLimit(Transaction transaction){
         double potrosnja = 0;
@@ -1032,41 +1043,4 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         }
         return sortirane;
     }
-
-    @Override
-    public String increaseMonth(){
-        int mj = trDatum.getMonthValue();
-        int god = trDatum.getYear();
-        if(mj <= 11){
-            mj++;
-            trDatum = trDatum.withMonth(mj);
-            trDatum = trDatum.withYear(god);
-        }
-        else{
-            mj = 1;
-            god++;
-            trDatum = trDatum.withMonth(mj);
-            trDatum = trDatum.withYear(god);
-        }
-        return (Months.values()[trDatum.getMonthValue() - 1] + "," + Integer.toString(trDatum.getYear()));
-    }
-
-    @Override
-    public String decreaseMonth(){
-        int mj = trDatum.getMonthValue();
-        int god = trDatum.getYear();
-        if(mj >= 2){
-            mj--;
-            trDatum = trDatum.withMonth(mj);
-            trDatum = trDatum.withYear(god);
-        }
-        else{
-            mj = 12;
-            god--;
-            trDatum = trDatum.withMonth(mj);
-            trDatum = trDatum.withYear(god);
-        }
-        return (Months.values()[trDatum.getMonthValue() - 1] + "," + Integer.toString(trDatum.getYear()));
-    }
-
 }

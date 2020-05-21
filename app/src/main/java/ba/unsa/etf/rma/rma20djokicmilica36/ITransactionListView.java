@@ -12,4 +12,5 @@ interface ITransactionListView {
     void setTransactionsByType(ArrayList<Transaction> transactions);
 
     void setTransactionsSorted(ArrayList<Transaction> transactions);
+
 }

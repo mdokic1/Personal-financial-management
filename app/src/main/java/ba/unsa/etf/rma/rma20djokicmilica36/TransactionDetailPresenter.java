@@ -147,9 +147,12 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
 
     }
 
-    @Override
+    /*@Override
     public void onAddDone(Transaction transakcija) {
         view.addTransaction(interactor.getTransact(), transakcija);
         view.notifyTransactionListDataSetChanged();
-    }
+        /*new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
+                this, "get transactions").execute("");*/
+    //}
+
 }

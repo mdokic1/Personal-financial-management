@@ -11,9 +11,9 @@ public interface ITransactionListPresenter {
 
     void refreshTransactionsByTypeSorted(String type, String sortType);
 
-    void increaseTransactionsMonth();
+    void increaseTransactionsMonth(String datum);
 
-    void decreaseTransactionsMonth();
+    void decreaseTransactionsMonth(String datum);
 
     ArrayList<String> getFiltriranje();
 

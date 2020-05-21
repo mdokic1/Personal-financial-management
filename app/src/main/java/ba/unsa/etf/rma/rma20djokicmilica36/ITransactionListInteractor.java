@@ -9,10 +9,6 @@ public interface ITransactionListInteractor {
 
     ArrayList<Transaction> getByTypeSorted(String type, String sort);
 
-    String increaseMonth();
-
-    String decreaseMonth();
-
     boolean CheckTotalLimit(Transaction t);
 
     boolean CheckMonthLimit(Transaction t);

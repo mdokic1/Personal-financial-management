@@ -113,23 +113,74 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         listView= fragmentView.findViewById(R.id.listView);
         listView.setAdapter(transactionListAdapter);
         listView.setOnItemClickListener(listItemClickListener);
-        getPresenter().getTransactions("GET");
-        //getPresenter().refreshTransactionsByDate();
-        String mj = "";
-        if(LocalDate.now().getMonthValue() <= 9){
-            mj = "0" + Integer.toString(LocalDate.now().getMonthValue());
-        }
-        else{
-            mj = Integer.toString(LocalDate.now().getMonthValue());
-        }
-        getPresenter().refreshByDateTypeSorted("", "", mj,
-                Integer.toString(LocalDate.now().getYear()));
 
         filter = fragmentView.findViewById(R.id.filter);
         filter.setAdapter(filterAdapter);
 
         sort = fragmentView.findViewById(R.id.sort);
         sort.setAdapter(sortAdapter);
+        String typeId = "";
+        if(filter.getSelectedItem().toString().equals("Regular payment")){
+            typeId = "1";
+        }
+        if(filter.getSelectedItem().toString().equals("Regular income")){
+            typeId = "2";
+        }
+        if(filter.getSelectedItem().toString().equals("Purchase")){
+            typeId = "3";
+        }
+        if(filter.getSelectedItem().toString().equals("Individual income")){
+            typeId = "4";
+        }
+        if(filter.getSelectedItem().toString().equals("Individual payment")){
+            typeId = "5";
+        }
+        if(filter.getSelectedItem().toString().equals("All types") || filter.getSelectedItem().toString().equals("Filter by")){
+            typeId = "";
+        }
+
+        String sortTip = "";
+
+        if(sort.getSelectedItem().equals("Price - Ascending")){
+            sortTip = "amount.asc";
+        }
+        if(sort.getSelectedItem().equals("Price - Descending")){
+            sortTip = "amount.desc";
+        }
+        if(sort.getSelectedItem().equals("Title - Ascending")){
+            sortTip = "title.asc";
+        }
+        if(sort.getSelectedItem().equals("Title - Descending")){
+            sortTip = "title.desc";
+        }
+        if(sort.getSelectedItem().equals("Date - Ascending")){
+            sortTip = "date.asc";
+        }
+        if(sort.getSelectedItem().equals("Date - Descending")){
+            sortTip = "date.desc";
+        }
+        if(sort.getSelectedItem().equals("Sort by")){
+            sortTip = "";
+        }
+
+        String d = month.getText().toString();
+        int pozicija = d.indexOf(',');
+        String mj = d.substring(0, pozicija);
+        String god = d.substring(pozicija+1, d.length());
+
+        if(mj.equals("January")) mj = "01";
+        if(mj.equals("February")) mj = "02";
+        if(mj.equals("March")) mj = "03";
+        if(mj.equals("April")) mj = "04";
+        if(mj.equals("May")) mj = "05";
+        if(mj.equals("June")) mj = "06";
+        if(mj.equals("July")) mj = "07";
+        if(mj.equals("August")) mj = "08";
+        if(mj.equals("September")) mj = "09";
+        if(mj.equals("October")) mj = "10";
+        if(mj.equals("November")) mj = "11";
+        if(mj.equals("December")) mj = "12";
+        getPresenter().refreshByDateTypeSorted(typeId, sortTip, mj, god);
 
         dodaj = fragmentView.findViewById(R.id.dodaj);
         account = fragmentView.findViewById(R.id.account);
@@ -139,7 +190,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         lim = fragmentView.findViewById(R.id.lim);
         double global = 0.0;
 
-        for(Transaction t : getPresenter().getInteractor().getTransact()){
+       /* for(Transaction t : getPresenter().getInteractor().getTransact()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
                 if(t.getType() == transactionType.REGULARINCOME){
                     long numOfDays = DAYS.between(t.getDate(), t.getEndDate());
@@ -161,17 +212,15 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                     global -= t.getAmount();
                 }
             }
-        }
+        }*/
 
         glAmount.setText("Global amount: " + round(global, 2));
-
-        lim.setText("Limit: " + getPresenter().getInteractor().getTotLimit());
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                getPresenter().decreaseTransactionsMonth();
+                getPresenter().decreaseTransactionsMonth(month.getText().toString());
                 String typeId = "";
                 if(filter.getSelectedItem().toString().equals("Regular payment")){
                     typeId = "1";
@@ -235,8 +284,6 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 if(mjesec.equals("December")) mjesec = "12";
 
                 getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
-                //getPresenter().refreshTransactionsByDate();
-                //getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
             }
         });
 
@@ -244,7 +291,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
             @Override
             public void onClick(View v) {
-                getPresenter().increaseTransactionsMonth();
+                getPresenter().increaseTransactionsMonth(month.getText().toString());
 
                 String typeId = "";
                 if(filter.getSelectedItem().toString().equals("Regular payment")){
@@ -309,8 +356,6 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 if(mjesec.equals("December")) mjesec = "12";
 
                 getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
-                //getPresenter().refreshTransactionsByDate();
-                //getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
             }
         });
 
@@ -379,8 +424,6 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 if(mjesec.equals("October")) mjesec = "10";
                 if(mjesec.equals("November")) mjesec = "11";
                 if(mjesec.equals("December")) mjesec = "12";
-                //String selectedType = sort.getSelectedItem().toString();
-                //getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
                 getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
             }
             public void onNothingSelected(AdapterView<?> parent){
@@ -453,11 +496,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 if(mjesec.equals("October")) mjesec = "10";
                 if(mjesec.equals("November")) mjesec = "11";
                 if(mjesec.equals("December")) mjesec = "12";
-                //String selectedType = sort.getSelectedItem().toString();
-                //getPresenter().refreshTransactionsByTypeSorted(selectedItem, selectedType);
                 getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
-                //String selectedFilter = filter.getSelectedItem().toString();
-                //getPresenter().refreshTransactionsByTypeSorted(selectedFilter, selectedItem);
             }
             public void onNothingSelected(AdapterView<?> parent){
 
@@ -550,6 +589,15 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         super.onResume();
         //transactionListAdapter.setTransactions(getPresenter().getInteractor().getTransact());
         //getPresenter().getTransactions("GET");
+        /*String mj = "";
+        if(LocalDate.now().getMonthValue() <= 9){
+            mj = "0" + Integer.toString(LocalDate.now().getMonthValue());
+        }
+        else{
+            mj = Integer.toString(LocalDate.now().getMonthValue());
+        }
+        getPresenter().refreshByDateTypeSorted("", "", mj,
+                Integer.toString(LocalDate.now().getYear()));*/
         //getPresenter().refreshTransactionsByDate();
         //getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
         String typeId = "";
@@ -614,9 +662,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         if(mjesec.equals("November")) mjesec = "11";
         if(mjesec.equals("December")) mjesec = "12";
         getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
-        getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
-        getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
-        glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
+        //getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
+        //getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
+        //glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
         lim.setText("Limit" + getPresenter().RefreshLimit());
     }
 }
