@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -90,6 +91,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     @Override
     protected Void doInBackground(String... strings) {
+
         String query = null;
         /*try {
             query = URLEncoder.encode(strings[0]);
@@ -205,15 +207,13 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     break;
                 }
             }
-        }
-
-        else if (tipZahtjeva.equals("refresh transactions")) {
+        } else if (tipZahtjeva.equals("refresh transactions")) {
 
             boolean imaDovoljno = true;
             int i = 0;
             while (i >= 0) {
                 String url1 = "";
-                if(i == 0){
+                if (i == 0) {
                     if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
                         if (strings[0] == "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
@@ -231,8 +231,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                                     + api_id + "/transactions/filter?sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
-                    }
-                    else{
+                    } else {
                         if (strings[0] != null && strings[0] != "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                                     + api_id + "/transactions/filter?typeId=" + strings[0];
@@ -247,7 +246,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         }
                     }
 
-                } else{
+                } else {
 
                     if (strings[2] != null && strings[2] != "" && strings[3] != null && strings[3] != "") {
                         if (strings[0] == "" && strings[1] == "") {
@@ -266,8 +265,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                                     + api_id + "/transactions/filter?page=" + i + "&sort=" + strings[1] + "&typeId=" + strings[0] + "&month=" + strings[2] + "&year=" + strings[3];
                         }
-                    }
-                    else{
+                    } else {
                         if (strings[0] != null && strings[0] != "" && strings[1] == "") {
                             url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                                     + api_id + "/transactions/filter?page=" + i + "&typeId=" + strings[0];
@@ -399,10 +397,8 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
             }
 
-        }
-
-        else if(tipZahtjeva.equals("add transaction")){
-            String url1="http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+        } else if (tipZahtjeva.equals("add transaction")) {
+            String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                     + api_id + "/transactions";
             try {
                 URL url = new URL(url1);
@@ -413,57 +409,57 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 urlConnection.setDoOutput(true);
 
                 String jsonInputString = "";
-                if(strings[3].equals("Regular payment")){
+                if (strings[3].equals("Regular payment")) {
                     strings[3] = "1";
                 }
-                if(strings[3].equals("Regular income")){
+                if (strings[3].equals("Regular income")) {
                     strings[3] = "2";
                 }
-                if(strings[3].equals("Purchase")){
+                if (strings[3].equals("Purchase")) {
                     strings[3] = "3";
                 }
-                if(strings[3].equals("Individual income")){
+                if (strings[3].equals("Individual income")) {
                     strings[3] = "4";
                 }
-                if(strings[3].equals("Individual payment")){
+                if (strings[3].equals("Individual payment")) {
                     strings[3] = "5";
                 }
 
-                if(strings[4] == null){
-                    if(strings[5] != null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\""+ ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
+                if (strings[4] == null) {
+                    if (strings[5] != null && strings[6] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" +
                                 ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
-                    if(strings[5] == null && strings[6] == null){
+                    if (strings[5] == null && strings[6] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + "}";
                     }
-                    if(strings[5] != null && strings[6] == null){
+                    if (strings[5] != null && strings[6] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" + "}";
                     }
-                    if(strings[5] == null && strings[6] != null){
-                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\""+
+                    if (strings[5] == null && strings[6] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
                 }
 
-                if(strings[4] != null){
-                    if(strings[5] != null && strings[6] != null){
+                if (strings[4] != null) {
+                    if (strings[5] != null && strings[6] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" +
                                 ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
-                    if(strings[5] == null && strings[6] == null){
+                    if (strings[5] == null && strings[6] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + "}";
                     }
-                    if(strings[5] != null && strings[6] == null){
+                    if (strings[5] != null && strings[6] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"transactionInterval\": " + "\"" + strings[5] + "\"" + "}";
                     }
-                    if(strings[5] == null && strings[6] != null){
+                    if (strings[5] == null && strings[6] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[0] + "\"" + ", \"amount\": " + strings[1] + ", \"title\": " + "\"" + strings[2] + "\"" +
                                 ", \"TransactionTypeId\": " + strings[3] + ", \"itemDescription\": " + "\"" + strings[4] + "\"" + ", \"endDate\": " + "\"" + strings[6] + "\"" + "}";
                     }
@@ -519,16 +515,16 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     dat = null;
                 }
 
-                try(OutputStream os = urlConnection.getOutputStream()){
+                try (OutputStream os = urlConnection.getOutputStream()) {
                     byte[] input = jsonInputString.getBytes("utf-8");
                     os.write(input, 0, input.length);
                 }
 
-                try(BufferedReader br = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))){
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
                     StringBuilder response = new StringBuilder();
                     String responseLine = null;
-                    while((responseLine = br.readLine()) != null){
+                    while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
                     System.out.println(response.toString());
@@ -541,14 +537,109 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 e.printStackTrace();
             }
 
+        } else if (tipZahtjeva.equals("change transaction")) {
+            String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                    + api_id + "/transactions/" + strings[0];
+
+            try {
+                URL url = new URL(url1);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true);
+
+
+                if (strings[4].equals("Regular payment")) {
+                    strings[4] = "1";
+                }
+                if (strings[4].equals("Regular income")) {
+                    strings[4] = "2";
+                }
+                if (strings[4].equals("Purchase")) {
+                    strings[4] = "3";
+                }
+                if (strings[4].equals("Individual income")) {
+                    strings[4] = "4";
+                }
+                if (strings[4].equals("Individual payment")) {
+                    strings[4] = "5";
+                }
+
+               // String jsonInputString = "\"TransactionTypeId\": " + strings[4];
+                String jsonInputString = "";
+
+                if (strings[5] == null) {
+                    if (strings[6] != null && strings[7] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" +
+                                ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                    }
+                    if (strings[6] == null && strings[7] == null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + "}";
+                    }
+                    if (strings[6] != null && strings[7] == null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" + "}";
+                    }
+                    if (strings[6] == null && strings[7] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                    }
+                }
+
+                if (strings[5] != null) {
+                    if (strings[6] != null && strings[7] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" +
+                                ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                    }
+                    if (strings[6] == null && strings[7] == null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + "}";
+                    }
+                    if (strings[6] != null && strings[7] == null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" + "}";
+                    }
+                    if (strings[6] == null && strings[7] != null) {
+                        jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                    }
+                }
+
+                try (OutputStream os = urlConnection.getOutputStream()) {
+                    byte[] input = jsonInputString.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine = null;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    System.out.println(response.toString());
+                }
+
+
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
-        else if(tipZahtjeva.equals("change transaction")){
-
+        else if(tipZahtjeva.equals("delete transaction")){
+            
         }
         return null;
     }
-
 
 
     @Override

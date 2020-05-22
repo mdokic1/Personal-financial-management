@@ -92,8 +92,6 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
         if (getArguments() != null && getArguments().containsKey("transaction")) {
             getPresenter().setTransaction(getArguments().getParcelable("transaction"));
 
-
-
             icon = view.findViewById(R.id.icon);
             type = view.findViewById(R.id.type);
             amount = (EditText) view.findViewById(R.id.amount);
@@ -214,7 +212,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     amount.setBackgroundColor(Color.GREEN);
-                    amount.setTag("changed");
+                    //amount.setTag("changed");
 
                 }
 
@@ -240,7 +238,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     title.setBackgroundColor(Color.GREEN);
-                    title.setTag("changed");
+                    //title.setTag("changed");
 
                 }
 
@@ -266,7 +264,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     date.setBackgroundColor(Color.GREEN);
-                    date.setTag("changed");
+                    //date.setTag("changed");
 
                 }
 
@@ -307,7 +305,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     endDate.setBackgroundColor(Color.GREEN);
-                    endDate.setTag("changed");
+                    //endDate.setTag("changed");
 
                 }
 
@@ -368,7 +366,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     interval.setBackgroundColor(Color.GREEN);
-                    interval.setTag("changed");
+                    //interval.setTag("changed");
 
                 }
 
@@ -401,7 +399,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     desc.setBackgroundColor(Color.GREEN);
-                    desc.setTag("changed");
+                    //desc.setTag("changed");
 
                 }
 
@@ -431,6 +429,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 String noviDesc = "";
                 LocalDate noviEndDate;
                 String noviEndDate2 = "";
+                String izmjenaDate = null, izmjenaAmount = null, izmjenaTitle = null, izmjenaDesc = null, izmjenaInterval = null, izmjenaEndDate = null;
 
                 @Override
                 public void onClick(View v) {
@@ -540,48 +539,57 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
-                                String izmjenaDate, izmjenaAmount, izmjenaTitle, izmjenaDesc, izmjenaInterval, izmjenaEndDate;
-                                if(date.getTag().equals("changed")){
+
+                                if(LocalDate.parse(date.getText().toString()) != date_before){
                                     izmjenaDate = date.getText().toString();
                                 }
                                 else{
                                     izmjenaDate = null;
                                 }
 
-                                if(amount.getTag().equals("changed")){
+                                if(Double.parseDouble(amount.getText().toString()) != amount_before){
                                     izmjenaAmount = amount.getText().toString();
                                 }
                                 else{
                                     izmjenaAmount = null;
                                 }
 
-                                if(title.getTag().equals("changed")){
+                                if(title.getText().toString() != title_before){
                                     izmjenaTitle = title.getText().toString();
                                 }
                                 else{
                                     izmjenaTitle = null;
                                 }
 
-                                if(desc.getTag().equals("changed") && desc.getText().toString() != ""){
+                                if(desc.getText().toString() != "" && desc.getText().toString() != "null"
+                                                             && desc.getText().toString() != desc_before){
                                     izmjenaDesc = desc.getText().toString();
                                 }
                                 else{
                                     izmjenaDesc = null;
                                 }
 
-                                if(interval.getTag().equals("changed") && interval.getText().toString() != ""){
-                                    izmjenaInterval = interval.getText().toString();
+                                if(interval.getText().toString() != ""  && interval.getText().toString() != "null" && interval.getText().toString() != "0"){
+                                    if(Integer.parseInt(interval.getText().toString()) != interval_before){
+                                        izmjenaInterval = interval.getText().toString();
+                                    }
                                 }
                                 else{
                                     izmjenaInterval = null;
                                 }
 
-                                if(endDate.getTag().equals("changed") && endDate.getText().toString() != ""){
-                                    izmjenaEndDate = endDate.getText().toString();
-                                }
-                                else{
+
+                                try{
+                                    if(endDate.getText().toString() != "" && endDate.getText().toString() != "null") {
+                                        LocalDate end = LocalDate.parse(endDate.getText().toString());
+                                        if(end != endDate_before) {
+                                            izmjenaEndDate = endDate.getText().toString();
+                                        }
+                                    }
+                                } catch (Exception e) {
                                     izmjenaEndDate = null;
                                 }
+
                                 if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
                                         nova.getType() == transactionType.PURCHASE) {
                                     if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
@@ -591,8 +599,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
-                                                                     type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
+                                                                title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
                                                         onButtonClick.Refresh();
                                                         getFragmentManager().popBackStack();
                                                     }
@@ -605,14 +613,14 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 })
                                                 .show();
                                     } else {
-                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
-                                                type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
+                                                title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
                                         onButtonClick.Refresh();
                                         getFragmentManager().popBackStack();
                                     }
                                 } else {
-                                    getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
-                                            type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                    getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
+                                            title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }

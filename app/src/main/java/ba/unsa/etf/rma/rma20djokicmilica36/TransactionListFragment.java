@@ -541,7 +541,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                     0, LocalDate.now());
 
-            for (int i = 0; i < parent.getChildCount(); i++) {
+            onItemClick.onItemClicked(transaction, "izmijeni");
+
+            /*for (int i = 0; i < parent.getChildCount(); i++) {
 
                 if (i == position) {
                     if (position != prePos) {
@@ -555,7 +557,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                     }
 
                 }
-            }
+            }*/
         }
     };
 
