@@ -92,6 +92,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
         if (getArguments() != null && getArguments().containsKey("transaction")) {
             getPresenter().setTransaction(getArguments().getParcelable("transaction"));
 
+
+
             icon = view.findViewById(R.id.icon);
             type = view.findViewById(R.id.type);
             amount = (EditText) view.findViewById(R.id.amount);
@@ -104,6 +106,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
             delete = (Button) view.findViewById(R.id.delete);
 
             Transaction transaction = getPresenter().getTransaction();
+            Integer IDtransakcije = transaction.getTransaction_id();
             amount.setText(String.valueOf(transaction.getAmount()));
             title.setText(transaction.getTitle());
             date.setText(transaction.getDate().toString());
@@ -211,6 +214,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     amount.setBackgroundColor(Color.GREEN);
+                    amount.setTag("changed");
 
                 }
 
@@ -236,6 +240,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     title.setBackgroundColor(Color.GREEN);
+                    title.setTag("changed");
 
                 }
 
@@ -261,6 +266,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     date.setBackgroundColor(Color.GREEN);
+                    date.setTag("changed");
 
                 }
 
@@ -301,6 +307,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     endDate.setBackgroundColor(Color.GREEN);
+                    endDate.setTag("changed");
 
                 }
 
@@ -361,6 +368,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     interval.setBackgroundColor(Color.GREEN);
+                    interval.setTag("changed");
 
                 }
 
@@ -393,6 +401,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                     desc.setBackgroundColor(Color.GREEN);
+                    desc.setTag("changed");
 
                 }
 
@@ -491,74 +500,122 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                         Transaction nova = new Transaction(LocalDate.parse(date.getText().toString()), Double.parseDouble(amount.getText().toString()),
                                 title.getText().toString(), noviTip, noviDesc, noviInterval, noviEndDate);
 
+                        if(getArguments() != null && getArguments().containsKey("akcija")) {
 
-                        if (indeks == -1) {
 
-                            if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
-                                    nova.getType() == transactionType.PURCHASE) {
-                                if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
-                                    AlertDialog alertDialog1 = new AlertDialog.Builder(getActivity())
-                                            .setTitle("Confirm")
-                                            .setMessage("Are you sure you want to add this transaction?")
-                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
-                                                            type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
-                                                    onButtonClick.Refresh();
-                                                    getFragmentManager().popBackStack();
-                                                }
-                                            })
-                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    getFragmentManager().popBackStack();
-                                                }
-                                            })
-                                            .show();
+                            if (getArguments().getString("akcija").equals("dodaj")) {
+
+                                if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
+                                        nova.getType() == transactionType.PURCHASE) {
+                                    if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
+                                        AlertDialog alertDialog1 = new AlertDialog.Builder(getActivity())
+                                                .setTitle("Confirm")
+                                                .setMessage("Are you sure you want to add this transaction?")
+                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
+                                                                type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
+                                                        onButtonClick.Refresh();
+                                                        getFragmentManager().popBackStack();
+                                                    }
+                                                })
+                                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        getFragmentManager().popBackStack();
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
+                                                type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
+                                        onButtonClick.Refresh();
+                                        getFragmentManager().popBackStack();
+                                    }
                                 } else {
                                     getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
                                             type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
                                     onButtonClick.Refresh();
-                                    //getFragmentManager().popBackStack();
-                                }
-                            } else {
-                                getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
-                                        type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
-                                onButtonClick.Refresh();
-                                getFragmentManager().popBackStack();
-                            }
-                        } else {
-                            if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
-                                    nova.getType() == transactionType.PURCHASE) {
-                                if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
-                                    AlertDialog alertDialog2 = new AlertDialog.Builder(getActivity())
-                                            .setTitle("Confirm")
-                                            .setMessage("Are you sure you want to change this transaction?")
-                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    getPresenter().refreshTransactionsChange(indeks, nova);
-                                                    onButtonClick.Refresh();
-                                                    getFragmentManager().popBackStack();
-                                                }
-                                            })
-                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-
-                                                }
-                                            })
-                                            .show();
-                                } else {
-                                    getPresenter().refreshTransactionsChange(indeks, nova);
-                                    onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
                             } else {
-                                getPresenter().refreshTransactionsChange(indeks, nova);
-                                onButtonClick.Refresh();
-                                getFragmentManager().popBackStack();
+                                String izmjenaDate, izmjenaAmount, izmjenaTitle, izmjenaDesc, izmjenaInterval, izmjenaEndDate;
+                                if(date.getTag().equals("changed")){
+                                    izmjenaDate = date.getText().toString();
+                                }
+                                else{
+                                    izmjenaDate = null;
+                                }
+
+                                if(amount.getTag().equals("changed")){
+                                    izmjenaAmount = amount.getText().toString();
+                                }
+                                else{
+                                    izmjenaAmount = null;
+                                }
+
+                                if(title.getTag().equals("changed")){
+                                    izmjenaTitle = title.getText().toString();
+                                }
+                                else{
+                                    izmjenaTitle = null;
+                                }
+
+                                if(desc.getTag().equals("changed") && desc.getText().toString() != ""){
+                                    izmjenaDesc = desc.getText().toString();
+                                }
+                                else{
+                                    izmjenaDesc = null;
+                                }
+
+                                if(interval.getTag().equals("changed") && interval.getText().toString() != ""){
+                                    izmjenaInterval = interval.getText().toString();
+                                }
+                                else{
+                                    izmjenaInterval = null;
+                                }
+
+                                if(endDate.getTag().equals("changed") && endDate.getText().toString() != ""){
+                                    izmjenaEndDate = endDate.getText().toString();
+                                }
+                                else{
+                                    izmjenaEndDate = null;
+                                }
+                                if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
+                                        nova.getType() == transactionType.PURCHASE) {
+                                    if (!getPresenter().getInteractor().CheckTotalLimit(nova) || !getPresenter().getInteractor().CheckMonthLimit(nova)) {
+                                        AlertDialog alertDialog2 = new AlertDialog.Builder(getActivity())
+                                                .setTitle("Confirm")
+                                                .setMessage("Are you sure you want to change this transaction?")
+                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
+                                                                     type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                                        onButtonClick.Refresh();
+                                                        getFragmentManager().popBackStack();
+                                                    }
+                                                })
+                                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
+                                                type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                        onButtonClick.Refresh();
+                                        getFragmentManager().popBackStack();
+                                    }
+                                } else {
+                                    getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), izmjenaDate, izmjenaAmount, izmjenaTitle,
+                                            type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+                                    onButtonClick.Refresh();
+                                    getFragmentManager().popBackStack();
+                                }
                             }
                         }
                     }

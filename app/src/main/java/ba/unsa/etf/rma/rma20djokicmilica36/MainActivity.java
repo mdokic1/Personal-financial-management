@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements TransactionListFragment.OnItemClick, TransactionDetailFragment.OnButtonClick{
 
@@ -62,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
     }
 
     @Override
-    public void onItemClicked(Transaction transaction) {
+    public void onItemClicked(Transaction transaction, String akcija) {
         Bundle arguments = new Bundle();
         arguments.putParcelable("transaction", transaction);
+        arguments.putString("akcija", akcija);
         TransactionDetailFragment detailFragment = new TransactionDetailFragment();
         detailFragment.setArguments(arguments);
         if (twoPaneMode){

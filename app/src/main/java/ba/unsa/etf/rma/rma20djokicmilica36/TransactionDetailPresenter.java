@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TransactionDetailPresenter implements ITransactionDetailPresenter, TransactionListInteractor.OnTransactionsGetDone{
     private ITransactionDetailView view;
@@ -122,9 +123,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
     }
 
     @Override
-    public void refreshTransactionsChange(int indeks, Transaction t) {
-        view.changeTransaction(interactor.getTransact(), indeks, t);
-        view.notifyTransactionListDataSetChanged();
+    public void refreshTransactionsChange(String id, String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate) {
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "change transaction").execute(id, date, amount, title, transactionType, desc, trInterval, endDate);
+        //view.changeTransaction(interactor.getTransact(), indeks, t);
+        //view.notifyTransactionListDataSetChanged();
     }
 
     @Override

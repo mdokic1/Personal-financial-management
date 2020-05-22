@@ -171,7 +171,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                         LocalDate krajnjiDatum = null;
                         try {
-                            if (endDate != null) {
+                            if (endDate != null && endDate != "null") {
                                 endDate = endDate.substring(0, 10);
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
@@ -187,12 +187,6 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         } catch (DateTimeParseException e) {
                             dat = null;
                         }
-
-                        /*if(endDate != null && transactionInterval != null){
-                            LocalDate pomocni = dat;
-
-
-                        }*/
 
                         transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
                         //if (i==4) break;
@@ -352,7 +346,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                         LocalDate krajnjiDatum = null;
                         try {
-                            if (endDate != null) {
+                            if (endDate != null && endDate != "null") {
                                 endDate = endDate.substring(0, 10);
                                 krajnjiDatum = LocalDate.parse(endDate, df);
                             }
@@ -368,6 +362,21 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         } catch (DateTimeParseException e) {
                             dat = null;
                         }
+
+                        /*if(endDate != null && endDate != "null" && transactionInterval != null && transactionInterval != "null"){
+                            LocalDate pomocni = dat;
+                            //long numberOfDays = DAYS.between(dat, krajnjiDatum);
+                            pomocni = dat.plusDays(interval);
+                            if(pomocni.compareTo(krajnjiDatum) <= 0){
+                                while(pomocni.compareTo(krajnjiDatum) <= 0){
+                                    if(pomocni.getMonthValue() == dat.getMonthValue() )
+                                    transactions.add(new Transaction(pomocni, amount, title, tip, itemDescription, interval, krajnjiDatum));
+                                    pomocni = pomocni.plusDays(interval);
+                                }
+                            }
+
+
+                        }*/
 
                         transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
                         //if (i==4) break;
@@ -531,6 +540,10 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        }
+
+        else if(tipZahtjeva.equals("change transaction")){
 
         }
         return null;

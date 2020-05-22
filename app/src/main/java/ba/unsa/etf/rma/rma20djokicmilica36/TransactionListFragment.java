@@ -3,6 +3,7 @@ package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private OnItemClick onLeftClick;
 
     public interface OnItemClick {
-        void onItemClicked(Transaction transaction);
+        void onItemClicked(Transaction transaction, String akcija);
         void onRightClicked(Account account);
         void onLeftClicked();
     }
@@ -509,7 +510,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 Transaction transaction = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                         0, LocalDate.now());
 
-                onItemClick.onItemClicked(transaction);
+                onItemClick.onItemClicked(transaction,"dodaj");
             }
         });
 
@@ -545,12 +546,12 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                 if (i == position) {
                     if (position != prePos) {
                         parent.getChildAt(i).setBackgroundColor(Color.GRAY);
-                        onItemClick.onItemClicked(transaction);
+                        onItemClick.onItemClicked(transaction, "izmijeni");
                         prePos = position;
                     } else {
                         parent.getChildAt(i).setBackgroundColor(0x76AAE1);
                         prePos = -1;
-                        onItemClick.onItemClicked(tr);
+                        onItemClick.onItemClicked(tr, "izmijeni");
                     }
 
                 }

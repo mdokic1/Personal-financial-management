@@ -20,7 +20,7 @@ interface ITransactionDetailPresenter {
     ArrayList<String> getIzborTipa4();
     ArrayList<String> getIzborTipa5();
 
-    void refreshTransactionsChange(int indeks, Transaction t);
+    void refreshTransactionsChange(String id, String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate);
 
     void refreshTransactionsRemove(int indeks);
 
