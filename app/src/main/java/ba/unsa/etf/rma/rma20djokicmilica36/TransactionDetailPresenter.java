@@ -131,9 +131,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
     }
 
     @Override
-    public void refreshTransactionsRemove(int indeks){
-        view.removeTransaction(interactor.getTransact(), indeks);
-        view.notifyTransactionListDataSetChanged();
+    public void refreshTransactionsRemove(String id){
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "delete transaction").execute(id);
+        //view.removeTransaction(interactor.getTransact(), indeks);
+        //view.notifyTransactionListDataSetChanged();
     }
 
     @Override

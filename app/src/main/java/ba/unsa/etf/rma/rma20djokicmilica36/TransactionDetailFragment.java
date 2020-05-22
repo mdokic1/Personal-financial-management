@@ -641,7 +641,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    getPresenter().refreshTransactionsRemove(indeks);
+                                    getPresenter().refreshTransactionsRemove(String.valueOf(IDtransakcije));
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }

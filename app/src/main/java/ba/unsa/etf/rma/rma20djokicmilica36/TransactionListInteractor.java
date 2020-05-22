@@ -635,10 +635,39 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
         }
 
-        else if(tipZahtjeva.equals("delete transaction")){
-            
+        else if(tipZahtjeva.equals("delete transaction")) {
+            String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
+                    + api_id + "/transactions/" + strings[0];
+
+            try {
+                URL url = new URL(url1);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("DELETE");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true);
+
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine = null;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    System.out.println(response.toString());
+                }
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String jsonInputString = "";
+
         }
-        return null;
+            return null;
     }
 
 

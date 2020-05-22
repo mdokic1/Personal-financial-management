@@ -22,7 +22,7 @@ interface ITransactionDetailPresenter {
 
     void refreshTransactionsChange(String id, String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate);
 
-    void refreshTransactionsRemove(int indeks);
+    void refreshTransactionsRemove(String id);
 
     void refreshTransactionsAdd(String date, String amount, String title, String transactionType, String desc, String trInterval, String endDate);
 
