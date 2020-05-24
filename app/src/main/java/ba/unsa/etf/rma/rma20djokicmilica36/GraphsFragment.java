@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
 
 public class GraphsFragment extends Fragment implements IGraphsView {
     private Spinner tipGrafa;
@@ -80,10 +81,6 @@ public class GraphsFragment extends Fragment implements IGraphsView {
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 getPresenter().makeGraphs(selectedItem);
 
-                potrosnja.setData(getPresenter().getBarDataPotrosnja());
-                zarada.setData(getPresenter().getBarDataZarada());
-                ukupno.setData(getPresenter().getBarDataUkupno());
-
             }
 
             @Override
@@ -115,5 +112,12 @@ public class GraphsFragment extends Fragment implements IGraphsView {
         });
 
         return view;
+    }
+
+    @Override
+    public void setData(BarData barDataPotrosnja, BarData barDataZarada, BarData barDataUkupno) {
+        potrosnja.setData(getPresenter().getBarDataPotrosnja());
+        zarada.setData(getPresenter().getBarDataZarada());
+        ukupno.setData(getPresenter().getBarDataUkupno());
     }
 }

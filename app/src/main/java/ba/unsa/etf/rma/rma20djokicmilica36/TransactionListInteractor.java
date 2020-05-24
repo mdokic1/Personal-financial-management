@@ -40,10 +40,24 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     String api_id = "dd11f314-79cd-443b-9fbf-8425e3424f46";
     ArrayList<Transaction> transactions;
+    ArrayList<Float> mjesecniGrafPotrosnja;
+    ArrayList<Float> mjesecniGrafZarada;
+    ArrayList<Float> mjesecniGrafUkupno;
+    ArrayList<Float> sedmicniGrafPotrosnja;
+    ArrayList<Float> sedmicniGrafZarada;
+    ArrayList<Float> sedmicniGrafUkupno;
+    ArrayList<Float> dnevniGrafPotrosnja;
+    ArrayList<Float> dnevniGrafZarada;
+    ArrayList<Float> dnevniGrafUkupno;
+
     Transaction transakcija;
 
     public interface OnTransactionsGetDone{
         public void onDone(ArrayList<Transaction> results);
+
+        void returnGraphs(ArrayList<Float> mjesecniGrafPotrosnja, ArrayList<Float> mjesecniGrafZarada, ArrayList<Float> mjesecniGrafUkupno,
+                          ArrayList<Float> sedmicniGrafPotrosnja, ArrayList<Float> sedmicniGrafZarada, ArrayList<Float> sedmicniGrafUkupno,
+                          ArrayList<Float> dnevniGrafPotrosnja, ArrayList<Float> dnevniGrafZarada, ArrayList<Float> dnevniGrafUkupno);
         //public void onAddDone(Transaction transakcija);
     }
 
@@ -58,6 +72,15 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         caller = p;
         this.tipZahtjeva = tipZahtjeva;
         transactions = new ArrayList<Transaction>();
+        mjesecniGrafPotrosnja = new ArrayList<Float>();
+        mjesecniGrafZarada = new ArrayList<Float>();
+        mjesecniGrafUkupno = new ArrayList<Float>();
+        sedmicniGrafPotrosnja = new ArrayList<Float>();
+        sedmicniGrafZarada = new ArrayList<Float>();
+        sedmicniGrafUkupno = new ArrayList<Float>();
+        dnevniGrafPotrosnja = new ArrayList<Float>();
+        dnevniGrafZarada = new ArrayList<Float>();
+        dnevniGrafUkupno = new ArrayList<Float>();
         //transakcija = new Transaction(LocalDate.now(), 0.0, "", transactionType.INDIVIDUALPAYMENT, "", null, null);
     };
 
@@ -98,7 +121,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }*/
-        if (tipZahtjeva.equals("get transactions")) {
+        if (tipZahtjeva.equals("get transactions") || tipZahtjeva.equals("make graphs")) {
             boolean imaDovoljno = true;
             int i = 0;
             String url1 = "";
@@ -207,6 +230,39 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     break;
                 }
             }
+
+            if(strings[0].equals("Time interval") || strings[0].equals("Month")){
+                for(int j = 1; j <= 12; j++){
+                    mjesecniGrafPotrosnja.add(MjesecnaPotrosnja(j));
+                    mjesecniGrafZarada.add(MjesecnaZarada(j));
+                    mjesecniGrafUkupno.add(MjesecnoUkupno(j));
+                }
+            }
+
+            if(strings[0].equals("Week")){
+                for(int j = 1; j <= 4; j++){
+                    sedmicniGrafPotrosnja.add(SedmicnaPotrosnja(j));
+                    sedmicniGrafZarada.add(SedmicnaZarada(j));
+                    sedmicniGrafUkupno.add(SedmicnoUkupno(j));
+                }
+            }
+
+            if(strings[0].equals("Day")){
+                int trenutniMjesec = LocalDate.now().getMonthValue();
+                int pocPetlje = pocetakSedmice();
+                int krajPetlje = pocPetlje + 6;
+                if(pocPetlje > 28){
+                    krajPetlje = brojDanaUMjesecu.get(trenutniMjesec - 1);
+                }
+
+                for(int j = pocPetlje; j <= krajPetlje; j++){
+                    dnevniGrafPotrosnja.add(DnevnaPotrosnja(j));
+                    dnevniGrafZarada.add(DnevnaZarada(j));
+                    dnevniGrafUkupno.add(DnevnoUkupno(j));
+                }
+            }
+
+
         } else if (tipZahtjeva.equals("refresh transactions")) {
 
             boolean imaDovoljno = true;
@@ -566,7 +622,6 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                     strings[4] = "5";
                 }
 
-               // String jsonInputString = "\"TransactionTypeId\": " + strings[4];
                 String jsonInputString = "";
 
                 if (strings[5] == null) {
@@ -675,6 +730,8 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
         caller.onDone(transactions);
+        caller.returnGraphs(mjesecniGrafPotrosnja, mjesecniGrafZarada, mjesecniGrafUkupno, sedmicniGrafPotrosnja, sedmicniGrafZarada,
+                            sedmicniGrafUkupno, dnevniGrafPotrosnja, dnevniGrafZarada, dnevniGrafUkupno);
     }
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){

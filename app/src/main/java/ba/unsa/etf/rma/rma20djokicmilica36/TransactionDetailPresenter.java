@@ -152,6 +152,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
 
     }
 
+    @Override
+    public void returnGraphs(ArrayList<Float> mjesecniGrafPotrosnja, ArrayList<Float> mjesecniGrafZarada, ArrayList<Float> mjesecniGrafUkupno, ArrayList<Float> sedmicniGrafPotrosnja, ArrayList<Float> sedmicniGrafZarada, ArrayList<Float> sedmicniGrafUkupno, ArrayList<Float> dnevniGrafPotrosnja, ArrayList<Float> dnevniGrafZarada, ArrayList<Float> dnevniGrafUkupno) {
+
+    }
+
     /*@Override
     public void onAddDone(Transaction transakcija) {
         view.addTransaction(interactor.getTransact(), transakcija);

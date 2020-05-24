@@ -183,6 +183,11 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
 
     @Override
+    public void returnGraphs(ArrayList<Float> mjesecniGrafPotrosnja, ArrayList<Float> mjesecniGrafZarada, ArrayList<Float> mjesecniGrafUkupno, ArrayList<Float> sedmicniGrafPotrosnja, ArrayList<Float> sedmicniGrafZarada, ArrayList<Float> sedmicniGrafUkupno, ArrayList<Float> dnevniGrafPotrosnja, ArrayList<Float> dnevniGrafZarada, ArrayList<Float> dnevniGrafUkupno) {
+
+    }
+
+    @Override
     public void getTransactions(String query){
         new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
                 this, "get transactions").execute(query);
