@@ -213,4 +213,9 @@ public class GraphsPresenter implements IGraphsPresenter, TransactionListInterac
 
     }
 
+    @Override
+    public void returnAccount(Account racun) {
+       view.setRacun(racun);
+    }
+
 }

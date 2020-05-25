@@ -46,10 +46,18 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     ArrayList<Float> mjesecniGrafUkupno;
     ArrayList<Float> sedmicniGrafPotrosnja;
     ArrayList<Float> sedmicniGrafZarada;
+
+
     ArrayList<Float> sedmicniGrafUkupno;
     ArrayList<Float> dnevniGrafPotrosnja;
     ArrayList<Float> dnevniGrafZarada;
     ArrayList<Float> dnevniGrafUkupno;
+
+    Account racun;
+
+    public Account getRacun() {
+        return racun;
+    }
 
     Transaction transakcija;
 
@@ -59,6 +67,8 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         void returnGraphs(ArrayList<Float> mjesecniGrafPotrosnja, ArrayList<Float> mjesecniGrafZarada, ArrayList<Float> mjesecniGrafUkupno,
                           ArrayList<Float> sedmicniGrafPotrosnja, ArrayList<Float> sedmicniGrafZarada, ArrayList<Float> sedmicniGrafUkupno,
                           ArrayList<Float> dnevniGrafPotrosnja, ArrayList<Float> dnevniGrafZarada, ArrayList<Float> dnevniGrafUkupno);
+
+        void returnAccount(Account racun);
         //public void onAddDone(Transaction transakcija);
     }
 
@@ -83,6 +93,8 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         dnevniGrafPotrosnja = new ArrayList<Float>();
         dnevniGrafZarada = new ArrayList<Float>();
         dnevniGrafUkupno = new ArrayList<Float>();
+        racun = new Account(0.0, 0, 0);
+        //racun = new Account();
         //transakcija = new Transaction(LocalDate.now(), 0.0, "", transactionType.INDIVIDUALPAYMENT, "", null, null);
     };
 
@@ -265,6 +277,32 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
             }
 
 
+            String url3 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/" + api_id;
+
+            try{
+                URL url = new URL(url3);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                String result = convertStreamToString(in);
+                JSONObject jo = new JSONObject(result);
+                //JSONObject account = jo.getJSONObject("account");
+
+                Double budget = jo.getDouble("budget");
+                Integer totalLimit = jo.getInt("totalLimit");
+                Integer monthLimit = jo.getInt("monthLimit");
+
+                racun.setBudget(budget);
+                racun.setTotalLimit(totalLimit);
+                racun.setMonthLimit(monthLimit);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         } else if (tipZahtjeva.equals("refresh transactions")) {
 
             boolean imaDovoljno = true;
@@ -418,21 +456,6 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                         } catch (DateTimeParseException e) {
                             dat = null;
                         }
-
-                        /*if(endDate != null && endDate != "null" && transactionInterval != null && transactionInterval != "null"){
-                            LocalDate pomocni = dat;
-                            //long numberOfDays = DAYS.between(dat, krajnjiDatum);
-                            pomocni = dat.plusDays(interval);
-                            if(pomocni.compareTo(krajnjiDatum) <= 0){
-                                while(pomocni.compareTo(krajnjiDatum) <= 0){
-                                    if(pomocni.getMonthValue() == dat.getMonthValue() )
-                                    transactions.add(new Transaction(pomocni, amount, title, tip, itemDescription, interval, krajnjiDatum));
-                                    pomocni = pomocni.plusDays(interval);
-                                }
-                            }
-
-
-                        }*/
 
                         if(tip != transactionType.REGULARPAYMENT && tip != transactionType.REGULARINCOME){
                             transactions.add(new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum));
@@ -612,6 +635,33 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 transactions = (ArrayList<Transaction>) transactions.stream().
                         sorted(Comparator.comparing(Transaction::getDate).reversed()).collect(Collectors.toList());
             }
+
+            String url3 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/" + api_id;
+
+            try{
+                URL url = new URL(url3);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                String result = convertStreamToString(in);
+                JSONObject jo = new JSONObject(result);
+                //JSONObject account = jo.getJSONObject("account");
+
+                Double budget = jo.getDouble("budget");
+                Integer totalLimit = jo.getInt("totalLimit");
+                Integer monthLimit = jo.getInt("monthLimit");
+
+                racun.setBudget(budget);
+                racun.setTotalLimit(totalLimit);
+                racun.setMonthLimit(monthLimit);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
 
         } else if (tipZahtjeva.equals("add transaction")) {
             String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
@@ -879,7 +929,65 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 e.printStackTrace();
             }
 
-            String jsonInputString = "";
+        }
+
+        else if(tipZahtjeva.equals("change account")){
+            String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/" + api_id;
+
+            try{
+                URL url = new URL(url1);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setDoOutput(true);
+
+                String jsonInputString = "";
+
+                if(strings[1] == null && strings[2] == null){
+                    jsonInputString = "{\"budget\": " + strings[0] + "}";
+                }
+
+                if(strings[1] != null && strings[2] != null){
+                    jsonInputString = "{\"budget\": " + strings[0] + ", \"monthLimit\": " + strings[2] + ", \"totalLimit\": " + strings[1] + "}";
+                }
+
+                if(strings[1] != null && strings[2] == null){
+                    jsonInputString = "{\"budget\": " + strings[0] + ", \"totalLimit\": " + strings[1] + "}";
+                }
+
+                if(strings[1] == null && strings[2] != null){
+                    jsonInputString = "{\"budget\": " + strings[0] + ", \"monthLimit\": " + strings[2] + "}";
+                }
+
+                try (OutputStream os = urlConnection.getOutputStream()) {
+                    byte[] input = jsonInputString.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine = null;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    System.out.println(response.toString());
+                }
+
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if(tipZahtjeva.equals("refresh account")){
+
+
+
 
         }
             return null;
@@ -892,6 +1000,8 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         caller.onDone(transactions);
         caller.returnGraphs(mjesecniGrafPotrosnja, mjesecniGrafZarada, mjesecniGrafUkupno, sedmicniGrafPotrosnja, sedmicniGrafZarada,
                             sedmicniGrafUkupno, dnevniGrafPotrosnja, dnevniGrafZarada, dnevniGrafUkupno);
+
+        caller.returnAccount(racun);
     }
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){

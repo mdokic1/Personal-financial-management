@@ -13,4 +13,5 @@ interface ITransactionListView {
 
     void setTransactionsSorted(ArrayList<Transaction> transactions);
 
+    void setRacun(Account racun);
 }

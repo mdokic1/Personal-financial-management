@@ -30,4 +30,6 @@ interface ITransactionDetailPresenter {
 
 
     void setTransaction(Parcelable transaction);
+
+
 }

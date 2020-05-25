@@ -32,6 +32,10 @@ public class Account implements Parcelable {
         }
     };
 
+    public Account() {
+
+    }
+
     public double getBudget() {
         return budget;
     }

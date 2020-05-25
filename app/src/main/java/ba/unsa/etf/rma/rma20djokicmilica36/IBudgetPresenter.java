@@ -9,5 +9,7 @@ public interface IBudgetPresenter {
 
     Account getAccount();
 
-    void ChangeAccount(Account stari, Account novi);
+    public void changeAccount(String budget, String totalLim, String monthLim);
+
+    void refreshAccount();
 }

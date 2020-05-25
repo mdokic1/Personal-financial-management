@@ -19,6 +19,7 @@ public class GraphsFragment extends Fragment implements IGraphsView {
     private Button buttonGBudget;
 
     private GraphsAdapter graphsAdapter;
+    private Account racun;
 
     private IGraphsPresenter graphsPresenter;
 
@@ -101,10 +102,10 @@ public class GraphsFragment extends Fragment implements IGraphsView {
             @Override
             public void onClick(View v) {
                 Bundle arguments = new Bundle();
-                Account account = new Account(getPresenter().getInteractor().getBModel().racun.getBudget(),
+                /*Account account = new Account(getPresenter().getInteractor().getBModel().racun.getBudget(),
                         getPresenter().getInteractor().getBModel().racun.getTotalLimit(),
-                        getPresenter().getInteractor().getBModel().racun.getMonthLimit());
-                arguments.putParcelable("account", account);
+                        getPresenter().getInteractor().getBModel().racun.getMonthLimit());*/
+                arguments.putParcelable("account", racun);
                 BudgetFragment budgetFragment = new BudgetFragment();
                 budgetFragment.setArguments(arguments);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.transactions_list, budgetFragment).addToBackStack(null).commit();
@@ -119,5 +120,10 @@ public class GraphsFragment extends Fragment implements IGraphsView {
         potrosnja.setData(getPresenter().getBarDataPotrosnja());
         zarada.setData(getPresenter().getBarDataZarada());
         ukupno.setData(getPresenter().getBarDataUkupno());
+    }
+
+    @Override
+    public void setRacun(Account racun) {
+        this.racun = racun;
     }
 }

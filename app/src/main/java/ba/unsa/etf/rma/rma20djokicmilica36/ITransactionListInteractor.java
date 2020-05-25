@@ -45,4 +45,6 @@ public interface ITransactionListInteractor {
     float DnevnoUkupno(int dan);
 
     ArrayList<Transaction> getTransact();
+
+    Account getRacun();
 }

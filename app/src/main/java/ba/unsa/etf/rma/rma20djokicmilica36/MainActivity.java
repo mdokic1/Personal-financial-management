@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
             if(mj.equals("December")) mj = "12";
             listFragment.getPresenter().refreshByDateTypeSorted(typeId, sortTip, mj, god);
             //listFragment.getPresenter().refreshTransactionsByTypeSorted(filter.getSelectedItem().toString(), sort.getSelectedItem().toString());
-            glAmount.setText("Global amount: " + round(listFragment.getPresenter().RefreshAmount(), 2));
-            lim.setText("Limit: " + listFragment.getPresenter().RefreshLimit());
+            glAmount.setText("Global amount: " + round(listFragment.getRacun().getBudget(), 2));
+            lim.setText("Limit: " + listFragment.getRacun().getTotalLimit());
         }
 
    }

@@ -40,10 +40,14 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private Button buttonMGraphs;
     //private Button graphs;
 
+    private Account racun;
+
     int prePos = -1;
     int prePos2 = -1;
 
-
+    public Account getRacun() {
+        return racun;
+    }
 
     private TransactionListAdapter transactionListAdapter;
 
@@ -92,6 +96,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         onRightClick = (OnItemClick) getActivity();
         onLeftClick = (OnItemClick) getActivity();
 
+        //racun = new Account(1000.0, 100, 100);
 
         transactionListAdapter = new TransactionListAdapter(getActivity(), R.layout.list_element,new ArrayList<Transaction>());
 
@@ -189,7 +194,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
 
         glAmount = fragmentView.findViewById(R.id.glAmount);
         lim = fragmentView.findViewById(R.id.lim);
-        double global = 0.0;
+        //double global = 0.0;
+
+        //getPresenter().azurirajRacun();
 
        /* for(Transaction t : getPresenter().getInteractor().getTransact()){
             if (t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.REGULARINCOME){
@@ -215,7 +222,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             }
         }*/
 
-        glAmount.setText("Global amount: " + round(global, 2));
+        //glAmount.setText("Global amount: " + round(global, 2));
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
 
@@ -518,8 +525,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             @Override
             public void onClick(View v) {
 
-                Account account = getPresenter().getInteractor().getBModel().racun;
-                onRightClick.onRightClicked(account);
+               onRightClick.onRightClicked(racun);
             }
         });
 
@@ -574,6 +580,13 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     @Override
     public void setTransactionsSorted(ArrayList<Transaction> transactions) {
         transactionListAdapter.setTransactionsSorted(transactions);
+    }
+
+    @Override
+    public void setRacun(Account racun) {
+        this.racun = racun;
+        glAmount.setText("Global amount: " + round(racun.getBudget(), 2));
+        lim.setText("Limit: " + racun.getTotalLimit());
     }
 
     @Override
@@ -667,7 +680,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         getPresenter().refreshByDateTypeSorted(typeId, sortTip, mjesec, godina);
         //getPresenter().getInteractor().getBModel().racun.setBudget(getPresenter().RefreshAmount());
         //getPresenter().getInteractor().getBModel().racun.setTotalLimit(getPresenter().RefreshLimit());
-        //glAmount.setText("Global amount: " + round(getPresenter().RefreshAmount(), 2));
-        lim.setText("Limit" + getPresenter().RefreshLimit());
+        //getPresenter().azurirajRacun();
+
     }
 }

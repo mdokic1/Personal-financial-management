@@ -146,6 +146,17 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
         //view.notifyTransactionListDataSetChanged();
     }
 
+    /*@Override
+    public void changeAccount(String budget, String totalLim, String monthLim) {
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, "change account").execute(budget,
+                totalLim, monthLim);
+
+        /*stari.setBudget(novi.getBudget());
+        stari.setMonthLimit(novi.getMonthLimit());
+        stari.setTotalLimit(novi.getTotalLimit());*/
+
+   // }
+
 
     @Override
     public void onDone(ArrayList<Transaction> results) {
@@ -154,6 +165,11 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
 
     @Override
     public void returnGraphs(ArrayList<Float> mjesecniGrafPotrosnja, ArrayList<Float> mjesecniGrafZarada, ArrayList<Float> mjesecniGrafUkupno, ArrayList<Float> sedmicniGrafPotrosnja, ArrayList<Float> sedmicniGrafZarada, ArrayList<Float> sedmicniGrafUkupno, ArrayList<Float> dnevniGrafPotrosnja, ArrayList<Float> dnevniGrafZarada, ArrayList<Float> dnevniGrafUkupno) {
+
+    }
+
+    @Override
+    public void returnAccount(Account racun) {
 
     }
 

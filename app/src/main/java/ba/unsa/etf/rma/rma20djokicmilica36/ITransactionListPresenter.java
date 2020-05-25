@@ -26,4 +26,6 @@ public interface ITransactionListPresenter {
     int RefreshLimit();
 
     void getTransactions(String query);
+
+    void azurirajRacun();
 }

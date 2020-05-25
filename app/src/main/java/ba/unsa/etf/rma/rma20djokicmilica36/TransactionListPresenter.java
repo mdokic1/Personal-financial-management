@@ -10,7 +10,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class TransactionListPresenter implements ITransactionListPresenter, TransactionListInteractor.OnTransactionsGetDone {
     private ITransactionListView view;
     //private ITransactionListInteractor interactor = new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this, " transactions");
-     private ITransactionListInteractor interactor;
+    private ITransactionListInteractor interactor;
     private Context context;
 
     public static ArrayList<String> filtriranje = new ArrayList<String>(){
@@ -188,9 +188,19 @@ public class TransactionListPresenter implements ITransactionListPresenter, Tran
     }
 
     @Override
+    public void returnAccount(Account racun) {
+        view.setRacun(racun);
+    }
+
+    @Override
     public void getTransactions(String query){
         new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)
                 this, "get transactions").execute(query);
 
+    }
+
+    @Override
+    public void azurirajRacun() {
+        //new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone) this, "refresh account");
     }
 }

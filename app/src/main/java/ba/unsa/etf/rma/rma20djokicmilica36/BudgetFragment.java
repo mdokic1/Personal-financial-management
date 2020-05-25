@@ -45,20 +45,41 @@ public class BudgetFragment extends Fragment implements IBudgetView {
             budzet.setText(String.valueOf(getPresenter().getAccount().getBudget()));
             mLimit.setText(String.valueOf(getPresenter().getAccount().getMonthLimit()));
             tLimit.setText(String.valueOf(getPresenter().getAccount().getTotalLimit()));
+            //getPresenter().refreshAccount();
 
-            getPresenter().create(Double.parseDouble(budzet.getText().toString()), Integer.parseInt(tLimit.getText().toString()),
-                    Integer.parseInt(mLimit.getText().toString()));
+            /*getPresenter().create(Double.parseDouble(budzet.getText().toString()), Integer.parseInt(tLimit.getText().toString()),
+                    Integer.parseInt(mLimit.getText().toString()));*/
+
+            Double stariBudget = Double.parseDouble(budzet.getText().toString());
+            Integer stariTotalLimit = Integer.parseInt(tLimit.getText().toString());
+            Integer stariMonthLimit = Integer.parseInt(mLimit.getText().toString());
 
 
             sacuvaj.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+                    String total = null, month = null;
                     Account novi = new Account(Double.parseDouble(budzet.getText().toString()), Integer.parseInt(tLimit.getText().toString()),
                             Integer.parseInt(mLimit.getText().toString()));
 
-                    Account stari = getPresenter().getAccount();
-                    getPresenter().ChangeAccount(stari, novi);
+                    //Account stari = getPresenter().getAccount();
+                     if(tLimit.getText().toString().equals(String.valueOf(stariTotalLimit))){
+                         total = null;
+                     }
+                     else{
+                         total = tLimit.getText().toString();
+                     }
+
+                     if(mLimit.getText().toString().equals(String.valueOf(stariMonthLimit))){
+                         month = null;
+                     }
+                     else{
+                         month = mLimit.getText().toString();
+                     }
+
+                     getPresenter().changeAccount(budzet.getText().toString(), total, month);
+                     //getFragmentManager().popBackStack();
                 }
             });
 
@@ -84,12 +105,11 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         return view;
     }
 
+
     @Override
-    public void Change(Account stari, Account novi) {
-
-        stari.setBudget(novi.getBudget());
-        stari.setMonthLimit(novi.getMonthLimit());
-        stari.setTotalLimit(novi.getTotalLimit());
-
+    public void setAccount(Account racun) {
+        budzet.setText(String.valueOf(racun.getBudget()));
+        tLimit.setText(String.valueOf(racun.getTotalLimit()));
+        mLimit.setText(String.valueOf(racun.getMonthLimit()));
     }
 }
