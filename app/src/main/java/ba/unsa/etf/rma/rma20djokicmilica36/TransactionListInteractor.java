@@ -552,7 +552,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                         Transaction nova = new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum);
 
-                        if (tip == transactionType.REGULARPAYMENT || tip == transactionType.REGULARINCOME) {
+                        if (((strings[0] == "" || strings[0].equals("1")) && tip == transactionType.REGULARPAYMENT) || ((strings[0] == "" || strings[0].equals("2")) && tip == transactionType.REGULARINCOME)) {
                             if(!(Integer.parseInt(strings[3]) < dat.getYear() || (Integer.parseInt(strings[3]) == dat.getYear()
                                     && Integer.parseInt(strings[2]) < dat.getMonthValue()))
                                     &&  !(Integer.parseInt(strings[3]) > krajnjiDatum.getYear() || (Integer.parseInt(strings[3]) == krajnjiDatum.getYear()
@@ -582,6 +582,36 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
             }
 
             transactions.addAll(regularneTransakcije);
+
+            if(strings[1].equals("amount.asc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparingDouble(Transaction::getAmount)).collect(Collectors.toList());
+            }
+
+            if(strings[1].equals("amount.desc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparingDouble(Transaction::getAmount).reversed()).collect(Collectors.toList());
+            }
+
+            if(strings[1].equals("title.asc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparing(Transaction::getTitle)).collect(Collectors.toList());
+            }
+
+            if(strings[1].equals("title.desc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparing(Transaction::getTitle).reversed()).collect(Collectors.toList());
+            }
+
+            if(strings[1].equals("date.asc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparing(Transaction::getDate)).collect(Collectors.toList());
+            }
+
+            if(strings[1].equals("date.desc")){
+                transactions = (ArrayList<Transaction>) transactions.stream().
+                        sorted(Comparator.comparing(Transaction::getDate).reversed()).collect(Collectors.toList());
+            }
 
         } else if (tipZahtjeva.equals("add transaction")) {
             String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
