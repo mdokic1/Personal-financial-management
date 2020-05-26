@@ -528,6 +528,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                             long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                                             long number = numOfDays/noviInterval;
                                                             budzet -= nova.getAmount()*number;
+                                                            budzet -= nova.getAmount();
                                                         }
                                                         else{
                                                             budzet -= nova.getAmount();
@@ -553,6 +554,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                             long number = numOfDays/noviInterval;
                                             budzet -= nova.getAmount()*number;
+                                            budzet -= nova.getAmount();
                                         }
                                         else{
                                             budzet -= nova.getAmount();
@@ -572,6 +574,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                         long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                         long number = numOfDays/noviInterval;
                                         budzet += nova.getAmount()*number;
+                                        budzet += nova.getAmount();
                                     }
                                     else{
                                         budzet += nova.getAmount();
@@ -595,6 +598,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     long numOfDays = DAYS.between(date_before, endDate_before);
                                     long number = numOfDays/interval_before;
                                     stari_budget -= amount_before*number;
+                                    stari_budget -= amount_before;
                                 }
                                 else if (type_before == transactionType.INDIVIDUALPAYMENT || type_before == transactionType.PURCHASE){
                                     stari_budget -= amount_before;
@@ -603,6 +607,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     long numOfDays = DAYS.between(date_before, endDate_before);
                                     long number = numOfDays/interval_before;
                                     stari_budget += amount_before*number;
+                                    stari_budget += amount_before;
                                 }
                                 else if(type_before == transactionType.INDIVIDUALINCOME){
                                     stari_budget += amount_before;
@@ -687,6 +692,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                             long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                                             long number = numOfDays/noviInterval;
                                                             budzet -= nova.getAmount()*number;
+                                                            budzet -= nova.getAmount();
                                                         }
                                                         else{
                                                             budzet -= nova.getAmount();
@@ -715,6 +721,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                             long number = numOfDays/noviInterval;
                                             budzet -= nova.getAmount()*number;
+                                            budzet -= nova.getAmount();
                                         }
                                         else{
                                             budzet -= nova.getAmount();
@@ -734,6 +741,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                         long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
                                         long number = numOfDays/noviInterval;
                                         budzet += nova.getAmount()*number;
+                                        budzet += nova.getAmount();
                                     }
                                     else{
                                         budzet += nova.getAmount();
@@ -769,6 +777,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                         long numOfDays = DAYS.between(date_before, endDate_before);
                         long number = numOfDays/interval_before;
                         stari_budget -= amount_before*number;
+                        stari_budget -= amount_before;
                     }
                     else if (type_before == transactionType.INDIVIDUALPAYMENT || type_before == transactionType.PURCHASE){
                         stari_budget -= amount_before;
@@ -777,6 +786,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                         long numOfDays = DAYS.between(date_before, endDate_before);
                         long number = numOfDays/interval_before;
                         stari_budget += amount_before*number;
+                        stari_budget += amount_before;
                     }
                     else if(type_before == transactionType.INDIVIDUALINCOME){
                         stari_budget += amount_before;

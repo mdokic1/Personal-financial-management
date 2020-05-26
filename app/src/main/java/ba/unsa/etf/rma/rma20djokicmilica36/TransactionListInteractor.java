@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.rma20djokicmilica36;
 
 import android.os.AsyncTask;
+import android.os.LocaleList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -575,13 +576,40 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
                         Transaction nova = new Transaction(id, dat, amount, title, tip, itemDescription, interval, krajnjiDatum);
 
+                        if(strings[2].equals("01")) strings[2] = "1";
+                        if(strings[2].equals("02")) strings[2] = "2";
+                        if(strings[2].equals("03")) strings[2] = "3";
+                        if(strings[2].equals("04")) strings[2] = "4";
+                        if(strings[2].equals("05")) strings[2] = "5";
+                        if(strings[2].equals("06")) strings[2] = "6";
+                        if(strings[2].equals("07")) strings[2] = "7";
+                        if(strings[2].equals("08")) strings[2] = "8";
+                        if(strings[2].equals("09")) strings[2] = "9";
+
                         if (((strings[0] == "" || strings[0].equals("1")) && tip == transactionType.REGULARPAYMENT) || ((strings[0] == "" || strings[0].equals("2")) && tip == transactionType.REGULARINCOME)) {
                             if(!(Integer.parseInt(strings[3]) < dat.getYear() || (Integer.parseInt(strings[3]) == dat.getYear()
                                     && Integer.parseInt(strings[2]) < dat.getMonthValue()))
                                     &&  !(Integer.parseInt(strings[3]) > krajnjiDatum.getYear() || (Integer.parseInt(strings[3]) == krajnjiDatum.getYear()
                                     && Integer.parseInt(strings[2]) > krajnjiDatum.getMonthValue())) ){
-
-                                regularneTransakcije.add(nova);
+                                //regularneTransakcije.add(nova);
+                                //LocalDate novi = dat.plusDays(nova.getTransactionInterval());
+                                LocalDate novi = dat;
+                                /*while(!(Integer.parseInt(strings[3]) < novi.getYear() || (Integer.parseInt(strings[3]) == novi.getYear()
+                                        && Integer.parseInt(strings[2]) < novi.getMonthValue()))
+                                        &&  !(Integer.parseInt(strings[3]) > krajnjiDatum.getYear() || (Integer.parseInt(strings[3]) == krajnjiDatum.getYear()
+                                        && Integer.parseInt(strings[2]) > krajnjiDatum.getMonthValue())) && novi.compareTo(krajnjiDatum) <= 0 && ){
+                                    regularneTransakcije.add(nova);
+                                    novi = novi.plusDays(nova.getTransactionInterval());
+                                }*/
+                                LocalDate trenutno = LocalDate.of(Integer.parseInt(strings[3]), Integer.parseInt(strings[2]), 1);
+                                while(novi.compareTo(trenutno) < 0){
+                                    novi = novi.plusDays(nova.getTransactionInterval());
+                                }
+                                while(novi.getMonthValue() == Integer.parseInt(strings[2]) && novi.getYear() == Integer.parseInt(strings[3])
+                                     && novi.compareTo(krajnjiDatum) <= 0){
+                                    regularneTransakcije.add(nova);
+                                    novi = novi.plusDays(nova.getTransactionInterval());
+                                }
                             }
 
                         }
