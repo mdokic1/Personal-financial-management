@@ -550,9 +550,9 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                     0, LocalDate.now());
 
-            //onItemClick.onItemClicked(transaction, "izmijeni");
+            onItemClick.onItemClicked(transaction, "izmijeni");
 
-            boolean polozaj = mode.returnMode();
+            /*boolean polozaj = mode.returnMode();
 
             if(polozaj == true){
                 for (int i = 0; i < parent.getChildCount(); i++) {
@@ -580,7 +580,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
                     }
                 }
 
-            }
+            }*/
         }
     };
 

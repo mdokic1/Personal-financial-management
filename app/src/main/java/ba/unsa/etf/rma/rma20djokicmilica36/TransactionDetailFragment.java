@@ -532,7 +532,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                         else{
                                                             budzet -= nova.getAmount();
                                                         }
-
+                                                        budzet = racun.getBudget() + budzet;
+                                                        getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
                                                         onButtonClick.Refresh();
                                                         getFragmentManager().popBackStack();
                                                     }
@@ -557,6 +558,9 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                             budzet -= nova.getAmount();
                                         }
 
+                                        budzet = racun.getBudget() + budzet;
+                                        getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+
                                         onButtonClick.Refresh();
                                         getFragmentManager().popBackStack();
                                     }
@@ -572,15 +576,16 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     else{
                                         budzet += nova.getAmount();
                                     }
-
+                                    budzet = racun.getBudget() + budzet;
+                                    getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
 
-                                budzet = racun.getBudget() + budzet;
+                                //budzet = racun.getBudget() + budzet;
                                 //racun.setBudget(budzet);
-                                getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
-                                onButtonClick.Refresh();
+                                //getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+                                //onButtonClick.Refresh();
                             } else {
 
                                 budzet = 0.0;
@@ -687,6 +692,9 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                             budzet -= nova.getAmount();
                                                         }
 
+                                                        budzet = racun.getBudget() - stari_budget + budzet;
+                                                        getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+
                                                         onButtonClick.Refresh();
                                                         getFragmentManager().popBackStack();
                                                     }
@@ -695,6 +703,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         stari_budget = 0.0;
+                                                        getFragmentManager().popBackStack();
                                                     }
                                                 })
                                                 .show();
@@ -710,6 +719,9 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                         else{
                                             budzet -= nova.getAmount();
                                         }
+
+                                        budzet = racun.getBudget() - stari_budget + budzet;
+                                        getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
 
                                         onButtonClick.Refresh();
                                         getFragmentManager().popBackStack();
@@ -727,14 +739,17 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                         budzet += nova.getAmount();
                                     }
 
+                                    budzet = racun.getBudget() - stari_budget + budzet;
+                                    getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
 
-                                budzet = racun.getBudget() - stari_budget + budzet;
+                               // budzet = racun.getBudget() - stari_budget + budzet;
                                // racun.setBudget(budzet);
-                                getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
-                                onButtonClick.Refresh();
+                                //getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+                                //onButtonClick.Refresh();
                             }
                         }
                     }
@@ -777,6 +792,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
 
                                     //budzet = racun.getBudget() - stari_budget;
 
+                                    stari_budget = racun.getBudget() - stari_budget;
+
+                                    getPresenter().azurirajBudzet(String.valueOf(stari_budget), null, null);
+
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
@@ -791,10 +810,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                             })
                             .show();
 
-                    stari_budget = racun.getBudget() - stari_budget;
+                    //stari_budget = racun.getBudget() - stari_budget;
                     //racun.setBudget(stari_budget);
-                    getPresenter().azurirajBudzet(String.valueOf(stari_budget), null, null);
-                    onButtonClick.Refresh();
+                    //getPresenter().azurirajBudzet(String.valueOf(stari_budget), null, null);
+                    //onButtonClick.Refresh();
                 }
             });
 
