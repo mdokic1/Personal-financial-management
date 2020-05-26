@@ -15,4 +15,6 @@ public interface ITransactionDetailView {
 
 
     void setTransactions(ArrayList<Transaction> results);
+
+    void setAccount(Account racun);
 }

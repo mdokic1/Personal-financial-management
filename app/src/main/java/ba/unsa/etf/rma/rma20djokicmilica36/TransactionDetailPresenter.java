@@ -30,6 +30,19 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
         this.transaction = (Transaction)transaction;
     }
 
+    @Override
+    public void azurirajBudzet(String budzet, String totalLimit, String monthLimit) {
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "change account").execute(budzet, totalLimit, monthLimit);
+    }
+
+    @Override
+    public void azurirajAccount() {
+        new TransactionListInteractor((TransactionListInteractor.OnTransactionsGetDone)this,
+                "refresh account").execute();
+    }
+
+
     public static ArrayList<String> izborTipa1 = new ArrayList<String>(){
         {
             add("Individual payment");
@@ -170,7 +183,7 @@ public class TransactionDetailPresenter implements ITransactionDetailPresenter, 
 
     @Override
     public void returnAccount(Account racun) {
-
+       view.setAccount(racun);
     }
 
     /*@Override

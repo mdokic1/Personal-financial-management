@@ -24,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class TransactionDetailFragment extends Fragment implements ITransactionDetailView {
 
     private ImageView icon;
@@ -36,6 +38,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
     private EditText desc;
     private Button save;
     private Button delete;
+
+    private Account racun;
 
     double amount_before;
     String title_before;
@@ -176,6 +180,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 detailSpinnerAdapter = new DetailSpinnerAdapter(getActivity(), R.layout.detail_spinner_element, getPresenter().getIzborTipa5());
                 type.setAdapter(detailSpinnerAdapter);
             }
+
+            getPresenter().azurirajAccount();
 
             type_before = tip;
 
@@ -423,6 +429,8 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
 
 
             save.setOnClickListener(new View.OnClickListener() {
+                double budzet = 0.0;
+                double stari_budget = 0.0;
                 transactionType noviTip;
                 Integer noviInterval;
                 String noviInterval2 = "";
@@ -515,6 +523,16 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
                                                                 type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
+
+                                                        if(nova.getType() == transactionType.REGULARPAYMENT){
+                                                            long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                                            long number = numOfDays/noviInterval;
+                                                            budzet -= nova.getAmount()*number;
+                                                        }
+                                                        else{
+                                                            budzet -= nova.getAmount();
+                                                        }
+
                                                         onButtonClick.Refresh();
                                                         getFragmentManager().popBackStack();
                                                     }
@@ -529,16 +547,60 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     } else {
                                         getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
                                                 type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
+
+                                        if(nova.getType() == transactionType.REGULARPAYMENT){
+                                            long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                            long number = numOfDays/noviInterval;
+                                            budzet -= nova.getAmount()*number;
+                                        }
+                                        else{
+                                            budzet -= nova.getAmount();
+                                        }
+
                                         onButtonClick.Refresh();
                                         getFragmentManager().popBackStack();
                                     }
                                 } else {
                                     getPresenter().refreshTransactionsAdd(date.getText().toString(), amount.getText().toString(), title.getText().toString(),
                                             type.getSelectedItem().toString(), noviDesc, noviInterval2, noviEndDate2);
+
+                                    if(nova.getType() == transactionType.REGULARINCOME){
+                                        long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                        long number = numOfDays/noviInterval;
+                                        budzet += nova.getAmount()*number;
+                                    }
+                                    else{
+                                        budzet += nova.getAmount();
+                                    }
+
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
+
+                                budzet = racun.getBudget() + budzet;
+                                //racun.setBudget(budzet);
+                                getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
                             } else {
+
+                                budzet = 0.0;
+                                stari_budget = 0.0;
+
+                                if(type_before == transactionType.REGULARPAYMENT){
+                                    long numOfDays = DAYS.between(date_before, endDate_before);
+                                    long number = numOfDays/interval_before;
+                                    stari_budget -= amount_before*number;
+                                }
+                                else if (type_before == transactionType.INDIVIDUALPAYMENT || type_before == transactionType.PURCHASE){
+                                    stari_budget -= amount_before;
+                                }
+                                else if(type_before == transactionType.REGULARINCOME){
+                                    long numOfDays = DAYS.between(date_before, endDate_before);
+                                    long number = numOfDays/interval_before;
+                                    stari_budget += amount_before*number;
+                                }
+                                else if(type_before == transactionType.INDIVIDUALINCOME){
+                                    stari_budget += amount_before;
+                                }
 
                                 if(LocalDate.parse(date.getText().toString()) != date_before){
                                     izmjenaDate = date.getText().toString();
@@ -601,6 +663,17 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
                                                                 title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+
+
+                                                         if(nova.getType() == transactionType.REGULARPAYMENT){
+                                                            long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                                            long number = numOfDays/noviInterval;
+                                                            budzet -= nova.getAmount()*number;
+                                                        }
+                                                        else{
+                                                            budzet -= nova.getAmount();
+                                                        }
+
                                                         onButtonClick.Refresh();
                                                         getFragmentManager().popBackStack();
                                                     }
@@ -608,22 +681,46 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-
+                                                        stari_budget = 0.0;
                                                     }
                                                 })
                                                 .show();
                                     } else {
                                         getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
                                                 title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+
+                                        if(nova.getType() == transactionType.REGULARPAYMENT){
+                                            long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                            long number = numOfDays/noviInterval;
+                                            budzet -= nova.getAmount()*number;
+                                        }
+                                        else{
+                                            budzet -= nova.getAmount();
+                                        }
+
                                         onButtonClick.Refresh();
                                         getFragmentManager().popBackStack();
                                     }
                                 } else {
                                     getPresenter().refreshTransactionsChange(String.valueOf(IDtransakcije), date.getText().toString(), amount.getText().toString(),
                                             title.getText().toString(), type.getSelectedItem().toString(), izmjenaDesc, izmjenaInterval, izmjenaEndDate);
+
+                                    if(nova.getType() == transactionType.REGULARINCOME){
+                                        long numOfDays = DAYS.between(LocalDate.parse(date.getText().toString()), noviEndDate);
+                                        long number = numOfDays/noviInterval;
+                                        budzet += nova.getAmount()*number;
+                                    }
+                                    else{
+                                        budzet += nova.getAmount();
+                                    }
+
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
+
+                                budzet = racun.getBudget() - stari_budget + budzet;
+                               // racun.setBudget(budzet);
+                                getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
                             }
                         }
                     }
@@ -632,8 +729,29 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
 
 
             delete.setOnClickListener(new View.OnClickListener() {
+
+                double stari_budget = 0.0;
+                double budzet = 0.0;
+
                 @Override
                 public void onClick(View v) {
+
+                    if(type_before == transactionType.REGULARPAYMENT){
+                        long numOfDays = DAYS.between(date_before, endDate_before);
+                        long number = numOfDays/interval_before;
+                        stari_budget -= amount_before*number;
+                    }
+                    else if (type_before == transactionType.INDIVIDUALPAYMENT || type_before == transactionType.PURCHASE){
+                        stari_budget -= amount_before;
+                    }
+                    else if(type_before == transactionType.REGULARINCOME){
+                        long numOfDays = DAYS.between(date_before, endDate_before);
+                        long number = numOfDays/interval_before;
+                        stari_budget += amount_before*number;
+                    }
+                    else if(type_before == transactionType.INDIVIDUALINCOME){
+                        stari_budget += amount_before;
+                    }
 
                     AlertDialog alertDialog3 = new AlertDialog.Builder(getActivity())
                             .setTitle("Confirm Deletion")
@@ -642,17 +760,26 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     getPresenter().refreshTransactionsRemove(String.valueOf(IDtransakcije));
+
+                                    //budzet = racun.getBudget() - stari_budget;
+
                                     onButtonClick.Refresh();
                                     getFragmentManager().popBackStack();
                                 }
+
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    stari_budget = 0.0;
                                     getFragmentManager().popBackStack();
                                 }
                             })
                             .show();
+
+                    stari_budget = racun.getBudget() - stari_budget;
+                    //racun.setBudget(stari_budget);
+                    getPresenter().azurirajBudzet(String.valueOf(stari_budget), null, null);
                 }
             });
 
@@ -684,6 +811,11 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
     @Override
     public void setTransactions(ArrayList<Transaction> results) {
 
+    }
+
+    @Override
+    public void setAccount(Account racun) {
+        this.racun = racun;
     }
 
 }

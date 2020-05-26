@@ -803,6 +803,32 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 e.printStackTrace();
             }
 
+            String url3 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/" + api_id;
+
+            try{
+                URL url = new URL(url3);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                String result = convertStreamToString(in);
+                JSONObject jo = new JSONObject(result);
+                //JSONObject account = jo.getJSONObject("account");
+
+                Double budget = jo.getDouble("budget");
+                Integer totalLimit = jo.getInt("totalLimit");
+                Integer monthLimit = jo.getInt("monthLimit");
+
+                racun.setBudget(budget);
+                racun.setTotalLimit(totalLimit);
+                racun.setMonthLimit(monthLimit);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         } else if (tipZahtjeva.equals("change transaction")) {
             String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/"
                     + api_id + "/transactions/" + strings[0];
@@ -986,8 +1012,30 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
         else if(tipZahtjeva.equals("refresh account")){
 
+            String url1 = "http://rma20-app-rmaws.apps.us-west-1.starter.openshift-online.com/account/" + api_id;
 
+            try{
+                URL url = new URL(url1);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                String result = convertStreamToString(in);
+                JSONObject jo = new JSONObject(result);
+                //JSONObject account = jo.getJSONObject("account");
 
+                Double budget = jo.getDouble("budget");
+                Integer totalLimit = jo.getInt("totalLimit");
+                Integer monthLimit = jo.getInt("monthLimit");
+
+                racun.setBudget(budget);
+                racun.setTotalLimit(totalLimit);
+                racun.setMonthLimit(monthLimit);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
             return null;

@@ -31,5 +31,7 @@ interface ITransactionDetailPresenter {
 
     void setTransaction(Parcelable transaction);
 
+    void azurirajBudzet(String budzet, String totalLimit, String monthLimit);
 
+    void azurirajAccount();
 }
