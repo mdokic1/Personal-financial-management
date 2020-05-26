@@ -12,3 +12,6 @@ ne prikazu se odmah, nego se mora prvo scrollati misem (grafici se ucitavaju jed
 Sedmicni grafovi prikazuju sedmice tekuceg mjeseca. Racunaju se samo cijele sedmice u mjesecu, tacnije datumi od 1. do 28. Dnevni grafovi prikazuju 
 dane u tekucoj sedmici. Tekuca sedmica se pronalazi tako sto se krene od 1. u tekucem mjesecu i trazi se sedmica u kojoj se nalazi trenutni datum. 
 Datumi nakon 28. u mjesecu se prikazuju zajedno u jednom grafu(dakle,ukupno je 5 mogucih grafika za sedmice u mjesecu). 
+
+Treca spirala:
+Nekada je potrebno sacekati da se ucitaju svi podaci, pogotovo za grafike(pojavljuju se kada se scrolla misem, kao i na prethodnoj spirali).
