@@ -433,10 +433,10 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                 double stari_budget = 0.0;
                 transactionType noviTip;
                 Integer noviInterval;
-                String noviInterval2 = "";
-                String noviDesc = "";
+                String noviInterval2 = null;
+                String noviDesc = null;
                 LocalDate noviEndDate;
-                String noviEndDate2 = "";
+                String noviEndDate2 = null;
                 String izmjenaDate = null, izmjenaAmount = null, izmjenaTitle = null, izmjenaDesc = null, izmjenaInterval = null, izmjenaEndDate = null;
 
                 @Override
@@ -580,6 +580,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 budzet = racun.getBudget() + budzet;
                                 //racun.setBudget(budzet);
                                 getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+                                onButtonClick.Refresh();
                             } else {
 
                                 budzet = 0.0;
@@ -623,33 +624,45 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                     izmjenaTitle = null;
                                 }
 
-                                if(desc.getText().toString() != "" && desc.getText().toString() != "null"
-                                                             && desc.getText().toString() != desc_before){
+                                if(desc.getText().toString() != "" && desc.getText().toString() != "null" && desc.getText().toString() != null){
                                     izmjenaDesc = desc.getText().toString();
                                 }
                                 else{
                                     izmjenaDesc = null;
                                 }
 
-                                if(interval.getText().toString() != ""  && interval.getText().toString() != "null" && interval.getText().toString() != "0"){
-                                    if(Integer.parseInt(interval.getText().toString()) != interval_before){
-                                        izmjenaInterval = interval.getText().toString();
+                                try{
+                                    if(interval.getText().toString() != ""  && interval.getText().toString() != "null" && interval.getText().toString() != "0"
+                                            && interval.getText().toString() != null){
+                                        //if(Integer.parseInt(interval.getText().toString()) != interval_before){
+                                            izmjenaInterval = interval.getText().toString();
+                                        //}
                                     }
-                                }
-                                else{
+                                } catch (Exception e) {
                                     izmjenaInterval = null;
                                 }
 
-
                                 try{
-                                    if(endDate.getText().toString() != "" && endDate.getText().toString() != "null") {
-                                        LocalDate end = LocalDate.parse(endDate.getText().toString());
-                                        if(end != endDate_before) {
+                                    if(endDate.getText().toString() != "" && endDate.getText().toString() != "null" && endDate.getText().toString() != null) {
+                                        //LocalDate end = LocalDate.parse(endDate.getText().toString());
+                                        //if(end != endDate_before) {
                                             izmjenaEndDate = endDate.getText().toString();
-                                        }
+                                        //}
                                     }
                                 } catch (Exception e) {
                                     izmjenaEndDate = null;
+                                }
+
+                                if(izmjenaDesc.equals("")){
+                                    izmjenaDesc = null;
+                                }
+
+                                if(izmjenaEndDate.equals("")){
+                                    izmjenaEndDate = null;
+                                }
+
+                                if(izmjenaInterval.equals("")){
+                                    izmjenaInterval = null;
                                 }
 
                                 if (nova.getType() == transactionType.REGULARPAYMENT || nova.getType() == transactionType.INDIVIDUALPAYMENT ||
@@ -721,6 +734,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                                 budzet = racun.getBudget() - stari_budget + budzet;
                                // racun.setBudget(budzet);
                                 getPresenter().azurirajBudzet(String.valueOf(budzet), null, null);
+                                onButtonClick.Refresh();
                             }
                         }
                     }
@@ -780,6 +794,7 @@ public class TransactionDetailFragment extends Fragment implements ITransactionD
                     stari_budget = racun.getBudget() - stari_budget;
                     //racun.setBudget(stari_budget);
                     getPresenter().azurirajBudzet(String.valueOf(stari_budget), null, null);
+                    onButtonClick.Refresh();
                 }
             });
 

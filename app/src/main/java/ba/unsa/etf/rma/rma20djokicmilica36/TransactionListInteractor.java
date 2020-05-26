@@ -863,40 +863,46 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 if (strings[5] == null) {
                     if (strings[6] != null && strings[7] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" +
-                                ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] +  ", \"itemDescription\": " + strings[5] + ", \"transactionInterval\": " + "\"" +
+                        strings[6] + "\"" + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
                     }
                     if (strings[6] == null && strings[7] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + strings[5] + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + strings[7] + "}";
                     }
                     if (strings[6] != null && strings[7] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + strings[5] + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + strings[7] + "}";
                     }
                     if (strings[6] == null && strings[7] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": "+ strings[5] + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
                     }
                 }
 
                 if (strings[5] != null) {
                     if (strings[6] != null && strings[7] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" +
-                                ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] +  ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " + "\"" +
+                                strings[6] + "\"" + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
                     }
                     if (strings[6] == null && strings[7] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + strings[7] + "}";
                     }
                     if (strings[6] != null && strings[7] == null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " + "\"" + strings[6] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + strings[7] + "}";
                     }
                     if (strings[6] == null && strings[7] != null) {
                         jsonInputString = "{\"date\": " + "\"" + strings[1] + "\"" + ", \"amount\": " + strings[2] + ", \"title\": " + "\"" + strings[3] + "\"" +
-                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": " + "\"" + strings[5] + "\"" + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
+                                ", \"TransactionTypeId\": " + strings[4] + ", \"itemDescription\": "+ "\"" + strings[5] + "\"" + ", \"transactionInterval\": " +
+                                strings[6] + ", \"endDate\": " + "\"" + strings[7] + "\"" + "}";
                     }
                 }
 
