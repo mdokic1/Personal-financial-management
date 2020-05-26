@@ -79,7 +79,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
                      }
 
                      getPresenter().changeAccount(budzet.getText().toString(), total, month);
-                     //getFragmentManager().popBackStack();
+                     getFragmentManager().popBackStack();
                 }
             });
 

@@ -4,4 +4,7 @@ public class BudgetModel {
 
     public static Account racun = new Account(1000.0 , 1000, 100 );
 
+    public static Account getRacun() {
+        return racun;
+    }
 }

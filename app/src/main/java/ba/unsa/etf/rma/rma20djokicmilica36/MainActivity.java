@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements TransactionListFr
     }
 
     @Override
+    public boolean returnMode() {
+        return twoPaneMode;
+    }
+
+    @Override
     public void Refresh(){
         if(twoPaneMode){
             TransactionListFragment listFragment = (TransactionListFragment)getSupportFragmentManager().findFragmentById(R.id.transactions_list);

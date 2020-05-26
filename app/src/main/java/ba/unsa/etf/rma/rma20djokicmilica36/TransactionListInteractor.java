@@ -1474,7 +1474,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     @Override
     public ArrayList<Transaction> getByDate(){
         ArrayList<Transaction> odgovarajuce = new ArrayList<>();
-        ArrayList<Transaction> sve = transactions;
+        /*ArrayList<Transaction> sve = transactions;
         for(Transaction t : sve){
             if(t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
                 if(t.getDate().getMonthValue() == trDatum.getMonthValue() && t.getDate().getYear() == trDatum.getYear()){
@@ -1492,15 +1492,15 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                 }
 
             }
-        }
+        }*/
         return odgovarajuce;
     }
 
     @Override
     public ArrayList<Transaction> getByTypeSorted(String type, String sortType) {
-        ArrayList<Transaction> odgovarajuce = new ArrayList<>();
+        //ArrayList<Transaction> odgovarajuce = new ArrayList<>();
         ArrayList<Transaction> sortirane = new ArrayList<>();
-        ArrayList<Transaction> sve = getByDate();
+        /*ArrayList<Transaction> sve = getByDate();
         for(Transaction t : sve){
             if(t.getType().equals(transactionType.INDIVIDUALPAYMENT) && type.equals("Individual payment")){
                 odgovarajuce.add(t);
@@ -1554,7 +1554,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
         if(sortType.equals("Date - Descending")){
             sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
                     sorted(Comparator.comparing(Transaction::getDate).reversed()).collect(Collectors.toList());
-        }
+        }*/
         return sortirane;
     }
 }

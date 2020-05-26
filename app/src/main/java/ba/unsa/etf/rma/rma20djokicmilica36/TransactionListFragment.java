@@ -79,11 +79,13 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
     private OnItemClick onItemClick;
     private OnItemClick onRightClick;
     private OnItemClick onLeftClick;
+    private OnItemClick mode;
 
     public interface OnItemClick {
         void onItemClicked(Transaction transaction, String akcija);
         void onRightClicked(Account account);
         void onLeftClicked();
+        boolean returnMode();
     }
 
 
@@ -95,6 +97,7 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
         onItemClick= (OnItemClick) getActivity();
         onRightClick = (OnItemClick) getActivity();
         onLeftClick = (OnItemClick) getActivity();
+        mode = (OnItemClick) getActivity();
 
         //racun = new Account(1000.0, 100, 100);
 
@@ -547,23 +550,37 @@ public class TransactionListFragment extends Fragment implements ITransactionLis
             Transaction tr = new Transaction(LocalDate.now(), 0D, "", transactionType.INDIVIDUALPAYMENT, "",
                     0, LocalDate.now());
 
-            onItemClick.onItemClicked(transaction, "izmijeni");
+            //onItemClick.onItemClicked(transaction, "izmijeni");
 
-            /*for (int i = 0; i < parent.getChildCount(); i++) {
+            boolean polozaj = mode.returnMode();
 
-                if (i == position) {
-                    if (position != prePos) {
+            if(polozaj == true){
+                for (int i = 0; i < parent.getChildCount(); i++) {
+
+                    if (i == position) {
+                        if (position != prePos) {
+                            parent.getChildAt(i).setBackgroundColor(Color.GRAY);
+                            onItemClick.onItemClicked(transaction, "izmijeni");
+                            prePos = position;
+                        } else {
+                            parent.getChildAt(i).setBackgroundColor(0x76AAE1);
+                            prePos = -1;
+                            onItemClick.onItemClicked(tr, "izmijeni");
+                        }
+
+                    }
+                }
+            }
+
+            else{
+                for(int i= 0; i < parent.getChildCount(); i++){
+                    if(i == position){
                         parent.getChildAt(i).setBackgroundColor(Color.GRAY);
                         onItemClick.onItemClicked(transaction, "izmijeni");
-                        prePos = position;
-                    } else {
-                        parent.getChildAt(i).setBackgroundColor(0x76AAE1);
-                        prePos = -1;
-                        onItemClick.onItemClicked(tr, "izmijeni");
                     }
-
                 }
-            }*/
+
+            }
         }
     };
 
