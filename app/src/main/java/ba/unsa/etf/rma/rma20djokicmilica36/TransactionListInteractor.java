@@ -131,11 +131,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     protected Void doInBackground(String... strings) {
 
         String query = null;
-        /*try {
-            query = URLEncoder.encode(strings[0]);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
+
         if (tipZahtjeva.equals("get transactions") || tipZahtjeva.equals("make graphs")) {
             boolean imaDovoljno = true;
             int i = 0;
@@ -594,13 +590,6 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
                                 //regularneTransakcije.add(nova);
                                 //LocalDate novi = dat.plusDays(nova.getTransactionInterval());
                                 LocalDate novi = dat;
-                                /*while(!(Integer.parseInt(strings[3]) < novi.getYear() || (Integer.parseInt(strings[3]) == novi.getYear()
-                                        && Integer.parseInt(strings[2]) < novi.getMonthValue()))
-                                        &&  !(Integer.parseInt(strings[3]) > krajnjiDatum.getYear() || (Integer.parseInt(strings[3]) == krajnjiDatum.getYear()
-                                        && Integer.parseInt(strings[2]) > krajnjiDatum.getMonthValue())) && novi.compareTo(krajnjiDatum) <= 0 && ){
-                                    regularneTransakcije.add(nova);
-                                    novi = novi.plusDays(nova.getTransactionInterval());
-                                }*/
                                 LocalDate trenutno = LocalDate.of(Integer.parseInt(strings[3]), Integer.parseInt(strings[2]), 1);
                                 while(novi.compareTo(trenutno) < 0){
                                     novi = novi.plusDays(nova.getTransactionInterval());
@@ -1088,18 +1077,7 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
 
     ArrayList<Integer> brojDanaUMjesecu = new ArrayList<Integer>(){
         {
-            add(31);
-            add(29);
-            add(31);
-            add(30);
-            add(31);
-            add(30);
-            add(31);
-            add(31);
-            add(30);
-            add(31);
-            add(30);
-            add(31);
+            add(31); add(29); add(31); add(30); add(31); add(30); add(31); add(31); add(30); add(31); add(30); add(31);
         }
     };
 
@@ -1502,87 +1480,15 @@ public class TransactionListInteractor extends AsyncTask<String, Integer, Void> 
     @Override
     public ArrayList<Transaction> getByDate(){
         ArrayList<Transaction> odgovarajuce = new ArrayList<>();
-        /*ArrayList<Transaction> sve = transactions;
-        for(Transaction t : sve){
-            if(t.getType() == transactionType.INDIVIDUALINCOME || t.getType() == transactionType.INDIVIDUALPAYMENT || t.getType() == transactionType.PURCHASE){
-                if(t.getDate().getMonthValue() == trDatum.getMonthValue() && t.getDate().getYear() == trDatum.getYear()){
-                    odgovarajuce.add(t);
-                }
-            }
 
-            if (t.getType() == transactionType.REGULARPAYMENT || t.getType() == transactionType.REGULARINCOME) {
-                if(!(trDatum.getYear() < t.getDate().getYear() || (trDatum.getYear() == t.getDate().getYear()
-                        && trDatum.getMonthValue() < t.getDate().getMonthValue()))
-                    &&  !(trDatum.getYear() > t.getEndDate().getYear() || (trDatum.getYear() == t.getEndDate().getYear()
-                        && trDatum.getMonthValue() > t.getEndDate().getMonthValue())) ){
-
-                    odgovarajuce.add(t);
-                }
-
-            }
-        }*/
         return odgovarajuce;
     }
 
     @Override
     public ArrayList<Transaction> getByTypeSorted(String type, String sortType) {
-        //ArrayList<Transaction> odgovarajuce = new ArrayList<>();
+
         ArrayList<Transaction> sortirane = new ArrayList<>();
-        /*ArrayList<Transaction> sve = getByDate();
-        for(Transaction t : sve){
-            if(t.getType().equals(transactionType.INDIVIDUALPAYMENT) && type.equals("Individual payment")){
-                odgovarajuce.add(t);
-            }
-            if(t.getType().equals(transactionType.REGULARPAYMENT) && type.equals("Regular payment")){
-                odgovarajuce.add(t);
-            }
-            if(t.getType().equals(transactionType.PURCHASE) && type.equals("Purchase")){
-                odgovarajuce.add(t);
-            }
-            if(t.getType().equals(transactionType.REGULARINCOME) && type.equals("Regular income")){
-                odgovarajuce.add(t);
-            }
-            if(t.getType().equals(transactionType.INDIVIDUALINCOME) && type.equals("Individual income")){
-                odgovarajuce.add(t);
-            }
-            if(type.equals("All types") || type.equals("Filter by")){
-                odgovarajuce.add(t);
-            }
-        }
 
-        if(sortType.equals("Sort by")){
-            return odgovarajuce;
-        }
-
-        if(sortType.equals("Price - Ascending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparingDouble(Transaction::getAmount)).collect(Collectors.toList());
-        }
-
-        if(sortType.equals("Price - Descending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparingDouble(Transaction::getAmount).reversed()).collect(Collectors.toList());
-        }
-
-        if(sortType.equals("Title - Ascending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparing(Transaction::getTitle)).collect(Collectors.toList());
-        }
-
-        if(sortType.equals("Title - Descending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparing(Transaction::getTitle).reversed()).collect(Collectors.toList());
-        }
-
-        if(sortType.equals("Date - Ascending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparing(Transaction::getDate)).collect(Collectors.toList());
-        }
-
-        if(sortType.equals("Date - Descending")){
-            sortirane = (ArrayList<Transaction>) odgovarajuce.stream().
-                    sorted(Comparator.comparing(Transaction::getDate).reversed()).collect(Collectors.toList());
-        }*/
         return sortirane;
     }
 }
