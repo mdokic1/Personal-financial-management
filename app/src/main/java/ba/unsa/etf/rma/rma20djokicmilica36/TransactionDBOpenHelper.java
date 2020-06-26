@@ -35,8 +35,8 @@ public class TransactionDBOpenHelper extends SQLiteOpenHelper {
                     + TRANSACTION_TITLE + " TEXT NOT NULL, "
                     + TRANSACTION_TYPE + " TEXT NOT NULL, "
                     + TRANSACTION_DESCRIPTION + " TEXT, "
-                    + TRANSACTION_INTERVAL + " INTEGER"
-                    + TRANSACTION_ENDDATE+" DATE NOT NULL );";
+                    + TRANSACTION_INTERVAL + " INTEGER, "
+                    + TRANSACTION_ENDDATE + " DATE NOT NULL );";
 
     private static final String TRANSACTION_TABLE_DROP = "DROP TABLE IF EXISTS " + TRANSACTION_TABLE;
 
