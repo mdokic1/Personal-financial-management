@@ -1,4 +1,4 @@
-#Personal financial management
+# Personal financial management
 
 ## Overview
 This is a mobile application which helps users to manage their money transactions.
